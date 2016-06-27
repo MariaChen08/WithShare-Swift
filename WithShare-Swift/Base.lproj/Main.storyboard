@@ -51,7 +51,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="PcG-Tj-5pV" kind="show" id="ggN-Tx-41s"/>
+                                            <segue destination="mYH-6M-jcn" kind="show" id="4gd-b9-UER"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -328,7 +328,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Add a profile picture so people can know your better." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vg9-t4-cqv">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" editable="NO" text="Add a profile picture so people can know your better." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vg9-t4-cqv">
                                 <rect key="frame" x="175" y="114" width="250" height="60"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -354,7 +354,7 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="fYb-l3-7cT">
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="fYb-l3-7cT">
                                 <rect key="frame" x="70" y="430" width="460" height="70"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZOT-jb-XhU">
@@ -415,7 +415,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Men-hK-ZVX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="357" y="1862"/>
+            <point key="canvasLocation" x="561" y="1538"/>
         </scene>
         <!--All Activities-->
         <scene sceneID="wLC-Fl-QFU">
@@ -453,7 +453,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E3i-Vl-Z8j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2051" y="1187"/>
+            <point key="canvasLocation" x="2821" y="1177"/>
         </scene>
         <!--My Activities-->
         <scene sceneID="HEI-9M-fcL">
@@ -482,7 +482,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mh7-5s-IqI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1240" y="1862"/>
+            <point key="canvasLocation" x="1985" y="2014"/>
         </scene>
         <!--Settings-->
         <scene sceneID="faD-Vc-0cZ">
@@ -498,7 +498,10 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfX-SU-x6b">
                                 <rect key="frame" x="244" y="245" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="Logout"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="ehj-rU-pEs"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -507,7 +510,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3un-oV-547" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1239" y="2607"/>
+            <point key="canvasLocation" x="507" y="2597"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="EXr-eK-aFC">
@@ -525,7 +528,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r5w-iu-JDU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="427" y="449"/>
+            <point key="canvasLocation" x="396" y="425"/>
         </scene>
         <!--Popover Activity Type Menu-->
         <scene sceneID="KpB-ZR-7JT">
@@ -546,7 +549,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nYe-Sa-Bpa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2863" y="1187"/>
+            <point key="canvasLocation" x="3635" y="1177"/>
         </scene>
         <!--New Activities-->
         <scene sceneID="lqz-65-kM8">
@@ -565,14 +568,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r6E-Fl-08f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1239" y="1187"/>
+            <point key="canvasLocation" x="1985" y="1177"/>
         </scene>
     </scenes>
     <resources>
         <image name="EmptyProfile" width="225" height="225"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ggN-Tx-41s"/>
+        <segue reference="ehj-rU-pEs"/>
         <segue reference="rLt-14-hsC"/>
     </inferredMetricsTieBreakers>
 </document>
