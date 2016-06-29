@@ -10,6 +10,9 @@ import UIKit
 
 class NewActivitiesTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
     
+    //MARK: Properties
+    var activityTypeTitle = "All Activities"
+    
     //MARK: Popover Menu
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "popoverMenuSegue" {
@@ -21,6 +24,15 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.None
+    }
+    
+    //MARK: unwind methods
+    @IBAction func selectActivityType(segue:UIStoryboardSegue) {
+        if let sourceViewController = segue.sourceViewController as? ActivityTypePopoverMenuViewController{
+            let activityTypeTitle = sourceViewController.activityType
+            print(sourceViewController.activityType)
+            self.title = activityTypeTitle
+        }
     }
         
 

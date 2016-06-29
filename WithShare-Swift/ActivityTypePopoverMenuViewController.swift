@@ -15,6 +15,8 @@ class ActivityTypePopoverMenuViewController: UITableViewController {
     let activityTypes = ["All Activities", "Eat Out", "Physical Activities", "Group Study", "Socializing", "More"]
     
     let activityTypeCellIdentifier = "activityTypeCell"
+    
+    var activityType: String? = "All Activities"
  
     
     override func viewDidLoad() {
@@ -22,10 +24,10 @@ class ActivityTypePopoverMenuViewController: UITableViewController {
         
     }
     
-    // MARK: - UITableViewDataSource
+    // MARK: Present UITableViewDataSource
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(activityTypes.count)
+//        print(activityTypes.count)
         return activityTypes.count
     }
 
@@ -34,5 +36,23 @@ class ActivityTypePopoverMenuViewController: UITableViewController {
         cell.textLabel?.text = activityTypes[indexPath.row]
         return cell
     }
+    
+    
+    // Select activity type and prepare segue unwind back to list of activities.
+//    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+////        print("You selected cell number: \(indexPath.row)!")
+//        let activityType = activityTypes[indexPath.row]
+//        print("selected activity type:" + activityType)
+//
+//    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let selectedCell = sender as? UITableViewCell {
+            let indexPath = tableView.indexPathForCell(selectedCell)!
+            activityType = activityTypes[indexPath.row]
+            print("selected activity type:" + activityType!)
+        }
+    }
+
 
 }
