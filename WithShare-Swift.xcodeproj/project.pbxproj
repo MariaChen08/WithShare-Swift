@@ -8,22 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		A43C27A51D20858300BACEF1 /* CreateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43C27A41D20858300BACEF1 /* CreateProfileViewController.swift */; };
+		A44DA6F81D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6EC1D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift */; };
+		A44DA6F91D234B5200E479D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6ED1D234B5200E479D1 /* AppDelegate.swift */; };
+		A44DA6FA1D234B5200E479D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A44DA6EE1D234B5200E479D1 /* Assets.xcassets */; };
+		A44DA6FB1D234B5200E479D1 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A44DA6EF1D234B5200E479D1 /* Base.lproj */; };
+		A44DA6FC1D234B5200E479D1 /* GenderEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6F01D234B5200E479D1 /* GenderEnum.swift */; };
+		A44DA6FD1D234B5200E479D1 /* HideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6F11D234B5200E479D1 /* HideKeyboard.swift */; };
+		A44DA6FE1D234B5200E479D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6F21D234B5200E479D1 /* LoginViewController.swift */; };
+		A44DA6FF1D234B5200E479D1 /* NewActivitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6F31D234B5200E479D1 /* NewActivitiesTableViewController.swift */; };
+		A44DA7001D234B5200E479D1 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6F41D234B5200E479D1 /* RegistrationViewController.swift */; };
+		A44DA7011D234B5200E479D1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6F51D234B5200E479D1 /* StringExtensions.swift */; };
+		A44DA7021D234B5200E479D1 /* UploadPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6F61D234B5200E479D1 /* UploadPhotoViewController.swift */; };
+		A44DA7031D234B5200E479D1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6F71D234B5200E479D1 /* User.swift */; };
 		A4ACFDAA1D206BCA00200133 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDA81D206BCA00200133 /* Main.storyboard */; };
 		A4ACFDAF1D206BCA00200133 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDAD1D206BCA00200133 /* LaunchScreen.storyboard */; };
 		A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDB91D206BCA00200133 /* WithShare_SwiftTests.swift */; };
-		A4ACFDD11D206BE800200133 /* ActivityTypePopoverMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDC41D206BE700200133 /* ActivityTypePopoverMenuViewController.swift */; };
-		A4ACFDD21D206BE800200133 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDC51D206BE700200133 /* AppDelegate.swift */; };
-		A4ACFDD31D206BE800200133 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDC61D206BE700200133 /* Assets.xcassets */; };
-		A4ACFDD41D206BE800200133 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDC71D206BE700200133 /* Base.lproj */; };
-		A4ACFDD51D206BE800200133 /* GenderEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDC81D206BE700200133 /* GenderEnum.swift */; };
-		A4ACFDD61D206BE800200133 /* HideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDC91D206BE700200133 /* HideKeyboard.swift */; };
-		A4ACFDD71D206BE800200133 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDCA1D206BE800200133 /* Info.plist */; };
-		A4ACFDD81D206BE800200133 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDCB1D206BE800200133 /* LoginViewController.swift */; };
-		A4ACFDD91D206BE800200133 /* NewActivitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDCC1D206BE800200133 /* NewActivitiesTableViewController.swift */; };
-		A4ACFDDA1D206BE800200133 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDCD1D206BE800200133 /* RegistrationViewController.swift */; };
-		A4ACFDDB1D206BE800200133 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDCE1D206BE800200133 /* StringExtensions.swift */; };
-		A4ACFDDC1D206BE800200133 /* UploadPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDCF1D206BE800200133 /* UploadPhotoViewController.swift */; };
-		A4ACFDDD1D206BE800200133 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDD01D206BE800200133 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,26 +37,25 @@
 
 /* Begin PBXFileReference section */
 		A43C27A41D20858300BACEF1 /* CreateProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProfileViewController.swift; sourceTree = "<group>"; };
+		A44DA6EC1D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityTypePopoverMenuViewController.swift; sourceTree = "<group>"; };
+		A44DA6ED1D234B5200E479D1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "WithShare-Swift/AppDelegate.swift"; sourceTree = "<group>"; };
+		A44DA6EE1D234B5200E479D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "WithShare-Swift/Assets.xcassets"; sourceTree = "<group>"; };
+		A44DA6EF1D234B5200E479D1 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Base.lproj; path = "WithShare-Swift/Base.lproj"; sourceTree = "<group>"; };
+		A44DA6F01D234B5200E479D1 /* GenderEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderEnum.swift; sourceTree = "<group>"; };
+		A44DA6F11D234B5200E479D1 /* HideKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HideKeyboard.swift; sourceTree = "<group>"; };
+		A44DA6F21D234B5200E479D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		A44DA6F31D234B5200E479D1 /* NewActivitiesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewActivitiesTableViewController.swift; sourceTree = "<group>"; };
+		A44DA6F41D234B5200E479D1 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		A44DA6F51D234B5200E479D1 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		A44DA6F61D234B5200E479D1 /* UploadPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadPhotoViewController.swift; sourceTree = "<group>"; };
+		A44DA6F71D234B5200E479D1 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A4ACFDA11D206BCA00200133 /* WithShare-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WithShare-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4ACFDA91D206BCA00200133 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A4ACFDAE1D206BCA00200133 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		A4ACFDB01D206BCA00200133 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A4ACFDB01D206BCA00200133 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "WithShare-Swift/Info.plist"; sourceTree = "<group>"; };
 		A4ACFDB51D206BCA00200133 /* WithShare-SwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WithShare-SwiftTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4ACFDB91D206BCA00200133 /* WithShare_SwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithShare_SwiftTests.swift; sourceTree = "<group>"; };
 		A4ACFDBB1D206BCA00200133 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A4ACFDC41D206BE700200133 /* ActivityTypePopoverMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActivityTypePopoverMenuViewController.swift; path = "../../../WithShare-iOS/WithShare-iOS/WithShare-iOS/ActivityTypePopoverMenuViewController.swift"; sourceTree = "<group>"; };
-		A4ACFDC51D206BE700200133 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "../../WithShare-iOS/WithShare-iOS/WithShare-iOS/AppDelegate.swift"; sourceTree = "<group>"; };
-		A4ACFDC61D206BE700200133 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "../../WithShare-iOS/WithShare-iOS/WithShare-iOS/Assets.xcassets"; sourceTree = "<group>"; };
-		A4ACFDC71D206BE700200133 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Base.lproj; path = "../../WithShare-iOS/WithShare-iOS/WithShare-iOS/Base.lproj"; sourceTree = "<group>"; };
-		A4ACFDC81D206BE700200133 /* GenderEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GenderEnum.swift; path = "../../../WithShare-iOS/WithShare-iOS/WithShare-iOS/GenderEnum.swift"; sourceTree = "<group>"; };
-		A4ACFDC91D206BE700200133 /* HideKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HideKeyboard.swift; path = "../../../WithShare-iOS/WithShare-iOS/WithShare-iOS/HideKeyboard.swift"; sourceTree = "<group>"; };
-		A4ACFDCA1D206BE800200133 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../../WithShare-iOS/WithShare-iOS/WithShare-iOS/Info.plist"; sourceTree = "<group>"; };
-		A4ACFDCB1D206BE800200133 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = "../../../WithShare-iOS/WithShare-iOS/WithShare-iOS/LoginViewController.swift"; sourceTree = "<group>"; };
-		A4ACFDCC1D206BE800200133 /* NewActivitiesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewActivitiesTableViewController.swift; path = "../../../WithShare-iOS/WithShare-iOS/WithShare-iOS/NewActivitiesTableViewController.swift"; sourceTree = "<group>"; };
-		A4ACFDCD1D206BE800200133 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationViewController.swift; path = "../../../WithShare-iOS/WithShare-iOS/WithShare-iOS/RegistrationViewController.swift"; sourceTree = "<group>"; };
-		A4ACFDCE1D206BE800200133 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = "../../../WithShare-iOS/WithShare-iOS/WithShare-iOS/StringExtensions.swift"; sourceTree = "<group>"; };
-		A4ACFDCF1D206BE800200133 /* UploadPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UploadPhotoViewController.swift; path = "../../../WithShare-iOS/WithShare-iOS/WithShare-iOS/UploadPhotoViewController.swift"; sourceTree = "<group>"; };
-		A4ACFDD01D206BE800200133 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = "../../../WithShare-iOS/WithShare-iOS/WithShare-iOS/User.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +79,7 @@
 		A43C279F1D206F0E00BACEF1 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				A4ACFDCB1D206BE800200133 /* LoginViewController.swift */,
+				A44DA6F21D234B5200E479D1 /* LoginViewController.swift */,
 				A43C27A31D207E5300BACEF1 /* Activites */,
 				A43C27A11D207E2400BACEF1 /* Onboarding */,
 			);
@@ -91,9 +89,9 @@
 		A43C27A01D206F1C00BACEF1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				A4ACFDCE1D206BE800200133 /* StringExtensions.swift */,
-				A4ACFDC81D206BE700200133 /* GenderEnum.swift */,
-				A4ACFDC91D206BE700200133 /* HideKeyboard.swift */,
+				A44DA6F51D234B5200E479D1 /* StringExtensions.swift */,
+				A44DA6F01D234B5200E479D1 /* GenderEnum.swift */,
+				A44DA6F11D234B5200E479D1 /* HideKeyboard.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -102,8 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				A43C27A41D20858300BACEF1 /* CreateProfileViewController.swift */,
-				A4ACFDCF1D206BE800200133 /* UploadPhotoViewController.swift */,
-				A4ACFDCD1D206BE800200133 /* RegistrationViewController.swift */,
+				A44DA6F41D234B5200E479D1 /* RegistrationViewController.swift */,
+				A44DA6F61D234B5200E479D1 /* UploadPhotoViewController.swift */,
 			);
 			name = Onboarding;
 			sourceTree = "<group>";
@@ -111,7 +109,7 @@
 		A43C27A21D207E3F00BACEF1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A4ACFDD01D206BE800200133 /* User.swift */,
+				A44DA6F71D234B5200E479D1 /* User.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -119,8 +117,8 @@
 		A43C27A31D207E5300BACEF1 /* Activites */ = {
 			isa = PBXGroup;
 			children = (
-				A4ACFDC41D206BE700200133 /* ActivityTypePopoverMenuViewController.swift */,
-				A4ACFDCC1D206BE800200133 /* NewActivitiesTableViewController.swift */,
+				A44DA6F31D234B5200E479D1 /* NewActivitiesTableViewController.swift */,
+				A44DA6EC1D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift */,
 			);
 			name = Activites;
 			sourceTree = "<group>";
@@ -128,10 +126,12 @@
 		A4ACFD981D206BCA00200133 = {
 			isa = PBXGroup;
 			children = (
-				A4ACFDC51D206BE700200133 /* AppDelegate.swift */,
-				A4ACFDC61D206BE700200133 /* Assets.xcassets */,
-				A4ACFDC71D206BE700200133 /* Base.lproj */,
-				A4ACFDCA1D206BE800200133 /* Info.plist */,
+				A44DA6ED1D234B5200E479D1 /* AppDelegate.swift */,
+				A44DA6EE1D234B5200E479D1 /* Assets.xcassets */,
+				A4ACFDA81D206BCA00200133 /* Main.storyboard */,
+				A4ACFDAD1D206BCA00200133 /* LaunchScreen.storyboard */,
+				A4ACFDB01D206BCA00200133 /* Info.plist */,
+				A44DA6EF1D234B5200E479D1 /* Base.lproj */,
 				A4ACFDA31D206BCA00200133 /* WithShare-Swift */,
 				A4ACFDB81D206BCA00200133 /* WithShare-SwiftTests */,
 				A4ACFDA21D206BCA00200133 /* Products */,
@@ -153,9 +153,6 @@
 				A43C27A21D207E3F00BACEF1 /* Models */,
 				A43C27A01D206F1C00BACEF1 /* Utilities */,
 				A43C279F1D206F0E00BACEF1 /* View Controllers */,
-				A4ACFDA81D206BCA00200133 /* Main.storyboard */,
-				A4ACFDAD1D206BCA00200133 /* LaunchScreen.storyboard */,
-				A4ACFDB01D206BCA00200133 /* Info.plist */,
 			);
 			path = "WithShare-Swift";
 			sourceTree = "<group>";
@@ -251,9 +248,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A4ACFDAF1D206BCA00200133 /* LaunchScreen.storyboard in Resources */,
-				A4ACFDD71D206BE800200133 /* Info.plist in Resources */,
-				A4ACFDD41D206BE800200133 /* Base.lproj in Resources */,
-				A4ACFDD31D206BE800200133 /* Assets.xcassets in Resources */,
+				A44DA6FB1D234B5200E479D1 /* Base.lproj in Resources */,
+				A44DA6FA1D234B5200E479D1 /* Assets.xcassets in Resources */,
 				A4ACFDAA1D206BCA00200133 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,17 +268,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A4ACFDD81D206BE800200133 /* LoginViewController.swift in Sources */,
-				A4ACFDD21D206BE800200133 /* AppDelegate.swift in Sources */,
-				A4ACFDDB1D206BE800200133 /* StringExtensions.swift in Sources */,
+				A44DA6FC1D234B5200E479D1 /* GenderEnum.swift in Sources */,
+				A44DA7021D234B5200E479D1 /* UploadPhotoViewController.swift in Sources */,
 				A43C27A51D20858300BACEF1 /* CreateProfileViewController.swift in Sources */,
-				A4ACFDDC1D206BE800200133 /* UploadPhotoViewController.swift in Sources */,
-				A4ACFDDA1D206BE800200133 /* RegistrationViewController.swift in Sources */,
-				A4ACFDD11D206BE800200133 /* ActivityTypePopoverMenuViewController.swift in Sources */,
-				A4ACFDDD1D206BE800200133 /* User.swift in Sources */,
-				A4ACFDD61D206BE800200133 /* HideKeyboard.swift in Sources */,
-				A4ACFDD51D206BE800200133 /* GenderEnum.swift in Sources */,
-				A4ACFDD91D206BE800200133 /* NewActivitiesTableViewController.swift in Sources */,
+				A44DA6FF1D234B5200E479D1 /* NewActivitiesTableViewController.swift in Sources */,
+				A44DA6F91D234B5200E479D1 /* AppDelegate.swift in Sources */,
+				A44DA6FD1D234B5200E479D1 /* HideKeyboard.swift in Sources */,
+				A44DA7001D234B5200E479D1 /* RegistrationViewController.swift in Sources */,
+				A44DA6F81D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift in Sources */,
+				A44DA6FE1D234B5200E479D1 /* LoginViewController.swift in Sources */,
+				A44DA7011D234B5200E479D1 /* StringExtensions.swift in Sources */,
+				A44DA7031D234B5200E479D1 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +307,7 @@
 				A4ACFDA91D206BCA00200133 /* Base */,
 			);
 			name = Main.storyboard;
+			path = "WithShare-Swift";
 			sourceTree = "<group>";
 		};
 		A4ACFDAD1D206BCA00200133 /* LaunchScreen.storyboard */ = {
@@ -319,6 +316,7 @@
 				A4ACFDAE1D206BCA00200133 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = "WithShare-Swift";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
