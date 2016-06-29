@@ -70,8 +70,8 @@
                                     <constraint firstItem="WV9-Ho-cI6" firstAttribute="leading" secondItem="2Rg-4c-DL4" secondAttribute="leading" id="xaQ-w1-Des"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ifZ-rG-Cyc">
-                                <rect key="frame" x="50" y="490" width="500" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ifZ-rG-Cyc">
+                                <rect key="frame" x="50" y="441" width="500" height="30"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                 <state key="normal" title="New to WithShare? Sign up!"/>
                                 <connections>
@@ -118,8 +118,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="fzO-gj-Chc">
-                                <rect key="frame" x="50" y="255" width="500" height="120"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="fzO-gj-Chc">
+                                <rect key="frame" x="50" y="240" width="500" height="120"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="PSU email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Oxx-B3-xFz">
                                         <rect key="frame" x="0.0" y="0.0" width="500" height="30"/>
@@ -148,8 +148,8 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a0N-fK-c6d">
-                                <rect key="frame" x="50" y="490" width="500" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a0N-fK-c6d">
+                                <rect key="frame" x="50" y="441" width="500" height="30"/>
                                 <state key="normal" title="Already have account? Log in"/>
                                 <connections>
                                     <segue destination="o7J-mt-4Dx" kind="unwind" unwindAction="unwindToLogin:" id="bbH-JL-oaf"/>
@@ -397,7 +397,7 @@
                                 </variation>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="fYb-l3-7cT">
-                                <rect key="frame" x="70" y="430" width="460" height="110"/>
+                                <rect key="frame" x="70" y="460" width="460" height="110"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZOT-jb-XhU">
                                         <rect key="frame" x="0.0" y="0.0" width="460" height="30"/>
@@ -466,12 +466,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xL4-aH-CCQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3635" y="449"/>
+            <point key="canvasLocation" x="3686" y="449"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="7Pq-KX-OMn">
             <objects>
-                <tabBarController id="mYH-6M-jcn" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="HomeTabBarController" id="mYH-6M-jcn" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="ceo-KD-sKS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -513,7 +513,7 @@
                     <navigationItem key="navigationItem" title="All Activities" id="oyu-AY-3Ef">
                         <barButtonItem key="leftBarButtonItem" title="Filter" id="4Lh-PL-zfZ">
                             <connections>
-                                <segue destination="GeA-3l-aww" kind="popoverPresentation" identifier="popoverMenuSegue" popoverAnchorBarButtonItem="4Lh-PL-zfZ" id="bwA-8j-dUA">
+                                <segue destination="YJo-Pm-FK8" kind="popoverPresentation" identifier="popoverMenuSegue" popoverAnchorBarButtonItem="4Lh-PL-zfZ" id="pZH-SF-Ehq">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -589,7 +589,7 @@
         <!--Navigation Controller-->
         <scene sceneID="EXr-eK-aFC">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="48Z-gv-Xur" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="OnboardingNavigation" automaticallyAdjustsScrollViewInsets="NO" id="48Z-gv-Xur" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="b5F-7f-sgD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -603,6 +603,42 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r5w-iu-JDU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="396" y="425"/>
+        </scene>
+        <!--Activity Type Popover Menu-->
+        <scene sceneID="Bnd-Uw-ONI">
+            <objects>
+                <tableViewController title="Activity Type Popover Menu" id="YJo-Pm-FK8" customClass="ActivityTypePopoverMenuViewController" customModule="WithShare_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="OYm-Ln-2SJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="activityTypeCell" textLabel="1bE-Ff-1nu" style="IBUITableViewCellStyleDefault" id="GMb-Il-pfN">
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GMb-Il-pfN" id="QPS-1d-ylY">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1bE-Ff-1nu">
+                                            <rect key="frame" x="15" y="0.0" width="570" height="43"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                    </tableView>
+                    <value key="contentSizeForViewInPopover" type="size" width="200" height="300"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="600"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1oX-BP-rWJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3539" y="1601"/>
         </scene>
         <!--Create Activity-->
         <scene sceneID="nWn-pX-9A2">
@@ -622,31 +658,10 @@
             </objects>
             <point key="canvasLocation" x="4240" y="1155"/>
         </scene>
-        <!--Popover Activity Type Menu-->
-        <scene sceneID="KpB-ZR-7JT">
-            <objects>
-                <viewController title="Popover Activity Type Menu" id="GeA-3l-aww" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Eb4-WN-tGs"/>
-                        <viewControllerLayoutGuide type="bottom" id="ZMc-q8-7sj"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="hea-XQ-EX2">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <value key="contentSizeForViewInPopover" type="size" width="200" height="300"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="600" height="600"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nYe-Sa-Bpa" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3559" y="1599"/>
-        </scene>
         <!--New Activities-->
         <scene sceneID="lqz-65-kM8">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PcG-Tj-5pV" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="AllActivitiesNavigation" automaticallyAdjustsScrollViewInsets="NO" id="PcG-Tj-5pV" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="New Activities" id="pk8-Yd-5Z0"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="EzN-ih-DhK">
