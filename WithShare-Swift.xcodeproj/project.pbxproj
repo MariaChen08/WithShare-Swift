@@ -24,6 +24,7 @@
 		A4ACFDAA1D206BCA00200133 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDA81D206BCA00200133 /* Main.storyboard */; };
 		A4ACFDAF1D206BCA00200133 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDAD1D206BCA00200133 /* LaunchScreen.storyboard */; };
 		A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDB91D206BCA00200133 /* WithShare_SwiftTests.swift */; };
+		A4F083541D24CAE400CB78B8 /* CreateActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */; };
 		BA3356744F8857F77F5FFAEE /* Pods_WithShare_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E23D9780DC231255BA2678 /* Pods_WithShare_Swift.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		A4ACFDB51D206BCA00200133 /* WithShare-SwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WithShare-SwiftTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4ACFDB91D206BCA00200133 /* WithShare_SwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithShare_SwiftTests.swift; sourceTree = "<group>"; };
 		A4ACFDBB1D206BCA00200133 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateActivityViewController.swift; sourceTree = "<group>"; };
 		B9D5CE9F061DEF21578A18B8 /* Pods_WithShare_SwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WithShare_SwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C604F51E07391C3C81659F1A /* Pods-WithShare-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WithShare-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-WithShare-Swift/Pods-WithShare-Swift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -136,6 +138,7 @@
 		A43C27A31D207E5300BACEF1 /* Activites */ = {
 			isa = PBXGroup;
 			children = (
+				A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */,
 				A44DA6F31D234B5200E479D1 /* NewActivitiesTableViewController.swift */,
 				A44DA6EC1D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift */,
 			);
@@ -400,6 +403,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A44DA6FC1D234B5200E479D1 /* GenderEnum.swift in Sources */,
+				A4F083541D24CAE400CB78B8 /* CreateActivityViewController.swift in Sources */,
 				A44DA7021D234B5200E479D1 /* UploadPhotoViewController.swift in Sources */,
 				A43C27A51D20858300BACEF1 /* CreateProfileViewController.swift in Sources */,
 				A44DA6FF1D234B5200E479D1 /* NewActivitiesTableViewController.swift in Sources */,

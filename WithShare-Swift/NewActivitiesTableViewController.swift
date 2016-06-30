@@ -13,12 +13,17 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     //MARK: Properties
     var activityTypeTitle = "All Activities"
     
-    //MARK: Popover Menu
+    //MARK: Navigations
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        //Popover Filter Menu
         if segue.identifier == "popoverMenuSegue" {
             let popoverViewController = segue.destinationViewController 
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
+        }
+        else if segue.identifier == "createActivitySegue" {
+            let createActivityViewController = segue.destinationViewController as! CreateActivityViewController
+            createActivityViewController.activityType = activityTypeTitle
         }
     }
     
@@ -34,6 +39,8 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
             self.title = activityTypeTitle
         }
     }
+    
+    
         
 
 }

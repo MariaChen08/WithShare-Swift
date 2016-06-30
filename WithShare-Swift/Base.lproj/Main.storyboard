@@ -647,7 +647,7 @@
         <!--Create Activity-->
         <scene sceneID="nWn-pX-9A2">
             <objects>
-                <viewController title="Create Activity" id="Oqh-3Y-1T1" sceneMemberID="viewController">
+                <viewController title="Create Activity" id="Oqh-3Y-1T1" customClass="CreateActivityViewController" customModule="WithShare_Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dpE-Ha-f2f"/>
                         <viewControllerLayoutGuide type="bottom" id="YiP-HQ-itl"/>
@@ -731,6 +731,9 @@
                     <navigationItem key="navigationItem" title="Create Activity" id="dfy-Af-cYm">
                         <barButtonItem key="rightBarButtonItem" title="Post" id="JTe-11-T5E"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="activityTypeButton" destination="7qW-ES-h1R" id="6fO-QO-ndW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MdF-Jz-khH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
