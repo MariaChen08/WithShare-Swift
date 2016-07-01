@@ -11,7 +11,13 @@ import UIKit
 class NewActivitiesTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
     
     //MARK: Properties
+    
+    
     var activityTypeTitle = "All Activities"
+    
+    override func viewDidLoad() {
+        
+    }
     
     //MARK: Navigations
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -45,8 +51,6 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
             self.title = activityTypeTitle
         }
     }
-    
-    
-        
 
 }
+

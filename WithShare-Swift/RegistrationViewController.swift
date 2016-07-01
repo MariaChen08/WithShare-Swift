@@ -19,9 +19,11 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        //Close keyboard by clicking anywhere else
+        self.hideKeyboardWhenTappedAround()
     }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

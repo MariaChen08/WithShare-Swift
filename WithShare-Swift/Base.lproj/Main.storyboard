@@ -104,7 +104,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1239" y="449"/>
+            <point key="canvasLocation" x="1241" y="449"/>
         </scene>
         <!--Popover Activity Type Menu-->
         <scene sceneID="9Ub-Lu-b6B">
@@ -681,50 +681,62 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where to meet:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sif-bK-xO9">
-                                <rect key="frame" x="40" y="199" width="118" height="21"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="sV1-Gc-EDt">
+                                <rect key="frame" x="40" y="199" width="520" height="30"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where to meet:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sif-bK-xO9">
+                                        <rect key="frame" x="0.0" y="0.0" width="118" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OJj-ST-CcU">
+                                        <rect key="frame" x="128" y="0.0" width="392" height="30"/>
+                                        <state key="normal" title="Search"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S2a-AS-Ubk">
+                                <rect key="frame" x="40" y="244" width="520" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XXR-xI-4IP" customClass="GMSMapView">
-                                <rect key="frame" x="40" y="290" width="520" height="226"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="XXR-xI-4IP" secondAttribute="height" multiplier="1:1" id="Mea-ZA-luo"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Mea-ZA-luo"/>
-                                    </mask>
-                                </variation>
-                            </view>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bz6-Fz-CUP">
-                                <rect key="frame" x="40" y="240" width="520" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tLz-5j-3fn">
+                                <rect key="frame" x="40" y="249" width="520" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XXR-xI-4IP" customClass="GMSMapView">
+                                <rect key="frame" x="40" y="299" width="520" height="217"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="sV1-Gc-EDt" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leadingMargin" constant="20" id="0iG-yV-bFp"/>
+                            <constraint firstItem="tLz-5j-3fn" firstAttribute="centerX" secondItem="vv0-xh-aa6" secondAttribute="centerX" id="4ln-tX-7Tc"/>
                             <constraint firstItem="YAC-Lh-2qJ" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leadingMargin" constant="20" id="5fj-el-fAL"/>
+                            <constraint firstItem="S2a-AS-Ubk" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leadingMargin" constant="20" id="769-Aw-7lR"/>
                             <constraint firstItem="bXU-gr-LUU" firstAttribute="centerX" secondItem="vv0-xh-aa6" secondAttribute="centerX" id="BHD-br-CE3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="bXU-gr-LUU" secondAttribute="trailing" constant="20" id="BvV-S8-Xvx"/>
-                            <constraint firstItem="Sif-bK-xO9" firstAttribute="top" secondItem="bXU-gr-LUU" secondAttribute="bottom" constant="20" id="CgK-Fm-eT3"/>
-                            <constraint firstItem="bz6-Fz-CUP" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leadingMargin" constant="20" id="Fsg-Ic-7vy"/>
-                            <constraint firstItem="YiP-HQ-itl" firstAttribute="top" secondItem="XXR-xI-4IP" secondAttribute="bottom" constant="35" id="a1J-Bc-cy5"/>
+                            <constraint firstItem="S2a-AS-Ubk" firstAttribute="centerX" secondItem="vv0-xh-aa6" secondAttribute="centerX" id="G9x-Rr-y8a"/>
+                            <constraint firstItem="XXR-xI-4IP" firstAttribute="top" secondItem="tLz-5j-3fn" secondAttribute="bottom" constant="20" id="Ic3-cN-rqx"/>
+                            <constraint firstItem="XXR-xI-4IP" firstAttribute="trailing" secondItem="S2a-AS-Ubk" secondAttribute="trailing" id="IuK-Oe-Ju2"/>
+                            <constraint firstItem="S2a-AS-Ubk" firstAttribute="top" secondItem="sV1-Gc-EDt" secondAttribute="bottom" constant="15" id="N5Z-iC-POT"/>
+                            <constraint firstItem="tLz-5j-3fn" firstAttribute="top" secondItem="sV1-Gc-EDt" secondAttribute="bottom" constant="20" id="WS7-Q1-hy4"/>
+                            <constraint firstItem="XXR-xI-4IP" firstAttribute="leading" secondItem="tLz-5j-3fn" secondAttribute="leading" id="XVg-RQ-PB4"/>
                             <constraint firstItem="YAC-Lh-2qJ" firstAttribute="top" secondItem="dpE-Ha-f2f" secondAttribute="bottom" constant="35" id="bSp-nL-V70"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="bz6-Fz-CUP" secondAttribute="trailing" constant="20" id="bTb-fe-O17"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sV1-Gc-EDt" secondAttribute="trailing" constant="20" id="beP-xH-Rfj"/>
+                            <constraint firstItem="XXR-xI-4IP" firstAttribute="top" secondItem="S2a-AS-Ubk" secondAttribute="bottom" constant="25" id="fRJ-iv-XU4"/>
                             <constraint firstItem="XXR-xI-4IP" firstAttribute="top" secondItem="vv0-xh-aa6" secondAttribute="topMargin" constant="20" id="fTR-ft-0b1"/>
-                            <constraint firstItem="bz6-Fz-CUP" firstAttribute="centerX" secondItem="vv0-xh-aa6" secondAttribute="centerX" id="flO-rC-aXk"/>
-                            <constraint firstItem="XXR-xI-4IP" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leadingMargin" constant="20" id="fpW-j7-oF5"/>
-                            <constraint firstItem="XXR-xI-4IP" firstAttribute="centerX" secondItem="vv0-xh-aa6" secondAttribute="centerX" id="gWZ-VU-h1L"/>
+                            <constraint firstItem="XXR-xI-4IP" firstAttribute="leading" secondItem="S2a-AS-Ubk" secondAttribute="leading" id="hFk-iM-V9d"/>
+                            <constraint firstItem="sV1-Gc-EDt" firstAttribute="top" secondItem="bXU-gr-LUU" secondAttribute="bottom" constant="20" id="jwr-2f-bkh"/>
                             <constraint firstItem="bXU-gr-LUU" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leadingMargin" constant="20" id="kUC-gg-EJU"/>
-                            <constraint firstItem="XXR-xI-4IP" firstAttribute="top" secondItem="bz6-Fz-CUP" secondAttribute="bottom" constant="20" id="l6a-mc-c0E"/>
-                            <constraint firstItem="bz6-Fz-CUP" firstAttribute="top" secondItem="Sif-bK-xO9" secondAttribute="bottom" constant="20" id="nBG-WF-SH7"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="XXR-xI-4IP" secondAttribute="trailing" constant="20" id="pNF-WK-lan"/>
-                            <constraint firstItem="Sif-bK-xO9" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leadingMargin" constant="20" id="q6b-b2-8kk"/>
+                            <constraint firstItem="XXR-xI-4IP" firstAttribute="trailing" secondItem="tLz-5j-3fn" secondAttribute="trailing" id="rC4-Ce-GCn"/>
+                            <constraint firstItem="YiP-HQ-itl" firstAttribute="top" secondItem="XXR-xI-4IP" secondAttribute="bottom" constant="35" id="shR-1e-3Jk"/>
                             <constraint firstItem="bXU-gr-LUU" firstAttribute="top" secondItem="YAC-Lh-2qJ" secondAttribute="bottom" constant="20" id="tKX-cj-Rid"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="S2a-AS-Ubk" secondAttribute="trailing" constant="20" id="wG9-JW-Cy1"/>
                             <constraint firstAttribute="trailingMargin" secondItem="YAC-Lh-2qJ" secondAttribute="trailing" constant="20" id="yZ9-MV-jxK"/>
                         </constraints>
                         <variation key="default">
@@ -738,6 +750,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="activityTypeButton" destination="7qW-ES-h1R" id="6fO-QO-ndW"/>
+                        <outlet property="addressLabel" destination="S2a-AS-Ubk" id="Wsn-wG-Eda"/>
+                        <outlet property="editAddressTextField" destination="tLz-5j-3fn" id="YEe-Nv-JVU"/>
+                        <outlet property="mapView" destination="XXR-xI-4IP" id="2NQ-mN-mOK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MdF-Jz-khH" userLabel="First Responder" sceneMemberID="firstResponder"/>
