@@ -23,7 +23,13 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         }
         else if segue.identifier == "createActivitySegue" {
             let createActivityViewController = segue.destinationViewController as! CreateActivityViewController
-            createActivityViewController.activityType = activityTypeTitle
+            if activityTypeTitle != "All Activities" {
+                createActivityViewController.activityTypeShow = activityTypeTitle
+            }
+            else {
+                createActivityViewController.activityTypeShow = "Please choose"
+            }
+            
         }
     }
     
