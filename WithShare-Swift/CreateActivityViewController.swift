@@ -15,12 +15,17 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var editAddressTextField: UITextField!
+    @IBOutlet weak var pickPlaceButton: UIButton!
     
     var activityTypeShow:String? = "More"
-    var currentPlace:String? = "Please add meeting place"
+    var meetingPlace:String? = "Please add meeting place"
     
     let locationManager = CLLocationManager()
     var placesClient: GMSPlacesClient?
+    var placePicker : GMSPlacePicker?
+    var currentCoordinates:CLLocationCoordinate2D?
+    //default location to IST, PSU
+    var center = CLLocationCoordinate2DMake(40.793958335519726, -77.867923433207636)
     
     override func viewDidLoad() {
         activityTypeButton.setTitle(activityTypeShow, forState: .Normal)
@@ -49,15 +54,15 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
                 print("Pick Place error: \(error.localizedDescription)")
                 return
             }
-            self.addressLabel.text = self.currentPlace
+            self.addressLabel.text = self.meetingPlace
             
             if let placeLikelihoodList = placeLikelihoodList {
                 let place = placeLikelihoodList.likelihoods.first?.place
                 if let place = place {
-                    print("place name: " + place.name)
-                    self.currentPlace = place.formattedAddress!.componentsSeparatedByString(", ")
+//                    print("place name: " + place.name)
+                    self.meetingPlace = place.formattedAddress!.componentsSeparatedByString(", ")
                         .joinWithSeparator(", ")
-                    self.addressLabel.text = self.currentPlace
+                    self.addressLabel.text = self.meetingPlace
                     UIView.animateWithDuration(0.25) {
                         self.view.layoutIfNeeded()
                     }
@@ -92,7 +97,6 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     }
     
     //MARK: label and textfields
-    
     func labelTapped(){
         addressLabel.hidden = true
         editAddressTextField.hidden = false
@@ -106,6 +110,39 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         addressLabel.text = editAddressTextField.text
         return true
     }
+    
+    //MARK: Pick nearby places
+    @IBAction func pickPlace(sender: AnyObject) {
+        if currentCoordinates != nil {
+            print("current coordinates detected")
+            center = CLLocationCoordinate2DMake(currentCoordinates!.latitude, currentCoordinates!.longitude)
+        }
+        let northEast = CLLocationCoordinate2DMake(center.latitude + 0.001, center.longitude + 0.001)
+        let southWest = CLLocationCoordinate2DMake(center.latitude - 0.001, center.longitude - 0.001)
+        let viewport = GMSCoordinateBounds(coordinate: northEast, coordinate: southWest)
+        let config = GMSPlacePickerConfig(viewport: viewport)
+        placePicker = GMSPlacePicker(config: config)
+        
+        placePicker?.pickPlaceWithCallback({ (place: GMSPlace?, error: NSError?) -> Void in
+            if let error = error {
+                print("Pick Place error: \(error.localizedDescription)")
+                return
+            }
+            
+            if let place = place {
+                print("Place name \(place.name)")
+                print("Place address \(place.formattedAddress)")
+                print("Place attributions \(place.attributions)")
+                self.meetingPlace = place.name
+                self.addressLabel.text = place.name
+            } else {
+                print("No place selected")
+            }
+        })
+    }
+    
+    
+    
 }
 
 // MARK: - CLLocationManagerDelegate
@@ -127,10 +164,10 @@ extension CreateActivityViewController: CLLocationManagerDelegate {
         if let location = locations.first {
             
             mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
-            
+            print("coordinate: \(location.coordinate)")
+            currentCoordinates = location.coordinate
             locationManager.stopUpdatingLocation()
         }
         
     }
 }
-

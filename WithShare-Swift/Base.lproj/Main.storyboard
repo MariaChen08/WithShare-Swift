@@ -692,11 +692,14 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OJj-ST-CcU">
                                         <rect key="frame" x="128" y="0.0" width="392" height="30"/>
-                                        <state key="normal" title="Search"/>
+                                        <state key="normal" title="Pick Place"/>
+                                        <connections>
+                                            <action selector="pickPlace:" destination="Oqh-3Y-1T1" eventType="touchUpInside" id="Rsc-lS-KMU"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
-                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S2a-AS-Ubk">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detecting current location..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S2a-AS-Ubk">
                                 <rect key="frame" x="40" y="244" width="520" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -708,7 +711,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XXR-xI-4IP" customClass="GMSMapView">
-                                <rect key="frame" x="40" y="299" width="520" height="217"/>
+                                <rect key="frame" x="40" y="299" width="520" height="242"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -734,7 +737,7 @@
                             <constraint firstItem="sV1-Gc-EDt" firstAttribute="top" secondItem="bXU-gr-LUU" secondAttribute="bottom" constant="20" id="jwr-2f-bkh"/>
                             <constraint firstItem="bXU-gr-LUU" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leadingMargin" constant="20" id="kUC-gg-EJU"/>
                             <constraint firstItem="XXR-xI-4IP" firstAttribute="trailing" secondItem="tLz-5j-3fn" secondAttribute="trailing" id="rC4-Ce-GCn"/>
-                            <constraint firstItem="YiP-HQ-itl" firstAttribute="top" secondItem="XXR-xI-4IP" secondAttribute="bottom" constant="35" id="shR-1e-3Jk"/>
+                            <constraint firstItem="YiP-HQ-itl" firstAttribute="top" secondItem="XXR-xI-4IP" secondAttribute="bottom" constant="10" id="shR-1e-3Jk"/>
                             <constraint firstItem="bXU-gr-LUU" firstAttribute="top" secondItem="YAC-Lh-2qJ" secondAttribute="bottom" constant="20" id="tKX-cj-Rid"/>
                             <constraint firstAttribute="trailingMargin" secondItem="S2a-AS-Ubk" secondAttribute="trailing" constant="20" id="wG9-JW-Cy1"/>
                             <constraint firstAttribute="trailingMargin" secondItem="YAC-Lh-2qJ" secondAttribute="trailing" constant="20" id="yZ9-MV-jxK"/>
@@ -753,6 +756,7 @@
                         <outlet property="addressLabel" destination="S2a-AS-Ubk" id="Wsn-wG-Eda"/>
                         <outlet property="editAddressTextField" destination="tLz-5j-3fn" id="YEe-Nv-JVU"/>
                         <outlet property="mapView" destination="XXR-xI-4IP" id="2NQ-mN-mOK"/>
+                        <outlet property="pickPlaceButton" destination="OJj-ST-CcU" id="zd4-ir-wyx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MdF-Jz-khH" userLabel="First Responder" sceneMemberID="firstResponder"/>
