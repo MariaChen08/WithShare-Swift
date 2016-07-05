@@ -51,6 +51,15 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
             self.title = activityTypeTitle
         }
     }
+    
+    @IBAction func postNewActivity(segue:UIStoryboardSegue) {
+//        if let sourceViewController = segue.sourceViewController as? ActivityTypePopoverMenuViewController{
+//            let activityTypeTitle = sourceViewController.activityType
+//            print(sourceViewController.activityType)
+//            self.title = activityTypeTitle
+//        }
+    }
+
 
 }
 

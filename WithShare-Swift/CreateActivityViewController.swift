@@ -17,6 +17,8 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     @IBOutlet weak var editAddressTextField: UITextField!
     @IBOutlet weak var pickPlaceButton: UIButton!
     
+    @IBOutlet weak var postButton: UIBarButtonItem!
+    
     var activityTypeShow:String? = "More"
     var meetingPlace:String? = "Please add meeting place"
     
@@ -26,6 +28,8 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     var currentCoordinates:CLLocationCoordinate2D?
     //default location to IST, PSU
     var center = CLLocationCoordinate2DMake(40.793958335519726, -77.867923433207636)
+    
+    var post:Post?
     
     override func viewDidLoad() {
         activityTypeButton.setTitle(activityTypeShow, forState: .Normal)
@@ -81,6 +85,13 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             let popoverViewController = segue.destinationViewController
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
+        }
+        
+        //Post new activity
+        if postButton === sender {
+            
+            post = Post()
+
         }
     }
     
@@ -140,9 +151,6 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             }
         })
     }
-    
-    
-    
 }
 
 // MARK: - CLLocationManagerDelegate

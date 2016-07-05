@@ -61,8 +61,8 @@ class LoginViewController: UIViewController {
     //MARK: Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        self.user?.emailAddress = self.emailTextField.text
-        self.user?.password = self.passwordTextField.text
+        self.user?.emailAddress = self.emailTextField.text!
+        self.user?.password = self.passwordTextField.text!
     }
     
 //        if let registrationViewController = segue.destinationViewController as? RegistrationViewController {
