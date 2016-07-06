@@ -32,6 +32,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     var post:Post?
     
     override func viewDidLoad() {
+        print("activity Type after segue: " + activityTypeShow!)
         activityTypeButton.setTitle(activityTypeShow, forState: .Normal)
         addressLabel.numberOfLines = 0
         

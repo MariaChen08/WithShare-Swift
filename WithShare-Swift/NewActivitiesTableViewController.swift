@@ -31,6 +31,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
             let createActivityViewController = segue.destinationViewController as! CreateActivityViewController
             if activityTypeTitle != "All Activities" {
                 createActivityViewController.activityTypeShow = activityTypeTitle
+                print("activity Type before segue: " + activityTypeTitle)
             }
             else {
                 createActivityViewController.activityTypeShow = "Please choose"
@@ -46,7 +47,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     //MARK: unwind methods
     @IBAction func selectActivityType(segue:UIStoryboardSegue) {
         if let sourceViewController = segue.sourceViewController as? ActivityTypePopoverMenuViewController{
-            let activityTypeTitle = sourceViewController.activityType
+            activityTypeTitle = sourceViewController.activityType!
             print(sourceViewController.activityType)
             self.title = activityTypeTitle
         }
