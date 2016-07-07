@@ -27,8 +27,8 @@
 		A48070AE1D275C18005FB37B /* DeviceTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48070AD1D275C18005FB37B /* DeviceTypeEnum.swift */; };
 		A483650D1D2CA99600BE99E1 /* EditProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483650C1D2CA99600BE99E1 /* EditProfileCell.swift */; };
 		A483650E1D2CAB6E00BE99E1 /* EditProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483650C1D2CA99600BE99E1 /* EditProfileCell.swift */; };
-		A48365111D2CAFA400BE99E1 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48365101D2CAFA400BE99E1 /* MoreViewController.swift */; };
-		A48365121D2CAFA400BE99E1 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48365101D2CAFA400BE99E1 /* MoreViewController.swift */; };
+		A48365111D2CAFA400BE99E1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48365101D2CAFA400BE99E1 /* SettingsViewController.swift */; };
+		A48365121D2CAFA400BE99E1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48365101D2CAFA400BE99E1 /* SettingsViewController.swift */; };
 		A4ACFDAA1D206BCA00200133 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDA81D206BCA00200133 /* Main.storyboard */; };
 		A4ACFDAF1D206BCA00200133 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDAD1D206BCA00200133 /* LaunchScreen.storyboard */; };
 		A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDB91D206BCA00200133 /* WithShare_SwiftTests.swift */; };
@@ -69,7 +69,7 @@
 		A48070AB1D2759D9005FB37B /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		A48070AD1D275C18005FB37B /* DeviceTypeEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceTypeEnum.swift; sourceTree = "<group>"; };
 		A483650C1D2CA99600BE99E1 /* EditProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileCell.swift; sourceTree = "<group>"; };
-		A48365101D2CAFA400BE99E1 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
+		A48365101D2CAFA400BE99E1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		A4ACFDA11D206BCA00200133 /* WithShare-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WithShare-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4ACFDA91D206BCA00200133 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A4ACFDAE1D206BCA00200133 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -119,7 +119,7 @@
 				A483650B1D2CA8D900BE99E1 /* Custom Cells */,
 				A43C27A31D207E5300BACEF1 /* Activites */,
 				A43C27A11D207E2400BACEF1 /* Onboarding */,
-				A483650F1D2CAF5C00BE99E1 /* More */,
+				A483650F1D2CAF5C00BE99E1 /* Settings */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -174,12 +174,12 @@
 			name = "Custom Cells";
 			sourceTree = "<group>";
 		};
-		A483650F1D2CAF5C00BE99E1 /* More */ = {
+		A483650F1D2CAF5C00BE99E1 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				A48365101D2CAFA400BE99E1 /* MoreViewController.swift */,
+				A48365101D2CAFA400BE99E1 /* SettingsViewController.swift */,
 			);
-			name = More;
+			name = Settings;
 			sourceTree = "<group>";
 		};
 		A4ACFD981D206BCA00200133 = {
@@ -449,7 +449,7 @@
 				A44DA6F91D234B5200E479D1 /* AppDelegate.swift in Sources */,
 				A483650D1D2CA99600BE99E1 /* EditProfileCell.swift in Sources */,
 				A44DA6FD1D234B5200E479D1 /* HideKeyboard.swift in Sources */,
-				A48365111D2CAFA400BE99E1 /* MoreViewController.swift in Sources */,
+				A48365111D2CAFA400BE99E1 /* SettingsViewController.swift in Sources */,
 				A48070AE1D275C18005FB37B /* DeviceTypeEnum.swift in Sources */,
 				A44DA7001D234B5200E479D1 /* RegistrationViewController.swift in Sources */,
 				A44DA6F81D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift in Sources */,
@@ -466,7 +466,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A483650E1D2CAB6E00BE99E1 /* EditProfileCell.swift in Sources */,
-				A48365121D2CAFA400BE99E1 /* MoreViewController.swift in Sources */,
+				A48365121D2CAFA400BE99E1 /* SettingsViewController.swift in Sources */,
 				A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */,
 				A417EF511D2B34020092CA52 /* ValidateUserInput.swift in Sources */,
 			);
