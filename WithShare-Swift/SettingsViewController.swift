@@ -8,6 +8,6 @@
 
 import UIKit
 
-class MoreViewController: UIViewController {
+class SettingsViewController: UIViewController {
 
 }

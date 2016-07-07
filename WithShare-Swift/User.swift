@@ -50,7 +50,7 @@ class User {
     
     // MARK: Archiving Paths
     static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("meals")
+    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("user")
     
     // MARK: Types
     struct PropertyKey {
