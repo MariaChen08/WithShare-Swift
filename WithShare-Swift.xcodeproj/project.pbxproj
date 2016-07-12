@@ -25,13 +25,12 @@
 		A48070AA1D260F57005FB37B /* SelectActivityTypeMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48070A91D260F57005FB37B /* SelectActivityTypeMenu.swift */; };
 		A48070AC1D2759D9005FB37B /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48070AB1D2759D9005FB37B /* Post.swift */; };
 		A48070AE1D275C18005FB37B /* DeviceTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48070AD1D275C18005FB37B /* DeviceTypeEnum.swift */; };
-		A483650D1D2CA99600BE99E1 /* EditProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483650C1D2CA99600BE99E1 /* EditProfileCell.swift */; };
-		A483650E1D2CAB6E00BE99E1 /* EditProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483650C1D2CA99600BE99E1 /* EditProfileCell.swift */; };
-		A48365111D2CAFA400BE99E1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48365101D2CAFA400BE99E1 /* SettingsViewController.swift */; };
-		A48365121D2CAFA400BE99E1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48365101D2CAFA400BE99E1 /* SettingsViewController.swift */; };
 		A4ACFDAA1D206BCA00200133 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDA81D206BCA00200133 /* Main.storyboard */; };
 		A4ACFDAF1D206BCA00200133 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDAD1D206BCA00200133 /* LaunchScreen.storyboard */; };
 		A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDB91D206BCA00200133 /* WithShare_SwiftTests.swift */; };
+		A4CBF12E1D34482D00027DE1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CBF12D1D34482D00027DE1 /* SettingsViewController.swift */; };
+		A4CBF1321D34624600027DE1 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CBF1311D34624600027DE1 /* CustomTabBar.swift */; };
+		A4CBF1341D34671200027DE1 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CBF1331D34671200027DE1 /* PostTableViewCell.swift */; };
 		A4E970001D28A506000E4CDD /* ValidateUserInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */; };
 		A4F083541D24CAE400CB78B8 /* CreateActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */; };
 		BA3356744F8857F77F5FFAEE /* Pods_WithShare_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E23D9780DC231255BA2678 /* Pods_WithShare_Swift.framework */; };
@@ -68,8 +67,6 @@
 		A48070A91D260F57005FB37B /* SelectActivityTypeMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectActivityTypeMenu.swift; sourceTree = "<group>"; };
 		A48070AB1D2759D9005FB37B /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		A48070AD1D275C18005FB37B /* DeviceTypeEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceTypeEnum.swift; sourceTree = "<group>"; };
-		A483650C1D2CA99600BE99E1 /* EditProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileCell.swift; sourceTree = "<group>"; };
-		A48365101D2CAFA400BE99E1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		A4ACFDA11D206BCA00200133 /* WithShare-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WithShare-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4ACFDA91D206BCA00200133 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A4ACFDAE1D206BCA00200133 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -77,6 +74,9 @@
 		A4ACFDB51D206BCA00200133 /* WithShare-SwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WithShare-SwiftTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4ACFDB91D206BCA00200133 /* WithShare_SwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithShare_SwiftTests.swift; sourceTree = "<group>"; };
 		A4ACFDBB1D206BCA00200133 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A4CBF12D1D34482D00027DE1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		A4CBF1311D34624600027DE1 /* CustomTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
+		A4CBF1331D34671200027DE1 /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUserInput.swift; sourceTree = "<group>"; };
 		A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateActivityViewController.swift; sourceTree = "<group>"; };
 		B9D5CE9F061DEF21578A18B8 /* Pods_WithShare_SwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WithShare_SwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,6 +127,7 @@
 		A43C27A01D206F1C00BACEF1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				A4CBF1311D34624600027DE1 /* CustomTabBar.swift */,
 				A44DA6F51D234B5200E479D1 /* StringExtensions.swift */,
 				A44DA6F01D234B5200E479D1 /* GenderEnum.swift */,
 				A44DA6F11D234B5200E479D1 /* HideKeyboard.swift */,
@@ -169,7 +170,7 @@
 		A483650B1D2CA8D900BE99E1 /* Custom Cells */ = {
 			isa = PBXGroup;
 			children = (
-				A483650C1D2CA99600BE99E1 /* EditProfileCell.swift */,
+				A4CBF1331D34671200027DE1 /* PostTableViewCell.swift */,
 			);
 			name = "Custom Cells";
 			sourceTree = "<group>";
@@ -177,7 +178,7 @@
 		A483650F1D2CAF5C00BE99E1 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				A48365101D2CAFA400BE99E1 /* SettingsViewController.swift */,
+				A4CBF12D1D34482D00027DE1 /* SettingsViewController.swift */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -442,14 +443,14 @@
 			files = (
 				A44DA6FC1D234B5200E479D1 /* GenderEnum.swift in Sources */,
 				A4F083541D24CAE400CB78B8 /* CreateActivityViewController.swift in Sources */,
+				A4CBF1321D34624600027DE1 /* CustomTabBar.swift in Sources */,
 				A44DA7021D234B5200E479D1 /* UploadPhotoViewController.swift in Sources */,
 				A43C27A51D20858300BACEF1 /* CreateProfileViewController.swift in Sources */,
+				A4CBF1341D34671200027DE1 /* PostTableViewCell.swift in Sources */,
 				A44DA6FF1D234B5200E479D1 /* NewActivitiesTableViewController.swift in Sources */,
 				A48070AC1D2759D9005FB37B /* Post.swift in Sources */,
 				A44DA6F91D234B5200E479D1 /* AppDelegate.swift in Sources */,
-				A483650D1D2CA99600BE99E1 /* EditProfileCell.swift in Sources */,
 				A44DA6FD1D234B5200E479D1 /* HideKeyboard.swift in Sources */,
-				A48365111D2CAFA400BE99E1 /* SettingsViewController.swift in Sources */,
 				A48070AE1D275C18005FB37B /* DeviceTypeEnum.swift in Sources */,
 				A44DA7001D234B5200E479D1 /* RegistrationViewController.swift in Sources */,
 				A44DA6F81D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift in Sources */,
@@ -458,6 +459,7 @@
 				A44DA6FE1D234B5200E479D1 /* LoginViewController.swift in Sources */,
 				A44DA7011D234B5200E479D1 /* StringExtensions.swift in Sources */,
 				A44DA7031D234B5200E479D1 /* User.swift in Sources */,
+				A4CBF12E1D34482D00027DE1 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,8 +467,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A483650E1D2CAB6E00BE99E1 /* EditProfileCell.swift in Sources */,
-				A48365121D2CAFA400BE99E1 /* SettingsViewController.swift in Sources */,
 				A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */,
 				A417EF511D2B34020092CA52 /* ValidateUserInput.swift in Sources */,
 			);

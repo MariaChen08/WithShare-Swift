@@ -7,23 +7,26 @@
 //
 
 import Foundation
-import GoogleMaps
+//import GoogleMaps
 
 class Post {
     var id: String?
     var createdAt: NSDate
-    var deviceToken: String?
+//    var deviceToken: String?
     var deviceType: DeviceTypeEnum?
     
     var user: User?
-    var currentGeoCoordinates: CLLocationCoordinate2D?
+    var currentLatitude: Double?
+    var currentLongtitude: Double?
     
-    var activityType: String?
+    var activityTitle: String?
     var meetPlace: String?
-    var message: String?
+    var detail: String?
     
     init?() {
+        //UTC time
         self.createdAt = NSDate()
+//        print(self.createdAt)
     }
     
     

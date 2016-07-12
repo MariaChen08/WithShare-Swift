@@ -90,8 +90,16 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         
         //Post new activity
         if postButton === sender {
-            
             post = Post()
+            if (currentCoordinates != nil) {
+                post?.currentLatitude = currentCoordinates!.latitude
+                post?.currentLongtitude = currentCoordinates!.longitude
+            }
+            else {
+                post?.currentLatitude = 0
+                post?.currentLongtitude = 0
+            }
+            
 
         }
     }

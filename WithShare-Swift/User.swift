@@ -26,11 +26,11 @@ class User {
     var profilePhoto: UIImage?
     
     // MARK: Initialization
-    init?(id: String?, phoneKey: String?, emailAddress: String, password: String, firstName: String?, lastName: String?, title: String?, phoneNumber: String?, gender: GenderEnum?, profilePhoto: UIImage?) {
+    init?(id: String?, emailAddress: String, password: String, firstName: String?, lastName: String?, title: String?, phoneNumber: String?, gender: GenderEnum?, profilePhoto: UIImage?) {
         
         // Initialize stored properties.
         self.id = id
-        self.phoneKey = phoneKey
+//        self.phoneKey = phoneKey
 
         self.emailAddress = emailAddress
         self.password = password
@@ -55,7 +55,7 @@ class User {
     // MARK: Types
     struct PropertyKey {
         static let idKey = "id"
-        static let phoneKeyKey = "phoneKey"
+//        static let phoneKeyKey = "phoneKey"
         
         static let  emailAddressKey = "emailAddress"
         static let  passwordKey = "password"

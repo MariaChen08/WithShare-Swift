@@ -11,12 +11,17 @@ import UIKit
 class NewActivitiesTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
     
     //MARK: Properties
-    
-    
+    var loggedIn:Bool = false
     var activityTypeTitle = "All Activities"
     
     override func viewDidLoad() {
+        //Check if logged in
+        let prefs = NSUserDefaults.standardUserDefaults()
+        loggedIn = prefs.boolForKey("UserLogIn")
         
+        if !loggedIn {
+            performSegueWithIdentifier("needLogInSegue", sender: self)
+        }
     }
     
     //MARK: Navigations

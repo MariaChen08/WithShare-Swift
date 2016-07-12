@@ -18,6 +18,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var registerButton: UIButton!
     
     var user: User?
+    var username: String?
+    var password: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +41,7 @@ class LoginViewController: UIViewController {
     
     @IBAction func emailEditingDidEnd(sender: AnyObject) {
         // check fields here
+        username = self.emailTextField.text
     }
     
     @IBAction func passwordEditingDidEnd(sender: AnyObject) {
@@ -56,6 +59,10 @@ class LoginViewController: UIViewController {
 //            signInButton.enabled = true
 //        }
         signInButton.enabled = true
+        
+        //cache current user status: Logged In
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(true, forKey: "UserLogIn")
     }
     
     //MARK: Navigation
