@@ -24,6 +24,10 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Disable getting back in not logged in
+        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
+        navigationItem.leftBarButtonItem = backButton
+        
         //Close keyboard by clicking anywhere else
         self.hideKeyboardWhenTappedAround()
     }

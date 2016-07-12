@@ -21,6 +21,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         
         if !loggedIn {
             performSegueWithIdentifier("needLogInSegue", sender: self)
+//            self.navigationItem.hidesBackButton = true
         }
     }
     
