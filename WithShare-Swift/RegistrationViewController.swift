@@ -16,6 +16,9 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet weak var createPasswordTextField: UITextField!
     
     @IBOutlet weak var retypePasswordTextField: UITextField!
+    
+    @IBOutlet weak var createAccountButton: UIButton!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +45,12 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     */
     
     // MARK: Actions
+    @IBAction func createAccount(sender: AnyObject) {
+        //cache current user status: Logged In
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(true, forKey: "UserLogIn")
+    }
+    
     
 
 }

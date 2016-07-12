@@ -19,8 +19,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="WithShare" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="apJ-Za-Bgx">
-                                <rect key="frame" x="238" y="70" width="125" height="33"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WithShare" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="apJ-Za-Bgx">
+                                <rect key="frame" x="238" y="114" width="125" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -51,6 +51,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
+                                            <action selector="signIn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hNk-jN-SyN"/>
                                             <segue destination="mYH-6M-jcn" kind="show" identifier="logInSegue" id="4gd-b9-UER"/>
                                         </connections>
                                     </button>
@@ -104,7 +105,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1241" y="449"/>
+            <point key="canvasLocation" x="1236" y="456"/>
         </scene>
         <!--Popover Activity Type Menu-->
         <scene sceneID="9Ub-Lu-b6B">
@@ -143,6 +144,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
+                                            <action selector="createAccount:" destination="ykd-2p-lte" eventType="touchUpInside" id="KUe-Xm-Evh"/>
                                             <segue destination="AC6-YH-VPz" kind="show" identifier="createAccountSegue" id="m22-Ds-Ev5"/>
                                         </connections>
                                     </button>
@@ -155,8 +157,8 @@
                                     <segue destination="o7J-mt-4Dx" kind="unwind" unwindAction="unwindToLogin:" id="bbH-JL-oaf"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Create Account" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7MM-Bl-zbH">
-                                <rect key="frame" x="200" y="70" width="200" height="33"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Account" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7MM-Bl-zbH">
+                                <rect key="frame" x="200" y="114" width="200" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="jRu-Mk-rmb"/>
                                 </constraints>
@@ -185,13 +187,16 @@
                     <value key="contentSizeForViewInPopover" type="size" width="200" height="300"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
+                    <connections>
+                        <outlet property="createAccountButton" destination="6eA-RU-GHZ" id="g58-g8-wYw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kgv-Wh-HjD" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="o7J-mt-4Dx" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2051" y="449"/>
         </scene>
-        <!--Title-->
+        <!--Create Profile-->
         <scene sceneID="j6P-hm-pNt">
             <objects>
                 <viewController id="AC6-YH-VPz" customClass="CreateProfileViewController" customModule="WithShare_Swift" customModuleProvider="target" sceneMemberID="viewController">
@@ -285,8 +290,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Create Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xSC-5R-Cjj">
-                                <rect key="frame" x="200" y="70" width="200" height="33"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xSC-5R-Cjj">
+                                <rect key="frame" x="200" y="114" width="200" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="kB7-Xr-qUr"/>
                                 </constraints>
@@ -352,7 +357,7 @@
                             <constraint firstItem="pR0-lx-MuY" firstAttribute="top" secondItem="TKr-QW-b5R" secondAttribute="bottom" constant="20" id="zsm-cU-ysM"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="0gg-5v-A6h"/>
+                    <navigationItem key="navigationItem" title="Create Profile" id="0gg-5v-A6h"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uiz-km-uMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -370,8 +375,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" editable="NO" text="Add a profile picture so people can know your better." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vg9-t4-cqv">
-                                <rect key="frame" x="175" y="70" width="250" height="60"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Add a profile picture so people can know your better." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vg9-t4-cqv">
+                                <rect key="frame" x="175" y="114" width="250" height="60"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="ZxA-GC-jpR"/>

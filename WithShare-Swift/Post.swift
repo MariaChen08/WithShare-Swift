@@ -7,18 +7,16 @@
 //
 
 import Foundation
-//import GoogleMaps
 
 class Post {
     var id: String?
     var createdAt: NSDate
-//    var deviceToken: String?
-    var deviceType: DeviceTypeEnum?
+    var deviceToken: String?
     
-    var user: User?
+    var username: String?
     var currentLatitude: Double?
     var currentLongtitude: Double?
-    
+    var status: String?
     var activityTitle: String?
     var meetPlace: String?
     var detail: String?

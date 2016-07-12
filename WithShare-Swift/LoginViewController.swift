@@ -27,6 +27,7 @@ class LoginViewController: UIViewController {
         //Disable getting back in not logged in
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
+        self.tabBarController?.tabBar.hidden = true
         
         //Close keyboard by clicking anywhere else
         self.hideKeyboardWhenTappedAround()
@@ -40,7 +41,7 @@ class LoginViewController: UIViewController {
     }
     
     func emailTextFieldDidEndEditing(emailTextField: UITextField) {
-        enableSignIn()
+//        enableSignIn()
     }
     
     @IBAction func emailEditingDidEnd(sender: AnyObject) {
@@ -76,9 +77,12 @@ class LoginViewController: UIViewController {
         self.user?.password = self.passwordTextField.text!
     }
     
-//        if let registrationViewController = segue.destinationViewController as? RegistrationViewController {
-//                registrationViewController.user = self.user
-//        }
+    //MARK: Actions
+    
+    @IBAction func signIn(sender: AnyObject) {
+        enableSignIn()
+    }
+    
 }
         
  
