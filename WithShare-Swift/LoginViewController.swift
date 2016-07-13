@@ -27,6 +27,7 @@ class LoginViewController: UIViewController {
         //Disable getting back in not logged in
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
+        //Desable tabbar in not logged in
         self.tabBarController?.tabBar.hidden = true
         
         //Close keyboard by clicking anywhere else
