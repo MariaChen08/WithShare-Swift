@@ -17,12 +17,34 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     
     @IBOutlet weak var retypePasswordTextField: UITextField!
     
+    @IBOutlet weak var phoneNumberTextField: UITextField!
+    
     @IBOutlet weak var createAccountButton: UIButton!
     
-
+    var user: User?
+    var username: String?
+    var password: String?
+    var retypePassword: String?
+    var phoneNumber: String?
+    var alertMessage: String?
+    var validRegisterInfo: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Handle the text field’s user input through delegate callbacks.
+        emailTextField.delegate = self
+        createPasswordTextField.delegate = self
+        retypePasswordTextField.delegate = self
+        phoneNumberTextField.delegate = self
+        
+        emailTextField.keyboardType = .EmailAddress
+        phoneNumberTextField.keyboardType = .PhonePad
+        
+        emailTextField.tag = 0
+        createPasswordTextField.tag = 1
+        retypePasswordTextField.tag = 2
+        phoneNumberTextField.tag = 3
         //Close keyboard by clicking anywhere else
         self.hideKeyboardWhenTappedAround()
     }
@@ -33,24 +55,89 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // MARK: UITextFieldDelegate
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        //Hide the keyboard
+        textField.resignFirstResponder()
+        return true
     }
-    */
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        switch (textField.tag) {
+        case 0:
+            username = textField.text
+        case 1:
+            password = textField.text
+        case 2:
+            retypePassword = textField.text
+        case 3:
+            phoneNumber = textField.text
+        default:
+            print("error registration textview")
+        }
+        
+    }
+
+    
+    // MARK: - Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "createAccountSegue" && validRegisterInfo) {
+            if let createProfileViewController = segue.destinationViewController as? CreateProfileViewController {
+                createProfileViewController.user = self.user!
+            }
+            
+        }
+    }
+    
     
     // MARK: Actions
     @IBAction func createAccount(sender: AnyObject) {
-        //cache current user status: Logged In
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setBool(true, forKey: "UserLogIn")
+    
+        if (username == nil || !ValidateUserInput(input: username!).isValidEmail() || !ValidateUserInput(input: username!).isEduSuffix()) {
+            alertMessage = "Please enter your PSU email."
+            print(alertMessage)
+        }
+        else if (password == nil || (password!.isBlank() == true)) {
+            alertMessage = "Please create WithShare password."
+            print(alertMessage)
+        }
+        else if (retypePassword == nil || !(retypePassword == password)) {
+            alertMessage = "Retype password does not match."
+            print(alertMessage)
+        }
+        else if (phoneNumber == nil || (phoneNumber!.isPhoneNumber() == false)) {
+            alertMessage = "Please enter your phone number. It will help people to contact you when they want to join your activity. We won't disclose your phone number in any occasion."
+            print(alertMessage)
+        }
+        else {
+            validRegisterInfo = true
+        }
+        
+        if validRegisterInfo {
+            //create user account
+            user = User()
+            user!.username = username
+            user!.password = password
+            user!.phoneNumber = phoneNumber
+            user!.deviceType = "iOS"
+            
+            //cache current user status: Logged In
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setBool(true, forKey: "UserLogIn")
+            defaults.setObject(user?.username, forKey: "UserName")
+            
+        }
+        else {
+            // create the alert
+            let alert = UIAlertController(title: "Ooooops", message: alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+            
+            // add an action (button)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            
+            // show the alert
+            self.presentViewController(alert, animated: true, completion: nil)
+
+        }
     }
     
-    
-
 }

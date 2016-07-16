@@ -62,6 +62,13 @@ class WithShare_SwiftTests: XCTestCase {
         let testSuffixInput = ValidateUserInput(input: noSuffixInput)
         let testSuffixSuffix = testSuffixInput.isEduSuffix()
         XCTAssert(testSuffixSuffix == false, "test suffix")
+        
+        //check phone number
+        let noPhoneInput = "a23"
+        let testPhonePhone = noPhoneInput.isPhoneNumber()
+        XCTAssert(testPhonePhone == false, "test suffix")
+
+        
     }
     
 }

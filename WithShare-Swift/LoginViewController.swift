@@ -74,7 +74,7 @@ class LoginViewController: UIViewController {
     //MARK: Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        self.user?.emailAddress = self.emailTextField.text!
+        self.user?.username = self.emailTextField.text!
         self.user?.password = self.passwordTextField.text!
     }
     

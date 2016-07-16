@@ -9,12 +9,17 @@
 import UIKit
 
 class CreateProfileViewController: UIViewController {
+    //MARK: Properties
+    var user:User?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //Close keyboard by clicking anywhere else
         self.hideKeyboardWhenTappedAround()
+        print(user?.username)
+        
     }
 
 

@@ -14,13 +14,15 @@ class Post {
     var deviceToken: String?
     
     var username: String?
+    var activityTitle: String?
+    var meetPlace: String?
     var currentLatitude: Double?
     var currentLongtitude: Double?
     var status: String?
-    var activityTitle: String?
-    var meetPlace: String?
+    
     var detail: String?
     
+    // MARK: Initialization
     init?() {
         //UTC time
         self.createdAt = NSDate()
