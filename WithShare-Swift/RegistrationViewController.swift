@@ -66,18 +66,72 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
         switch (textField.tag) {
         case 0:
             username = textField.text
+            if username != nil {
+                username = username!.stringByTrimmingCharactersInSet(
+                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            }
         case 1:
             password = textField.text
         case 2:
             retypePassword = textField.text
         case 3:
             phoneNumber = textField.text
+//            print("phoneNumber: " + phoneNumber!)
         default:
             print("error registration textview")
         }
-        
     }
 
+    // format phone number input: (xxx) xxx-xxxx
+    // http://stackoverflow.com/questions/1246439/uitextfield-for-phone-number
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        if textField.tag == 3 {
+            let newString = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            let components = newString.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)
+            
+            let decimalString = components.joinWithSeparator("") as NSString
+            let length = decimalString.length
+            let hasLeadingOne = length > 0 && decimalString.characterAtIndex(0) == (1 as unichar)
+            
+            if length == 0 || (length > 10 && !hasLeadingOne) || length > 11
+            {
+                let newLength = (textField.text! as NSString).length + (string as NSString).length - range.length as Int
+                
+                return (newLength > 10) ? false : true
+            }
+            var index = 0 as Int
+            let formattedString = NSMutableString()
+            
+            if hasLeadingOne
+            {
+                formattedString.appendString("1 ")
+                index += 1
+            }
+            if (length - index) > 3
+            {
+                let areaCode = decimalString.substringWithRange(NSMakeRange(index, 3))
+                formattedString.appendFormat("(%@)", areaCode)
+                index += 3
+            }
+            if length - index > 3
+            {
+                let prefix = decimalString.substringWithRange(NSMakeRange(index, 3))
+                formattedString.appendFormat("%@-", prefix)
+                index += 3
+            }
+            
+            let remainder = decimalString.substringFromIndex(index)
+            formattedString.appendString(remainder)
+            textField.text = formattedString as String
+            phoneNumber = textField.text
+            return false
+        }
+        else
+        {
+            return true
+        }
+    }
     
     // MARK: - Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -85,14 +139,13 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
             if let createProfileViewController = segue.destinationViewController as? CreateProfileViewController {
                 createProfileViewController.user = self.user!
             }
-            
         }
     }
     
     
     // MARK: Actions
     @IBAction func createAccount(sender: AnyObject) {
-    
+//        print("phoneNumber: " + phoneNumber!)
         if (username == nil || !ValidateUserInput(input: username!).isValidEmail() || !ValidateUserInput(input: username!).isEduSuffix()) {
             alertMessage = "Please enter your PSU email."
             print(alertMessage)
@@ -105,7 +158,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
             alertMessage = "Retype password does not match."
             print(alertMessage)
         }
-        else if (phoneNumber == nil || (phoneNumber!.isPhoneNumber() == false)) {
+        else if (phoneNumber == nil) {
             alertMessage = "Please enter your phone number. It will help people to contact you when they want to join your activity. We won't disclose your phone number in any occasion."
             print(alertMessage)
         }
@@ -120,11 +173,13 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
             user!.password = password
             user!.phoneNumber = phoneNumber
             user!.deviceType = "iOS"
+            user!.shareProfile = true
             
             //cache current user status: Logged In
             let defaults = NSUserDefaults.standardUserDefaults()
             defaults.setBool(true, forKey: "UserLogIn")
             defaults.setObject(user?.username, forKey: "UserName")
+             defaults.setBool(true, forKey: "ShareProfile")
             
         }
         else {

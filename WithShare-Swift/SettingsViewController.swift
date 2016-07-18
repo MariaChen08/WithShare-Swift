@@ -30,11 +30,25 @@ class SettingsViewController: UIViewController {
     
     @IBOutlet weak var LogOutButton: UIButton!
     
-    
+    var fullName: String?
+    var gender: String?
+    var grade: String?
+    var department: String?
+    var hobby: String?
+    var shareProfile = false
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // retrieve cached string-type user profile
+        let defaults = NSUserDefaults.standardUserDefaults()
+        fullName = defaults.stringForKey("FullName")
+        gender = defaults.stringForKey("Gender")
+        grade = defaults.stringForKey("Grade")
+        department = defaults.stringForKey("Department")
+        hobby = defaults.stringForKey("Hobby")
+        shareProfile = defaults.boolForKey("ShareProfile")
         
         //Close keyboard by clicking anywhere else
         self.hideKeyboardWhenTappedAround()

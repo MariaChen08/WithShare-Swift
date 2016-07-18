@@ -238,6 +238,9 @@
                                             <segment title="Female"/>
                                             <segment title="Male"/>
                                         </segments>
+                                        <connections>
+                                            <action selector="genderIndexChangded:" destination="AC6-YH-VPz" eventType="valueChanged" id="P9v-wp-CHm"/>
+                                        </connections>
                                     </segmentedControl>
                                 </subviews>
                             </stackView>
@@ -314,7 +317,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ZX-rk-K4h">
                                         <rect key="frame" x="0.0" y="0.0" width="240" height="30"/>
                                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Save">
+                                        <state key="normal" title="Skip">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -324,10 +327,11 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGS-1Z-R6z">
                                         <rect key="frame" x="250" y="0.0" width="240" height="30"/>
                                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Skip">
+                                        <state key="normal" title="Save">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
+                                            <action selector="saveProfile:" destination="AC6-YH-VPz" eventType="touchUpInside" id="BQg-Nj-ej3"/>
                                             <segue destination="sCd-fz-fNn" kind="show" identifier="skipCreateProfileSegue" id="DeU-fq-S9Z"/>
                                         </connections>
                                     </button>
@@ -367,6 +371,16 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Create Profile" id="0gg-5v-A6h"/>
+                    <connections>
+                        <outlet property="departmentTextField" destination="K7P-JN-mxf" id="3wN-0c-Zd3"/>
+                        <outlet property="firstNameTextField" destination="KUn-t3-QLB" id="8uw-gS-HMz"/>
+                        <outlet property="genderSegmentedControl" destination="iBP-nY-oOx" id="DkA-oR-5fy"/>
+                        <outlet property="gradeTextField" destination="Yl1-Jz-NQg" id="TiL-25-LcT"/>
+                        <outlet property="hobbyTextField" destination="pR0-lx-MuY" id="yf9-Qj-8yb"/>
+                        <outlet property="lastNameTextField" destination="agB-2O-Dh5" id="SuQ-qe-W9H"/>
+                        <outlet property="saveButton" destination="aGS-1Z-R6z" id="L2j-Ts-f3f"/>
+                        <outlet property="skipButton" destination="4ZX-rk-K4h" id="c2n-Tg-mIj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uiz-km-uMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1050,8 +1064,8 @@
         <image name="EmptyProfile" width="225" height="225"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="IKS-hn-ANJ"/>
         <segue reference="4gd-b9-UER"/>
-        <segue reference="ffV-7v-LXr"/>
-        <segue reference="DeU-fq-S9Z"/>
+        <segue reference="9ic-LT-v8V"/>
     </inferredMetricsTieBreakers>
 </document>
