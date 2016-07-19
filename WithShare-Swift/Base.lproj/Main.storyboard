@@ -666,8 +666,8 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="lLk-F4-BTF" userLabel="NameStackView">
                                 <rect key="frame" x="160" y="102" width="400" height="68"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Full Name" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WQs-ys-ers">
-                                        <rect key="frame" x="0.0" y="0.0" width="86" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Edit your full name.." borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WQs-ys-ers">
+                                        <rect key="frame" x="0.0" y="0.0" width="149" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
@@ -683,6 +683,9 @@
                                                             <segment title="Female"/>
                                                             <segment title="Male"/>
                                                         </segments>
+                                                        <connections>
+                                                            <action selector="genderIndexChanged:" destination="15r-hC-w6n" eventType="valueChanged" id="XfQ-4c-OgL"/>
+                                                        </connections>
                                                     </segmentedControl>
                                                 </subviews>
                                             </stackView>
@@ -698,14 +701,14 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="aF1-0K-zUM" userLabel="GradeStackView">
                                 <rect key="frame" x="40" y="210" width="520" height="30"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Grade:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1DO-Sb-zmm">
-                                        <rect key="frame" x="0.0" y="0.0" width="129" height="30"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Grade:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1DO-Sb-zmm">
+                                        <rect key="frame" x="0.0" y="0.0" width="108" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Freshman/Senior/..." borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OPD-Hv-cZe">
-                                        <rect key="frame" x="139" y="0.0" width="381" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="e.g. freshman, senior, etc." borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OPD-Hv-cZe">
+                                        <rect key="frame" x="118" y="0.0" width="402" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
@@ -733,7 +736,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Basketball/Music..." borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3z8-Am-Fk0">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="e.g. basketball, music, etc." borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3z8-Am-Fk0">
                                 <rect key="frame" x="40" y="326" width="520" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -744,6 +747,9 @@
                                     <segment title="Yes"/>
                                     <segment title="No"/>
                                 </segments>
+                                <connections>
+                                    <action selector="shareProfileIndexChanged:" destination="15r-hC-w6n" eventType="valueChanged" id="psi-VQ-MnU"/>
+                                </connections>
                             </segmentedControl>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="3Pn-CC-rkv" userLabel="ButtonStackView">
                                 <rect key="frame" x="40" y="445" width="520" height="30"/>
@@ -754,6 +760,9 @@
                                         <state key="normal" title="Save Changes">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="saveChanges:" destination="15r-hC-w6n" eventType="touchUpInside" id="AnV-q1-7LS"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T6U-8Y-WN6">
                                         <rect key="frame" x="285" y="0.0" width="235" height="30"/>
@@ -813,9 +822,9 @@
                         <outlet property="fullNameTextField" destination="WQs-ys-ers" id="l8o-oA-ZDQ"/>
                         <outlet property="genderSegmentedControl" destination="Gc5-Kb-JSy" id="egk-5z-ifF"/>
                         <outlet property="gradeTextField" destination="OPD-Hv-cZe" id="qDd-qO-vCT"/>
-                        <outlet property="hobbiesTextField" destination="3z8-Am-Fk0" id="PGX-Xp-Zpx"/>
+                        <outlet property="hobbyTextField" destination="3z8-Am-Fk0" id="dhu-Rf-Txz"/>
                         <outlet property="profileImage" destination="leK-BY-bRQ" id="snZ-pi-0Qt"/>
-                        <outlet property="showProfileSegmentedControl" destination="snf-bx-mCn" id="2SX-F4-vZ2"/>
+                        <outlet property="shareProfileSegmentedControl" destination="snf-bx-mCn" id="ss2-9F-RMO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3un-oV-547" userLabel="First Responder" sceneMemberID="firstResponder"/>

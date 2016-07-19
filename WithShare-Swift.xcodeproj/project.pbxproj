@@ -29,7 +29,6 @@
 		A4ACFDAF1D206BCA00200133 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDAD1D206BCA00200133 /* LaunchScreen.storyboard */; };
 		A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDB91D206BCA00200133 /* WithShare_SwiftTests.swift */; };
 		A4CBF12E1D34482D00027DE1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CBF12D1D34482D00027DE1 /* SettingsViewController.swift */; };
-		A4CBF1321D34624600027DE1 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CBF1311D34624600027DE1 /* CustomTabBar.swift */; };
 		A4CBF1341D34671200027DE1 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CBF1331D34671200027DE1 /* PostTableViewCell.swift */; };
 		A4E970001D28A506000E4CDD /* ValidateUserInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */; };
 		A4F083541D24CAE400CB78B8 /* CreateActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */; };
@@ -75,7 +74,6 @@
 		A4ACFDB91D206BCA00200133 /* WithShare_SwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithShare_SwiftTests.swift; sourceTree = "<group>"; };
 		A4ACFDBB1D206BCA00200133 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A4CBF12D1D34482D00027DE1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		A4CBF1311D34624600027DE1 /* CustomTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		A4CBF1331D34671200027DE1 /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUserInput.swift; sourceTree = "<group>"; };
 		A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateActivityViewController.swift; sourceTree = "<group>"; };
@@ -127,7 +125,6 @@
 		A43C27A01D206F1C00BACEF1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				A4CBF1311D34624600027DE1 /* CustomTabBar.swift */,
 				A44DA6F51D234B5200E479D1 /* StringExtensions.swift */,
 				A44DA6F01D234B5200E479D1 /* GenderEnum.swift */,
 				A44DA6F11D234B5200E479D1 /* HideKeyboard.swift */,
@@ -443,7 +440,6 @@
 			files = (
 				A44DA6FC1D234B5200E479D1 /* GenderEnum.swift in Sources */,
 				A4F083541D24CAE400CB78B8 /* CreateActivityViewController.swift in Sources */,
-				A4CBF1321D34624600027DE1 /* CustomTabBar.swift in Sources */,
 				A44DA7021D234B5200E479D1 /* UploadPhotoViewController.swift in Sources */,
 				A43C27A51D20858300BACEF1 /* CreateProfileViewController.swift in Sources */,
 				A4CBF1341D34671200027DE1 /* PostTableViewCell.swift in Sources */,
