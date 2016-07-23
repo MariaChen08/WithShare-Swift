@@ -10,29 +10,6 @@ import XCTest
 @testable import WithShare_Swift
 
 class WithShare_SwiftTests: XCTestCase {
-    
-//    override func setUp() {
-//        super.setUp()
-//        // Put setup code here. This method is called before the invocation of each test method in the class.
-//    }
-//    
-//    override func tearDown() {
-//        // Put teardown code here. This method is called after the invocation of each test method in the class.
-//        super.tearDown()
-//    }
-//    
-//    func testExample() {
-//        // This is an example of a functional test case.
-//        // Use XCTAssert and related functions to verify your tests produce the correct results.
-//    }
-//    
-//    func testPerformanceExample() {
-//        // This is an example of a performance test case.
-//        self.measureBlock {
-//            // Put the code you want to measure the time of here.
-//        }
-//    }
-    
     //MARK: WithShare tests
     func testInputValidation () {
         //is valid psu email
@@ -67,8 +44,11 @@ class WithShare_SwiftTests: XCTestCase {
         let noPhoneInput = "a23"
         let testPhonePhone = noPhoneInput.isPhoneNumber()
         XCTAssert(testPhonePhone == false, "test suffix")
-
-        
     }
     
+    func testApiManager() {
+        let user = User(username: "test@psu.edu",password: "testPassword", phoneNumber: "8148148888")
+
+        ApiManager.sharedInstance.signUp(user!)
+    }
 }

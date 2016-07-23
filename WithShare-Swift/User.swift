@@ -32,9 +32,12 @@ class User {
     var profilePhoto: UIImage?
     
     // MARK: Initialization
-    init?() {
+    init?(username: String, password: String, phoneNumber: String) {
         //UTC time
         self.createdAt = NSDate()
+        self.username = username
+        self.password = password
+        self.phoneNumber = phoneNumber
     }
     
 }

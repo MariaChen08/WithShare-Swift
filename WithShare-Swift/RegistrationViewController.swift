@@ -168,10 +168,10 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
         
         if validRegisterInfo {
             //create user account
-            user = User()
-            user!.username = username
-            user!.password = password
-            user!.phoneNumber = phoneNumber
+            user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
+//            user!.username = username
+//            user!.password = password
+//            user!.phoneNumber = phoneNumber
             user!.deviceType = "iOS"
             user!.shareProfile = true
             
@@ -179,8 +179,10 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
             let defaults = NSUserDefaults.standardUserDefaults()
             defaults.setBool(true, forKey: "UserLogIn")
             defaults.setObject(user?.username, forKey: "UserName")
-             defaults.setBool(true, forKey: "ShareProfile")
+            defaults.setBool(true, forKey: "ShareProfile")
             
+            //register user to server
+            ApiManager.sharedInstance.signUp(user!)
         }
         else {
             // create the alert
