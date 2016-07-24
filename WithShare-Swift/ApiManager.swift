@@ -132,8 +132,8 @@ class ApiManager: NSObject, NSURLSessionDelegate {
 
     
     //MARK: User Profile Api
-//    func signUp(user: User, onSuccess: (response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
-    func signUp(user: User) {
+    func signUp(user: User, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+//    func signUp(user: User) {
         let specificUrl = "signup/"
         
 //        let encodedUsername = self.base64Encode(user.username!)
@@ -147,18 +147,13 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
         // make the call
         ApiManager.sharedInstance.POST_simple(fullUrl, data: userPasswordDictionary, onSuccess: {(response) in
-//                if response["status_message"] as! String == "Account Already Exists" {
-//                    let error = NSError(domain: "transitShare", code: -1000, userInfo: ["user already exists": NSObject()])
-//                    onError(error: error)
-//                } else {
-//                    onSuccess(user: User)
-//                }
                 print(response)
+                onSuccess(user: user)
             }
             , onError: {(error, response) in
                 print(response)
                 print(error)
-                // do nothing
+                onError(error: error)
         })
     
     }

@@ -135,7 +135,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     
     // MARK: - Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if (segue.identifier == "createAccountSegue" && validRegisterInfo) {
+        if (segue.identifier == "createAccountSegue") {
             if let createProfileViewController = segue.destinationViewController as? CreateProfileViewController {
                 createProfileViewController.user = self.user!
             }
@@ -182,7 +182,29 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
             defaults.setBool(true, forKey: "ShareProfile")
             
             //register user to server
-            ApiManager.sharedInstance.signUp(user!)
+//            ApiManager.sharedInstance.signUp(user!)
+            ApiManager.sharedInstance.signUp(user!,
+                                             onSuccess: {(user) in
+                                                
+                                                NSOperationQueue.mainQueue().addOperationWithBlock {
+                                                    print("signup success!")
+                                                    self.performSegueWithIdentifier("createAccountSegue", sender: self)
+                                                    
+                                                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                                                }
+
+                                                
+                }, onError: {(error) in
+                    NSOperationQueue.mainQueue().addOperationWithBlock {
+                        print("signup error!")
+                        let alert = UIAlertController(title: "Signup Failed", message:
+                        "Signup Failed", preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+            })
+
         }
         else {
             // create the alert

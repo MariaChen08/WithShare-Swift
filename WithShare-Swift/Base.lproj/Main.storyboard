@@ -150,7 +150,6 @@
                                         </state>
                                         <connections>
                                             <action selector="createAccount:" destination="ykd-2p-lte" eventType="touchUpInside" id="D4L-NE-yX2"/>
-                                            <segue destination="AC6-YH-VPz" kind="show" identifier="createAccountSegue" id="fIG-po-XdP"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -198,12 +197,13 @@
                         <outlet property="emailTextField" destination="Oxx-B3-xFz" id="Gdh-xi-Kos"/>
                         <outlet property="phoneNumberTextField" destination="qGr-Eg-d5b" id="a5x-iH-Itq"/>
                         <outlet property="retypePasswordTextField" destination="aIN-J0-18h" id="9TZ-PG-69h"/>
+                        <segue destination="AC6-YH-VPz" kind="show" identifier="createAccountSegue" id="W0O-jN-s3b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kgv-Wh-HjD" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="o7J-mt-4Dx" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2051" y="449"/>
+            <point key="canvasLocation" x="2089" y="442"/>
         </scene>
         <!--Create Profile-->
         <scene sceneID="j6P-hm-pNt">
@@ -384,7 +384,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uiz-km-uMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2845" y="449"/>
+            <point key="canvasLocation" x="2845" y="442"/>
         </scene>
         <!--Upload Photo-->
         <scene sceneID="FVZ-Dy-3iU">
@@ -701,13 +701,13 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="aF1-0K-zUM" userLabel="GradeStackView">
                                 <rect key="frame" x="40" y="210" width="520" height="30"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Grade:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1DO-Sb-zmm">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Grade:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1DO-Sb-zmm">
                                         <rect key="frame" x="0.0" y="0.0" width="108" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="e.g. freshman, senior, etc." borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OPD-Hv-cZe">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="e.g. freshman, senior, etc." borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OPD-Hv-cZe">
                                         <rect key="frame" x="118" y="0.0" width="402" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -1073,8 +1073,8 @@
         <image name="EmptyProfile" width="225" height="225"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="IKS-hn-ANJ"/>
         <segue reference="4gd-b9-UER"/>
+        <segue reference="ffV-7v-LXr"/>
         <segue reference="9ic-LT-v8V"/>
     </inferredMetricsTieBreakers>
 </document>
