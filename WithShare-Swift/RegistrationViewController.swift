@@ -169,26 +169,27 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
         if validRegisterInfo {
             //create user account
             user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
-//            user!.username = username
-//            user!.password = password
-//            user!.phoneNumber = phoneNumber
-            user!.deviceType = "iOS"
+
+            user!.deviceType = Constants.deviceType
             user!.shareProfile = true
+            user!.numOfPosts = 0
             
-            //cache current user status: Logged In
-            let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setBool(true, forKey: "UserLogIn")
-            defaults.setObject(user?.username, forKey: "UserName")
-            defaults.setBool(true, forKey: "ShareProfile")
             
             //register user to server
-//            ApiManager.sharedInstance.signUp(user!)
             ApiManager.sharedInstance.signUp(user!,
                                              onSuccess: {(user) in
                                                 
                                                 NSOperationQueue.mainQueue().addOperationWithBlock {
                                                     print("signup success!")
                                                     self.performSegueWithIdentifier("createAccountSegue", sender: self)
+                                                    
+                                                    //cache current user status: Logged In
+                                                    let defaults = NSUserDefaults.standardUserDefaults()
+                                                    defaults.setBool(true, forKey: Constants.NSUserDefaultsKey.logInStatus)
+                                                    defaults.setObject(user.username, forKey: Constants.NSUserDefaultsKey.username)
+                                                    defaults.setObject(user.password, forKey: Constants.NSUserDefaultsKey.password)
+                                                    defaults.setObject(user.phoneNumber, forKey: Constants.NSUserDefaultsKey.phoneNumber)
+                                                    defaults.setBool(true, forKey: Constants.NSUserDefaultsKey.shareProfile)
                                                     
                                                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                                                 }

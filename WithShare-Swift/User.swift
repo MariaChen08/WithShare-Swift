@@ -31,6 +31,8 @@ class User {
     
     var profilePhoto: UIImage?
     
+    var numOfPosts: Int?
+    
     // MARK: Initialization
     init?(username: String, password: String, phoneNumber: String) {
         //UTC time

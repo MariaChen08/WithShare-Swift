@@ -12,6 +12,7 @@ class Post {
     var id: String?
     var createdAt: NSDate
     var deviceToken: String?
+    var deviceType: String?
     
     var username: String?
     var activityTitle: String?

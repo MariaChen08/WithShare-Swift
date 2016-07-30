@@ -15,6 +15,8 @@ class UploadPhotoViewController: UIViewController, UINavigationControllerDelegat
     
     var imagePicker: UIImagePickerController!
     
+    var user: User?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

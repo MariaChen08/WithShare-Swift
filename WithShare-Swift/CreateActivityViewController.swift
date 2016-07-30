@@ -16,11 +16,15 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var editAddressTextField: UITextField!
     @IBOutlet weak var pickPlaceButton: UIButton!
+    @IBOutlet weak var detailTextField: UITextField!
     
     @IBOutlet weak var postButton: UIBarButtonItem!
     
-    var activityTypeShow:String? = "More"
-    var meetingPlace:String? = "Please add meeting place"
+    var username: String?
+    var password: String?
+    var activityTypeShow: String? = "More"
+    var meetingPlace: String? = "Please add meeting place"
+    var detail: String?
     
     let locationManager = CLLocationManager()
     var placesClient: GMSPlacesClient?
@@ -30,6 +34,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     var center = CLLocationCoordinate2DMake(40.793958335519726, -77.867923433207636)
     
     var post:Post?
+    var activityDict = []
     
     override func viewDidLoad() {
         print("activity Type after segue: " + activityTypeShow!)
@@ -38,12 +43,20 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         
         //Hide edit address text field and show when address label tapped
         editAddressTextField.delegate = self
+        editAddressTextField.tag = 0
         editAddressTextField.hidden = true
         addressLabel.userInteractionEnabled = true
         let aSelector : Selector = #selector(CreateActivityViewController.labelTapped)
         let tapGesture = UITapGestureRecognizer(target: self, action: aSelector)
         tapGesture.numberOfTapsRequired = 1
         addressLabel.addGestureRecognizer(tapGesture)
+        
+        //Detail text field
+        detailTextField.delegate = self
+        detailTextField.tag = 1
+        
+        // Close keyboard by clicking anywhere else
+        self.hideKeyboardWhenTappedAround()
         
         //Google Map
         locationManager.delegate = self
@@ -75,8 +88,10 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             }
         })
         
-        //Close keyboard by clicking anywhere else
-        self.hideKeyboardWhenTappedAround()
+        // Retrieve cached user info
+        let defaults = NSUserDefaults.standardUserDefaults()
+        username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
+        password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
     }
     
     //MARK: Navigations
@@ -99,6 +114,10 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
                 post?.currentLatitude = 0
                 post?.currentLongtitude = 0
             }
+            post?.deviceType = Constants.deviceType
+            post?.activityTitle = activityTypeShow
+            post?.meetPlace = meetingPlace
+            post?.detail = detail
             
 
         }
@@ -130,6 +149,27 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         addressLabel.text = editAddressTextField.text
         return true
     }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        switch (textField.tag) {
+        case 0:
+            meetingPlace = textField.text
+            if meetingPlace != nil {
+                meetingPlace = meetingPlace!.stringByTrimmingCharactersInSet(
+                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            }
+        case 1:
+            detail = textField.text
+            if detail != nil {
+                detail = detail!.stringByTrimmingCharactersInSet(
+                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            }
+
+        default:
+            print("error registration textview")
+        }
+    }
+
     
     //MARK: Pick nearby places
     @IBAction func pickPlace(sender: AnyObject) {

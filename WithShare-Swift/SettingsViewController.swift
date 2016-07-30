@@ -30,25 +30,39 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
     
     @IBOutlet weak var LogOutButton: UIButton!
     
+    var user: User?
+    var username: String?
+    var password: String?
+    var phoneNumber: String?
     var fullName: String?
     var gender: String?
     var grade: String?
     var department: String?
     var hobby: String?
-    var shareProfile = false
+    var shareProfile = true
+    
+    var profileDict = [Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.shareProfile: true]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
         // retrieve cached string-type user profile
         let defaults = NSUserDefaults.standardUserDefaults()
-        fullName = defaults.stringForKey("FullName")
-        gender = defaults.stringForKey("Gender")
-        grade = defaults.stringForKey("Grade")
-        department = defaults.stringForKey("Department")
-        hobby = defaults.stringForKey("Hobby")
-        shareProfile = defaults.boolForKey("ShareProfile")
+        username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
+        password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
+        phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
+        fullName = defaults.stringForKey(Constants.NSUserDefaultsKey.fullName)
+        gender = defaults.stringForKey(Constants.NSUserDefaultsKey.gender)
+        grade = defaults.stringForKey(Constants.NSUserDefaultsKey.grade)
+        department = defaults.stringForKey(Constants.NSUserDefaultsKey.department)
+        hobby = defaults.stringForKey(Constants.NSUserDefaultsKey.hobby)
+        shareProfile = defaults.boolForKey(Constants.NSUserDefaultsKey.shareProfile)
+        
+        // MARK: For debug purpose
+        user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
         
         if fullName != nil {
             fullNameTextField.text = fullName
@@ -63,7 +77,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
             hobbyTextField.text = hobby
         }
         
-        if gender == "female" {
+        if gender == Constants.Gender.female {
             genderSegmentedControl.selectedSegmentIndex = 0
         }
         else {
@@ -135,13 +149,12 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
         switch genderSegmentedControl.selectedSegmentIndex
         {
         case 0:
-            gender = "female";
+            gender = Constants.Gender.female;
         case 1:
-            gender = "male";
+            gender = Constants.Gender.male;
         default:
             break;
         }
-
     }
     
     @IBAction func shareProfileIndexChanged(sender: AnyObject) {
@@ -160,7 +173,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
     @IBAction func logOut(sender: AnyObject) {
         //cache current user status: Logged Out
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setBool(false, forKey: "UserLogIn")
+        defaults.setBool(false, forKey: Constants.NSUserDefaultsKey.logInStatus)
     }
     
     @IBAction func saveChanges(sender: AnyObject) {
@@ -169,34 +182,57 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
         
         if fullName != nil {
             fullNameTextField.text = fullName
-            defaults.setObject(fullName, forKey: "FullName")
+            defaults.setObject(fullName, forKey: Constants.NSUserDefaultsKey.fullName)
+            profileDict[Constants.ServerModelField_User.fullname] = fullName
         }
         else {
             fullNameTextField.text = "Edit your full name.."
         }
         if grade != nil {
             gradeTextField.text = grade
-            defaults.setObject(grade, forKey: "Grade")
+            defaults.setObject(grade, forKey: Constants.NSUserDefaultsKey.grade)
+            profileDict[Constants.ServerModelField_User.grade] = grade
         }
         else {
             gradeTextField.text = "e.g. freshman, senior, etc."
         }
         if department != nil {
             departmentTextField.text = department
-            defaults.setObject(department, forKey: "Department")
+            defaults.setObject(department, forKey: Constants.NSUserDefaultsKey.department)
+            profileDict[Constants.ServerModelField_User.department] = department
         }
         else {
             departmentTextField.text = "department"
         }
         if hobby != nil {
             hobbyTextField.text = hobby
+            defaults.setObject(hobby, forKey: Constants.NSUserDefaultsKey.hobby)
+            profileDict[Constants.ServerModelField_User.hobby] = hobby
         }
         else {
             hobbyTextField.text = "e.g. basketball, music, etc."
-            defaults.setObject(hobby, forKey: "Hobby")
         }
-        defaults.setObject(gender, forKey: "Gender")
-        defaults.setBool(shareProfile, forKey: "ShareProfile")
+        defaults.setObject(gender, forKey: Constants.NSUserDefaultsKey.gender)
+        profileDict[Constants.ServerModelField_User.gender] = gender
+        defaults.setBool(shareProfile, forKey: Constants.NSUserDefaultsKey.shareProfile)
+        profileDict[Constants.ServerModelField_User.shareProfile] = shareProfile
+        
+        // Upload to server
+        ApiManager.sharedInstance.editProfile(user!, profileData: profileDict, onSuccess: {(user) in
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                print("create profile success!")
+                self.performSegueWithIdentifier("createProfilePhotoSegue", sender: self)
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("create profile error!")
+                    let alert = UIAlertController(title: "Unable to create profile!", message:
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
     }
     
     

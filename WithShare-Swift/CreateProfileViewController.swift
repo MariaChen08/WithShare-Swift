@@ -31,6 +31,8 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
     var hobby: String?
     var gender = "female"
     
+    var profileDict = ["full_name": "", "grade": "", "department": "", "hobby" : "", "gender": ""]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -97,6 +99,15 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
         }
     }
     
+    // MARK: - Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "createProfilePhotoSegue") {
+            if let uploadPhotoViewController = segue.destinationViewController as? UploadPhotoViewController {
+                uploadPhotoViewController.user = self.user!
+            }
+        }
+    }
+    
     //MARK: Actions
     @IBAction func genderIndexChangded(sender: AnyObject) {
         switch genderSegmentedControl.selectedSegmentIndex
@@ -130,21 +141,45 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
         // create user profile
         if (fullName != nil) {
             user?.fullName = fullName
-            defaults.setObject(fullName, forKey: "FullName")
+            defaults.setObject(fullName, forKey: Constants.NSUserDefaultsKey.fullName)
+            profileDict[Constants.ServerModelField_User.fullname] = fullName
         }
         user?.gender = gender
-        defaults.setObject(gender, forKey: "Gender")
+        defaults.setObject(gender, forKey: Constants.NSUserDefaultsKey.gender)
+        profileDict[Constants.ServerModelField_User.gender] = gender
         if (grade != nil) {
             user?.grade = grade
-            defaults.setObject(grade, forKey: "Grade")
+            defaults.setObject(grade, forKey: Constants.NSUserDefaultsKey.grade)
+            profileDict[Constants.ServerModelField_User.grade] = grade
         }
         if (department != nil) {
             user?.department = department
-            defaults.setObject(department, forKey: "Department")
+            defaults.setObject(department, forKey: Constants.NSUserDefaultsKey.department)
+            profileDict[Constants.ServerModelField_User.department] = department
         }
         if (hobby != nil) {
             user?.hobby = hobby
-            defaults.setObject(hobby, forKey: "Hobby")
+            defaults.setObject(hobby, forKey: Constants.NSUserDefaultsKey.hobby)
+            profileDict[Constants.ServerModelField_User.hobby] = hobby
         }
+        print("create profile: ")
+        print(profileDict)
+        
+        // Upload to server
+        ApiManager.sharedInstance.editProfile(user!, profileData: profileDict, onSuccess: {(user) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("create profile success!")
+                    self.performSegueWithIdentifier("createProfilePhotoSegue", sender: self)
+                }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("create profile error!")
+                    let alert = UIAlertController(title: "Unable to create profile!", message:
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
     }
 }
