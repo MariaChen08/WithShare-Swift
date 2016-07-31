@@ -73,6 +73,10 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
                 posts.append(post)
                 tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
             }
+            else {
+                print("cancel creating new activity")
+                // usage log
+            }
         }
     }
     
@@ -95,13 +99,29 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         // Fetches the appropriate meal for the data source layout.
         let post = posts[indexPath.row]
         // Configure cells
-        cell.ActivityTitleLabel.text = post.activityTitle
+        cell.ActivityTitleLabel.font = UIFont.boldSystemFontOfSize(16.0)
+        cell.ActivityTitleLabel.text = "Title: " + post.activityTitle!
         cell.DetailLabel.text = post.detail
-        cell.MeetLocationLabel.text = post.meetPlace
-        
+        cell.MeetLocationLabel.text = "meet@: " + post.meetPlace!
+//        cell.MeetLocationLabel.numberOfLines = 0;
+//        cell.MeetLocationLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        // Configure and format time label
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "h:mm a"
-        cell.TimeLabel.text =  dateFormatter.stringFromDate(post.createdAt)
+        let cal = NSCalendar.currentCalendar()
+        var components = cal.components([.Era, .Year, .Month, .Day], fromDate:NSDate())
+        let today = cal.dateFromComponents(components)!
+        
+        components = cal.components([.Era, .Year, .Month, .Day], fromDate:post.createdAt)
+        let otherDate = cal.dateFromComponents(components)!
+        
+        if (today.isEqualToDate(otherDate)) {
+            cell.TimeLabel.text =  dateFormatter.stringFromDate(post.createdAt) + " Today"
+        }
+        else {
+            cell.TimeLabel.text =  dateFormatter.stringFromDate(post.createdAt) + " Yesterday"
+        }
+
         return cell
     }
 

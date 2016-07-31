@@ -15,6 +15,5 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var DetailLabel: UILabel!
     @IBOutlet weak var MeetLocationLabel: UILabel!
     @IBOutlet weak var TimeLabel: UILabel!
-    
 
 }

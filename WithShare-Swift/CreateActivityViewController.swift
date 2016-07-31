@@ -112,10 +112,12 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         
         //Post new activity
         if postButton === sender {
-            if meetingPlace == nil {
-                meetingPlace = ""
+            if (activityTypeShow == nil ||  activityTypeShow == "Please choose") {
+                activityTypeShow = "Not specified"
             }
-            
+            if (meetingPlace == nil || meetingPlace == "Please add meeting place") {
+                meetingPlace = "Not specified"
+            }
             if detail == nil {
                 detail = ""
             }
