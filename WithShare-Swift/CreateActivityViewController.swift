@@ -20,8 +20,13 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     
     @IBOutlet weak var postButton: UIBarButtonItem!
     
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
+    
+    var user: User?
     var username: String?
     var password: String?
+    var phoneNumber: String?
+    
     var activityTypeShow: String? = "More"
     var meetingPlace: String? = "Please add meeting place"
     var detail: String?
@@ -34,8 +39,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     var center = CLLocationCoordinate2DMake(40.793958335519726, -77.867923433207636)
     
     var post:Post?
-    var activityDict = []
-    
+        
     override func viewDidLoad() {
         print("activity Type after segue: " + activityTypeShow!)
         activityTypeButton.setTitle(activityTypeShow, forState: .Normal)
@@ -92,6 +96,9 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         let defaults = NSUserDefaults.standardUserDefaults()
         username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
         password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
+        phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
+        
+        user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
     }
     
     //MARK: Navigations
@@ -105,6 +112,13 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         
         //Post new activity
         if postButton === sender {
+            if meetingPlace == nil {
+                meetingPlace = ""
+            }
+            
+            if detail == nil {
+                detail = ""
+            }
             post = Post()
             if (currentCoordinates != nil) {
                 post?.currentLatitude = currentCoordinates!.latitude
@@ -118,8 +132,28 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             post?.activityTitle = activityTypeShow
             post?.meetPlace = meetingPlace
             post?.detail = detail
+            post?.status = Constants.PostStatus.active
+            post?.username = user?.username
             
-
+            
+            print("post created:" + post!.username!)
+            
+            // Upload to server
+//            ApiManager.sharedInstance.createActivity(user!, post: post!, onSuccess: {(user) in
+//                NSOperationQueue.mainQueue().addOperationWithBlock {
+//                    print("create new activity success!")
+//                    self.performSegueWithIdentifier("createProfilePhotoSegue", sender: self)
+//                }
+//                }, onError: {(error) in
+//                    NSOperationQueue.mainQueue().addOperationWithBlock {
+//                        print("create new activity error!")
+//                        let alert = UIAlertController(title: "Unable to create new activity!", message:
+//                            "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+//                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+//                        
+//                        self.presentViewController(alert, animated: true, completion: nil)
+//                    }
+//            })
         }
     }
     

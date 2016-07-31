@@ -872,7 +872,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="J69-Sy-8SG" kind="unwind" unwindAction="selectActivityType:" id="1M9-xB-LO0"/>
+                                    <segue destination="J69-Sy-8SG" kind="unwind" unwindAction="popoverMenuUnwindToActivityList:" id="1M9-xB-LO0"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -991,20 +991,22 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Create Activity" id="dfy-Af-cYm">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="qvT-XW-oCc"/>
                         <barButtonItem key="rightBarButtonItem" title="Post" id="JTe-11-T5E">
                             <connections>
-                                <segue destination="NG1-rY-9Pg" kind="unwind" unwindAction="postNewActivity:" id="BRL-wf-9Cs"/>
+                                <segue destination="NG1-rY-9Pg" kind="unwind" unwindAction="createActivityUnwindToMealList:" id="GaR-LB-Hgx"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="activityTypeButton" destination="7qW-ES-h1R" id="6fO-QO-ndW"/>
                         <outlet property="addressLabel" destination="S2a-AS-Ubk" id="Wsn-wG-Eda"/>
+                        <outlet property="cancelButton" destination="qvT-XW-oCc" id="YA2-oN-QLp"/>
                         <outlet property="detailTextField" destination="bXU-gr-LUU" id="vgr-4m-OHO"/>
                         <outlet property="editAddressTextField" destination="tLz-5j-3fn" id="YEe-Nv-JVU"/>
                         <outlet property="mapView" destination="XXR-xI-4IP" id="2NQ-mN-mOK"/>
                         <outlet property="pickPlaceButton" destination="OJj-ST-CcU" id="zd4-ir-wyx"/>
-                        <outlet property="postButton" destination="JTe-11-T5E" id="boR-AG-YoC"/>
+                        <outlet property="postButton" destination="JTe-11-T5E" id="R3C-NU-iRf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MdF-Jz-khH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1071,7 +1073,7 @@
         <image name="EmptyProfile" width="225" height="225"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="55l-S1-W6o"/>
         <segue reference="ffV-7v-LXr"/>
+        <segue reference="55l-S1-W6o"/>
     </inferredMetricsTieBreakers>
 </document>

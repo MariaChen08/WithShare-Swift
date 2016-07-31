@@ -23,6 +23,7 @@
 		A44DA7031D234B5200E479D1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6F71D234B5200E479D1 /* User.swift */; };
 		A451EFDA1D4D321600093DBD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFD91D4D321600093DBD /* Constants.swift */; };
 		A451EFDB1D4D321600093DBD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFD91D4D321600093DBD /* Constants.swift */; };
+		A451EFDC1D4D818100093DBD /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48070AB1D2759D9005FB37B /* Post.swift */; };
 		A48070AA1D260F57005FB37B /* SelectActivityTypeMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48070A91D260F57005FB37B /* SelectActivityTypeMenu.swift */; };
 		A48070AC1D2759D9005FB37B /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48070AB1D2759D9005FB37B /* Post.swift */; };
 		A490AA811D4165CB00305CCC /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A490AA801D4165CB00305CCC /* ApiManager.swift */; };
@@ -469,6 +470,7 @@
 				A451EFDB1D4D321600093DBD /* Constants.swift in Sources */,
 				A490AA831D42F30800305CCC /* User.swift in Sources */,
 				A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */,
+				A451EFDC1D4D818100093DBD /* Post.swift in Sources */,
 				A490AA821D4165CB00305CCC /* ApiManager.swift in Sources */,
 				A417EF511D2B34020092CA52 /* ValidateUserInput.swift in Sources */,
 			);

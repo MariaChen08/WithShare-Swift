@@ -220,11 +220,13 @@ class ApiManager: NSObject, NSURLSessionDelegate {
     }
     
     //MARK: Post Activities APIs
-    func createActivity(user: User, activityData: Dictionary<String,AnyObject>, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+    func createActivity(user: User, post: Post, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
         let specificUrl = "posts/"
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("create activity url: " + fullUrl)
+        
+        let activityData: [String: AnyObject] = [Constants.ServerModeField_Post.deviceType: post.deviceType!, Constants.ServerModeField_Post.activityType: post.activityTitle!, Constants.ServerModeField_Post.meetLocation: post.meetPlace!, Constants.ServerModeField_Post.detail: post.detail!, Constants.ServerModeField_Post.currentLatitude: post.currentLatitude!,Constants.ServerModeField_Post.currentLongitude: post.currentLongtitude!, Constants.ServerModeField_Post.status: post.status!]
         
         ApiManager.sharedInstance.PUT(fullUrl, username: user.username!, password: user.password!, data: activityData, onSuccess: {(response) in
             onSuccess(user: user)

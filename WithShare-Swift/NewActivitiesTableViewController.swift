@@ -11,6 +11,7 @@ import UIKit
 class NewActivitiesTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
     
     //MARK: Properties
+    var posts = [Post]()
     var loggedIn:Bool = false
     var activityTypeTitle = "All Activities"
     
@@ -51,22 +52,58 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     }
     
     //MARK: unwind methods
-    @IBAction func selectActivityType(segue:UIStoryboardSegue) {
+    @IBAction func popoverMenuUnwindToActivityList(segue:UIStoryboardSegue) {
+        //select activity type from popover menu
         if let sourceViewController = segue.sourceViewController as? ActivityTypePopoverMenuViewController{
             activityTypeTitle = sourceViewController.activityType!
             print(sourceViewController.activityType)
             self.title = activityTypeTitle
         }
+        
     }
     
-    @IBAction func postNewActivity(segue:UIStoryboardSegue) {
-//        if let sourceViewController = segue.sourceViewController as? ActivityTypePopoverMenuViewController{
-//            let activityTypeTitle = sourceViewController.activityType
-//            print(sourceViewController.activityType)
-//            self.title = activityTypeTitle
-//        }
+    @IBAction func createActivityUnwindToMealList(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.sourceViewController as? CreateActivityViewController {
+            print("from new activity view")
+            //MARK: from debug purpose
+            if let post = sourceViewController.post {
+                // Add a new post.
+                print("new activity created unwind to list")
+                let newIndexPath = NSIndexPath(forRow: posts.count, inSection: 0)
+                posts.append(post)
+                tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
+            }
+        }
     }
+    
 
+    
+    //MARK: present dynamic data in table view
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return posts.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        // Table view cells are reused and should be dequeued using a cell identifier.
+        let cellIdentifier = "PostTableViewCell"
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! PostTableViewCell
+        
+        // Fetches the appropriate meal for the data source layout.
+        let post = posts[indexPath.row]
+        // Configure cells
+        cell.ActivityTitleLabel.text = post.activityTitle
+        cell.DetailLabel.text = post.detail
+        cell.MeetLocationLabel.text = post.meetPlace
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        cell.TimeLabel.text =  dateFormatter.stringFromDate(post.createdAt)
+        return cell
+    }
 
 }
 

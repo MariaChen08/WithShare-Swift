@@ -17,6 +17,11 @@ struct Constants {
         static let blank = ""
     }
     
+    struct PostStatus {
+        static let active = "active"
+        static let modified = "modified"
+    }
+    
     struct NSUserDefaultsKey {
         static let logInStatus = "UserLogIn"
         static let username = "UserName"
@@ -46,6 +51,13 @@ struct Constants {
     }
     
     struct ServerModeField_Post {
-        static let 
+        static let deviceType = "device_type"
+        static let deviceToken = "device_token"
+        static let activityType = "activity_type"
+        static let meetLocation = "meet_location"
+        static let detail = "detail"
+        static let currentLatitude = "current_latitude"
+        static let currentLongitude = "current_longitude"
+        static let status = "status"
     }
 }
