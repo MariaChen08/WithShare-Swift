@@ -166,7 +166,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     //MARK: unwind methods
     @IBAction func selectActivityType(segue:UIStoryboardSegue) {
         if let sourceViewController = segue.sourceViewController as? SelectActivityTypeMenu{
-            let activityTypeShow = sourceViewController.activityType
+            activityTypeShow = sourceViewController.activityType
             print(sourceViewController.activityType)
             activityTypeButton.setTitle(activityTypeShow, forState: .Normal)        }
     }

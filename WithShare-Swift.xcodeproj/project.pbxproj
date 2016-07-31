@@ -24,6 +24,10 @@
 		A451EFDA1D4D321600093DBD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFD91D4D321600093DBD /* Constants.swift */; };
 		A451EFDB1D4D321600093DBD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFD91D4D321600093DBD /* Constants.swift */; };
 		A451EFDC1D4D818100093DBD /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48070AB1D2759D9005FB37B /* Post.swift */; };
+		A451EFE21D4E9B5200093DBD /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFE11D4E9B5200093DBD /* DetailViewController.swift */; };
+		A451EFE31D4E9B5200093DBD /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFE11D4E9B5200093DBD /* DetailViewController.swift */; };
+		A451EFE51D4EAA9D00093DBD /* Join.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFE41D4EAA9D00093DBD /* Join.swift */; };
+		A451EFE61D4EAA9D00093DBD /* Join.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFE41D4EAA9D00093DBD /* Join.swift */; };
 		A48070AA1D260F57005FB37B /* SelectActivityTypeMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48070A91D260F57005FB37B /* SelectActivityTypeMenu.swift */; };
 		A48070AC1D2759D9005FB37B /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48070AB1D2759D9005FB37B /* Post.swift */; };
 		A490AA811D4165CB00305CCC /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A490AA801D4165CB00305CCC /* ApiManager.swift */; };
@@ -67,6 +71,8 @@
 		A44DA6F61D234B5200E479D1 /* UploadPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadPhotoViewController.swift; sourceTree = "<group>"; };
 		A44DA6F71D234B5200E479D1 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A451EFD91D4D321600093DBD /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		A451EFE11D4E9B5200093DBD /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		A451EFE41D4EAA9D00093DBD /* Join.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Join.swift; sourceTree = "<group>"; };
 		A48070A91D260F57005FB37B /* SelectActivityTypeMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectActivityTypeMenu.swift; sourceTree = "<group>"; };
 		A48070AB1D2759D9005FB37B /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		A490AA801D4165CB00305CCC /* ApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
@@ -153,6 +159,7 @@
 			children = (
 				A44DA6F71D234B5200E479D1 /* User.swift */,
 				A48070AB1D2759D9005FB37B /* Post.swift */,
+				A451EFE41D4EAA9D00093DBD /* Join.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -164,6 +171,7 @@
 				A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */,
 				A44DA6F31D234B5200E479D1 /* NewActivitiesTableViewController.swift */,
 				A44DA6EC1D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift */,
+				A451EFE11D4E9B5200093DBD /* DetailViewController.swift */,
 			);
 			name = Activites;
 			sourceTree = "<group>";
@@ -443,6 +451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A4F083541D24CAE400CB78B8 /* CreateActivityViewController.swift in Sources */,
+				A451EFE51D4EAA9D00093DBD /* Join.swift in Sources */,
 				A44DA7021D234B5200E479D1 /* UploadPhotoViewController.swift in Sources */,
 				A43C27A51D20858300BACEF1 /* CreateProfileViewController.swift in Sources */,
 				A4CBF1341D34671200027DE1 /* PostTableViewCell.swift in Sources */,
@@ -452,6 +461,7 @@
 				A44DA6FD1D234B5200E479D1 /* HideKeyboard.swift in Sources */,
 				A44DA7001D234B5200E479D1 /* RegistrationViewController.swift in Sources */,
 				A44DA6F81D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift in Sources */,
+				A451EFE21D4E9B5200093DBD /* DetailViewController.swift in Sources */,
 				A4E970001D28A506000E4CDD /* ValidateUserInput.swift in Sources */,
 				A48070AA1D260F57005FB37B /* SelectActivityTypeMenu.swift in Sources */,
 				A490AA811D4165CB00305CCC /* ApiManager.swift in Sources */,
@@ -472,7 +482,9 @@
 				A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */,
 				A451EFDC1D4D818100093DBD /* Post.swift in Sources */,
 				A490AA821D4165CB00305CCC /* ApiManager.swift in Sources */,
+				A451EFE61D4EAA9D00093DBD /* Join.swift in Sources */,
 				A417EF511D2B34020092CA52 /* ValidateUserInput.swift in Sources */,
+				A451EFE31D4E9B5200093DBD /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

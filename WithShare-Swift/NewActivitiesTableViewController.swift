@@ -34,6 +34,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
         }
+            //create new activity
         else if segue.identifier == "createActivitySegue" {
             let createActivityViewController = segue.destinationViewController as! CreateActivityViewController
             if activityTypeTitle != "All Activities" {
@@ -44,6 +45,15 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
                 createActivityViewController.activityTypeShow = "Please choose"
             }
             
+        }
+        else if segue.identifier == "showActivityDetailSegue" {
+            let activityDetailViewController = segue.destinationViewController as! DetailViewController
+            // Get the cell that generated this segue.
+            if let selectedActivityCell = sender as? PostTableViewCell {
+                let indexPath = tableView.indexPathForCell(selectedActivityCell)!
+                let selectedActivity = posts[indexPath.row]
+                activityDetailViewController.post = selectedActivity
+            }
         }
     }
     
@@ -62,7 +72,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         
     }
     
-    @IBAction func createActivityUnwindToMealList(sender: UIStoryboardSegue) {
+    @IBAction func createActivityUnwindToList(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.sourceViewController as? CreateActivityViewController {
             print("from new activity view")
             //MARK: from debug purpose
@@ -78,6 +88,25 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
                 // usage log
             }
         }
+    }
+    
+    @IBAction func joinActivityUnwindToList(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.sourceViewController as? DetailViewController {
+            print("from activity detail view")
+            //MARK: from debug purpose
+//            if let post = sourceViewController.post {
+//                // Add a new post.
+//                print("new activity created unwind to list")
+//                let newIndexPath = NSIndexPath(forRow: posts.count, inSection: 0)
+//                posts.append(post)
+//                tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
+//            }
+//            else {
+//                print("cancel creating new activity")
+//                // usage log
+//            }
+        }
+
     }
     
 
@@ -103,8 +132,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         cell.ActivityTitleLabel.text = "Title: " + post.activityTitle!
         cell.DetailLabel.text = post.detail
         cell.MeetLocationLabel.text = "meet@: " + post.meetPlace!
-//        cell.MeetLocationLabel.numberOfLines = 0;
-//        cell.MeetLocationLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
+
         // Configure and format time label
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "h:mm a"
