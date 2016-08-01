@@ -28,6 +28,12 @@
 		A451EFE31D4E9B5200093DBD /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFE11D4E9B5200093DBD /* DetailViewController.swift */; };
 		A451EFE51D4EAA9D00093DBD /* Join.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFE41D4EAA9D00093DBD /* Join.swift */; };
 		A451EFE61D4EAA9D00093DBD /* Join.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFE41D4EAA9D00093DBD /* Join.swift */; };
+		A451EFE81D4EDBC000093DBD /* MyActivitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFE71D4EDBC000093DBD /* MyActivitiesTableViewController.swift */; };
+		A451EFE91D4EDBC000093DBD /* MyActivitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFE71D4EDBC000093DBD /* MyActivitiesTableViewController.swift */; };
+		A451EFEB1D4EE12900093DBD /* MyActivityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFEA1D4EE12900093DBD /* MyActivityDetailViewController.swift */; };
+		A451EFEC1D4EE12900093DBD /* MyActivityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFEA1D4EE12900093DBD /* MyActivityDetailViewController.swift */; };
+		A451EFEE1D4EEB9E00093DBD /* JoinedUserCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFED1D4EEB9E00093DBD /* JoinedUserCustomCell.swift */; };
+		A451EFEF1D4EEB9E00093DBD /* JoinedUserCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFED1D4EEB9E00093DBD /* JoinedUserCustomCell.swift */; };
 		A48070AA1D260F57005FB37B /* SelectActivityTypeMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48070A91D260F57005FB37B /* SelectActivityTypeMenu.swift */; };
 		A48070AC1D2759D9005FB37B /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48070AB1D2759D9005FB37B /* Post.swift */; };
 		A490AA811D4165CB00305CCC /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A490AA801D4165CB00305CCC /* ApiManager.swift */; };
@@ -73,6 +79,9 @@
 		A451EFD91D4D321600093DBD /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A451EFE11D4E9B5200093DBD /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		A451EFE41D4EAA9D00093DBD /* Join.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Join.swift; sourceTree = "<group>"; };
+		A451EFE71D4EDBC000093DBD /* MyActivitiesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyActivitiesTableViewController.swift; sourceTree = "<group>"; };
+		A451EFEA1D4EE12900093DBD /* MyActivityDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyActivityDetailViewController.swift; sourceTree = "<group>"; };
+		A451EFED1D4EEB9E00093DBD /* JoinedUserCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinedUserCustomCell.swift; sourceTree = "<group>"; };
 		A48070A91D260F57005FB37B /* SelectActivityTypeMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectActivityTypeMenu.swift; sourceTree = "<group>"; };
 		A48070AB1D2759D9005FB37B /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		A490AA801D4165CB00305CCC /* ApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
@@ -167,6 +176,8 @@
 		A43C27A31D207E5300BACEF1 /* Activites */ = {
 			isa = PBXGroup;
 			children = (
+				A451EFE71D4EDBC000093DBD /* MyActivitiesTableViewController.swift */,
+				A451EFEA1D4EE12900093DBD /* MyActivityDetailViewController.swift */,
 				A48070A91D260F57005FB37B /* SelectActivityTypeMenu.swift */,
 				A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */,
 				A44DA6F31D234B5200E479D1 /* NewActivitiesTableViewController.swift */,
@@ -179,6 +190,7 @@
 		A483650B1D2CA8D900BE99E1 /* Custom Cells */ = {
 			isa = PBXGroup;
 			children = (
+				A451EFED1D4EEB9E00093DBD /* JoinedUserCustomCell.swift */,
 				A4CBF1331D34671200027DE1 /* PostTableViewCell.swift */,
 			);
 			name = "Custom Cells";
@@ -457,10 +469,13 @@
 				A4CBF1341D34671200027DE1 /* PostTableViewCell.swift in Sources */,
 				A44DA6FF1D234B5200E479D1 /* NewActivitiesTableViewController.swift in Sources */,
 				A48070AC1D2759D9005FB37B /* Post.swift in Sources */,
+				A451EFEE1D4EEB9E00093DBD /* JoinedUserCustomCell.swift in Sources */,
 				A44DA6F91D234B5200E479D1 /* AppDelegate.swift in Sources */,
 				A44DA6FD1D234B5200E479D1 /* HideKeyboard.swift in Sources */,
 				A44DA7001D234B5200E479D1 /* RegistrationViewController.swift in Sources */,
+				A451EFEB1D4EE12900093DBD /* MyActivityDetailViewController.swift in Sources */,
 				A44DA6F81D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift in Sources */,
+				A451EFE81D4EDBC000093DBD /* MyActivitiesTableViewController.swift in Sources */,
 				A451EFE21D4E9B5200093DBD /* DetailViewController.swift in Sources */,
 				A4E970001D28A506000E4CDD /* ValidateUserInput.swift in Sources */,
 				A48070AA1D260F57005FB37B /* SelectActivityTypeMenu.swift in Sources */,
@@ -477,8 +492,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A451EFEF1D4EEB9E00093DBD /* JoinedUserCustomCell.swift in Sources */,
 				A451EFDB1D4D321600093DBD /* Constants.swift in Sources */,
 				A490AA831D42F30800305CCC /* User.swift in Sources */,
+				A451EFEC1D4EE12900093DBD /* MyActivityDetailViewController.swift in Sources */,
+				A451EFE91D4EDBC000093DBD /* MyActivitiesTableViewController.swift in Sources */,
 				A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */,
 				A451EFDC1D4D818100093DBD /* Post.swift in Sources */,
 				A490AA821D4165CB00305CCC /* ApiManager.swift in Sources */,
