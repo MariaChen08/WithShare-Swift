@@ -25,11 +25,20 @@ class ApiManager: NSObject, NSURLSessionDelegate {
      - Parameter onFail: Void - callback function when failed
      */
     func GET(url: String, onSuccess: (data: NSArray, response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
-        
         let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+        request.HTTPMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+
+        
         // returns a singleton session based on default configuration
         let session = NSURLSession.sharedSession()
-        request.HTTPMethod = "GET"
+        let userPasswordString = "superuser:admin"
+        let userPasswordData = userPasswordString.dataUsingEncoding(NSUTF8StringEncoding)
+        let base64EncodedCredential = userPasswordData!.base64EncodedStringWithOptions([])
+        let authString = "Basic \(base64EncodedCredential)"
+        
+        request.setValue(authString, forHTTPHeaderField: "Authorization")
         
         let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) -> Void in
             var jsonData: NSArray = []

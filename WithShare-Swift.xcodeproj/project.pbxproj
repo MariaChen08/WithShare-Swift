@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0C29FE20F48AE746A5358B83 /* Pods_WithShare_SwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9D5CE9F061DEF21578A18B8 /* Pods_WithShare_SwiftTests.framework */; };
+		93D36C041D4F708500318EB6 /* ApiManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D36C031D4F708500318EB6 /* ApiManagerTest.swift */; };
 		A417EF511D2B34020092CA52 /* ValidateUserInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */; };
 		A43C27A51D20858300BACEF1 /* CreateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43C27A41D20858300BACEF1 /* CreateProfileViewController.swift */; };
 		A44DA6F81D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6EC1D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift */; };
@@ -64,6 +65,7 @@
 		2B43C6DA84A591FD64801770 /* Pods-WithShare-SwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WithShare-SwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WithShare-SwiftTests/Pods-WithShare-SwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		41F66E638C2EB8DA25E4658D /* Pods-WithShare-SwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WithShare-SwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WithShare-SwiftTests/Pods-WithShare-SwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		683240BD42C667191B12ED70 /* Pods-WithShare-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WithShare-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WithShare-Swift/Pods-WithShare-Swift.debug.xcconfig"; sourceTree = "<group>"; };
+		93D36C031D4F708500318EB6 /* ApiManagerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManagerTest.swift; sourceTree = "<group>"; };
 		A43C27A41D20858300BACEF1 /* CreateProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProfileViewController.swift; sourceTree = "<group>"; };
 		A44DA6EC1D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityTypePopoverMenuViewController.swift; sourceTree = "<group>"; };
 		A44DA6ED1D234B5200E479D1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "WithShare-Swift/AppDelegate.swift"; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 			children = (
 				A4ACFDB91D206BCA00200133 /* WithShare_SwiftTests.swift */,
 				A4ACFDBB1D206BCA00200133 /* Info.plist */,
+				93D36C031D4F708500318EB6 /* ApiManagerTest.swift */,
 			);
 			path = "WithShare-SwiftTests";
 			sourceTree = "<group>";
@@ -500,6 +503,7 @@
 				A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */,
 				A451EFDC1D4D818100093DBD /* Post.swift in Sources */,
 				A490AA821D4165CB00305CCC /* ApiManager.swift in Sources */,
+				93D36C041D4F708500318EB6 /* ApiManagerTest.swift in Sources */,
 				A451EFE61D4EAA9D00093DBD /* Join.swift in Sources */,
 				A417EF511D2B34020092CA52 /* ValidateUserInput.swift in Sources */,
 				A451EFE31D4E9B5200093DBD /* DetailViewController.swift in Sources */,
