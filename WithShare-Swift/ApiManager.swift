@@ -24,22 +24,21 @@ class ApiManager: NSObject, NSURLSessionDelegate {
      - Parameter onSuccess: What you want to call in the case it succeeds
      - Parameter onFail: Void - callback function when failed
      */
-    func GET(url: String, onSuccess: (data: NSArray, response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
+    func GET(url: String, username: String, password: String, onSuccess: (data: NSArray, response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
         let request = NSMutableURLRequest(URL: NSURL(string: url)!)
         request.HTTPMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
 
+        // Basic Authentication with (username + password)
+        let userPasswordString = NSString(format: "%@:%@", username, password)
+        print(userPasswordString)
+        let userPasswordData = userPasswordString.dataUsingEncoding(NSUTF8StringEncoding)
+        let base64EncodedCredential = userPasswordData!.base64EncodedStringWithOptions([])
+        request.addValue("Basic \(base64EncodedCredential)", forHTTPHeaderField: "Authorization")
         
         // returns a singleton session based on default configuration
         let session = NSURLSession.sharedSession()
-        let userPasswordString = "superuser:admin"
-        let userPasswordData = userPasswordString.dataUsingEncoding(NSUTF8StringEncoding)
-        let base64EncodedCredential = userPasswordData!.base64EncodedStringWithOptions([])
-        let authString = "Basic \(base64EncodedCredential)"
-        
-        request.setValue(authString, forHTTPHeaderField: "Authorization")
-        
         let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) -> Void in
             var jsonData: NSArray = []
             
@@ -74,12 +73,11 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         // Basic Authentication with (username + password)
-        let userPasswordString = username + ":" + password //"username@gmail.com:password"
+        let userPasswordString = NSString(format: "%@:%@", username, password)
         print(userPasswordString)
         let userPasswordData = userPasswordString.dataUsingEncoding(NSUTF8StringEncoding)
         let base64EncodedCredential = userPasswordData!.base64EncodedStringWithOptions([])
-        let authString = "Basic \(base64EncodedCredential)"
-        request.addValue(authString, forHTTPHeaderField: "Authorization")
+        request.addValue("Basic \(base64EncodedCredential)", forHTTPHeaderField: "Authorization")
         
         do {
             try request.HTTPBody = NSJSONSerialization.dataWithJSONObject(data, options: NSJSONWritingOptions())
@@ -144,34 +142,39 @@ class ApiManager: NSObject, NSURLSessionDelegate {
     func PUT(url: String, username: String, password: String, data: Dictionary<String,AnyObject>, onSuccess: (response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
         
         let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-        let session = NSURLSession.sharedSession()
         request.HTTPMethod = "PUT"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         // Basic Authentication with (username + password)
-        let userPasswordString = username + ":" + password
-//        let userPasswordString = "superuser:admin"
+        let userPasswordString = NSString(format: "%@:%@", username, password)
         print(userPasswordString)
         let userPasswordData = userPasswordString.dataUsingEncoding(NSUTF8StringEncoding)
         let base64EncodedCredential = userPasswordData!.base64EncodedStringWithOptions([])
-//        request.addValue(authString, forHTTPHeaderField: "Authorization")
-        session.configuration.HTTPAdditionalHeaders = ["Authorization": "Basic \(base64EncodedCredential)"]
+        request.addValue("Basic \(base64EncodedCredential)", forHTTPHeaderField: "Authorization")
         
         do {
             try request.HTTPBody = NSJSONSerialization.dataWithJSONObject(data, options: NSJSONWritingOptions())
-
         } catch _ {
             onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON request data": NSObject()]), response: NSURLResponse())
             return
         }
         
+        // returns a singleton session based on default configuration
+        let session = NSURLSession.sharedSession()
         
         let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) -> Void in
             
             if (response as? NSHTTPURLResponse)?.statusCode != 201 {
                 print((response as? NSHTTPURLResponse)?.statusCode)
                 print((response as? NSHTTPURLResponse))
+                if data != nil {
+                    let responseData = String(data: data!, encoding: NSUTF8StringEncoding)
+                    print("Body:" + responseData!)
+                }
+                else {
+                    print("Body null")
+                }
                 onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Server returned error": NSObject()]), response: NSURLResponse())
                 return
             }
@@ -191,11 +194,6 @@ class ApiManager: NSObject, NSURLSessionDelegate {
     //MARK: User Profile Api
     func signUp(user: User, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
         let specificUrl = "signup/"
-        
-//        let encodedUsername = self.base64Encode(user.username!)
-//        let encodedPassword = self.base64Encode(user.password!)
-//        let encodedPhoneNumber = self.base64Encode(user.phoneNumber!)
-//        let userPasswordDictionary: [String: String] = ["email": encodedUsername, "password": encodedPassword, "phone_number": encodedPhoneNumber]
         
         // Sign up with 1) psu email, 2) password, 3) phone number, 4) device type (iOS), 5) show profile setting and 6) number of posts (initialized as 0)
         let userPasswordDictionary: [String: AnyObject] = [Constants.ServerModelField_User.username: user.username!, Constants.ServerModelField_User.password: user.password!, Constants.ServerModelField_User.phoneNumber: user.phoneNumber!, Constants.ServerModelField_User.deviceType: user.deviceType!, Constants.ServerModelField_User.shareProfile: user.shareProfile!, Constants.ServerModelField_User.numOfPosts: user.numOfPosts!]

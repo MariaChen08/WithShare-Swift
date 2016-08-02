@@ -1527,7 +1527,7 @@
         <image name="EmptyProfile" width="225" height="225"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ffV-7v-LXr"/>
         <segue reference="55l-S1-W6o"/>
+        <segue reference="IKS-hn-ANJ"/>
     </inferredMetricsTieBreakers>
 </document>

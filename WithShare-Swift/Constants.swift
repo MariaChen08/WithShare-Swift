@@ -11,6 +11,8 @@ import Foundation
 struct Constants {
     static let deviceType = "iOS"
     
+    static let blankSign = "not specified"
+    
     struct Gender {
         static let female = "female"
         static let male = "male"

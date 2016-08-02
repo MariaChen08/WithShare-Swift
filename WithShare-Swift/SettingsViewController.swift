@@ -41,13 +41,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
     var hobby: String?
     var shareProfile = true
     
-    var profileDict = [Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.shareProfile: true]
-    
+    var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.shareProfile: true]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         
         // retrieve cached string-type user profile
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -177,6 +174,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
     }
     
     @IBAction func saveChanges(sender: AnyObject) {
+        profileDict[Constants.ServerModelField_User.username] = user?.username
+        
         // cache string-type user profile
         let defaults = NSUserDefaults.standardUserDefaults()
         
@@ -187,6 +186,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
         }
         else {
             fullNameTextField.text = "Edit your full name.."
+            profileDict[Constants.ServerModelField_User.fullname] = Constants.blankSign
         }
         if grade != nil {
             gradeTextField.text = grade
@@ -195,6 +195,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
         }
         else {
             gradeTextField.text = "e.g. freshman, senior, etc."
+            profileDict[Constants.ServerModelField_User.grade] = Constants.blankSign
         }
         if department != nil {
             departmentTextField.text = department
@@ -203,6 +204,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
         }
         else {
             departmentTextField.text = "department"
+            profileDict[Constants.ServerModelField_User.department] = Constants.blankSign
         }
         if hobby != nil {
             hobbyTextField.text = hobby
@@ -211,22 +213,29 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
         }
         else {
             hobbyTextField.text = "e.g. basketball, music, etc."
+            profileDict[Constants.ServerModelField_User.hobby] = Constants.blankSign
         }
         defaults.setObject(gender, forKey: Constants.NSUserDefaultsKey.gender)
         profileDict[Constants.ServerModelField_User.gender] = gender
         defaults.setBool(shareProfile, forKey: Constants.NSUserDefaultsKey.shareProfile)
         profileDict[Constants.ServerModelField_User.shareProfile] = shareProfile
         
+        print(profileDict)
+        
         // Upload to server
         ApiManager.sharedInstance.editProfile(user!, profileData: profileDict, onSuccess: {(user) in
             NSOperationQueue.mainQueue().addOperationWithBlock {
-                print("create profile success!")
-                self.performSegueWithIdentifier("createProfilePhotoSegue", sender: self)
+                print("update profile success!")
+                let alert = UIAlertController(title: "Successfully updated profile!", message:
+                    "", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                
+                self.presentViewController(alert, animated: true, completion: nil)
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
                     print("create profile error!")
-                    let alert = UIAlertController(title: "Unable to create profile!", message:
+                    let alert = UIAlertController(title: "Unable to update profile!", message:
                         "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
                     alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
                     
