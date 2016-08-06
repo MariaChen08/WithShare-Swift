@@ -26,6 +26,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     var username: String?
     var password: String?
     var phoneNumber: String?
+    var userId: Int64?
     
     var activityTypeShow: String? = "More"
     var meetingPlace: String? = "Please add meeting place"
@@ -94,11 +95,13 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         
         // Retrieve cached user info
         let defaults = NSUserDefaults.standardUserDefaults()
+        userId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
         username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
         password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
         phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
         
         user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
+        user?.id = userId
     }
     
     //MARK: Navigations
@@ -144,7 +147,9 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             ApiManager.sharedInstance.createActivity(user!, post: post!, onSuccess: {(user) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
                     print("create new activity success!")
-                    self.performSegueWithIdentifier("createProfilePhotoSegue", sender: self)
+                    print("postid: ")
+                    print(self.post!.id)
+                    self.performSegueWithIdentifier("createActivityExit", sender: self)
                 }
                 }, onError: {(error) in
                     NSOperationQueue.mainQueue().addOperationWithBlock {

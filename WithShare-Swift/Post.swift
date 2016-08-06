@@ -9,8 +9,11 @@
 import Foundation
 
 class Post {
-    var id: String?
+    var id: Int64?
+    var userId: Int64?
     var createdAt: NSDate
+    var updatedAt: NSDate?
+    
     var deviceToken: String?
     var deviceType: String?
     

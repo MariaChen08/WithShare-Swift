@@ -12,18 +12,36 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     
     //MARK: Properties
     var posts = [Post]()
+    
+    var user: User?
+    var username: String?
+    var password: String?
+    var phoneNumber: String?
+    
     var loggedIn:Bool = false
     var activityTypeTitle = "All Activities"
     
     override func viewDidLoad() {
+        
         //Check if logged in
         let prefs = NSUserDefaults.standardUserDefaults()
         loggedIn = prefs.boolForKey("UserLogIn")
         
         if !loggedIn {
             performSegueWithIdentifier("needLogInSegue", sender: self)
-//            self.navigationItem.hidesBackButton = true
+            //            self.navigationItem.hidesBackButton = true
         }
+        
+        // Retrieve cached user info
+        let defaults = NSUserDefaults.standardUserDefaults()
+        username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
+        password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
+        phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
+        
+        user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
+        
+        self.loadPostData()
+       
     }
     
     //MARK: Navigations
@@ -108,6 +126,28 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         }
 
     }
+    
+    func loadPostData() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        ApiManager.sharedInstance.getActivity(user!, onSuccess: {(posts) in
+            for post in posts {
+                self.posts.append(post)
+                print(post.id)
+            }
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                self.tableView.reloadData()
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("load activity error!")
+                    let alert = UIAlertController(title: "Unable to load activity!", message:
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
+    }
+
     
 
     

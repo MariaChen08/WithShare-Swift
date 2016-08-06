@@ -26,6 +26,7 @@ struct Constants {
     
     struct NSUserDefaultsKey {
         static let logInStatus = "UserLogIn"
+        static let id = "ID"
         static let username = "UserName"
         static let password = "Password"
         static let phoneNumber = "PhoneNumber"
@@ -35,10 +36,12 @@ struct Constants {
         static let grade = "Grade"
         static let department = "Department"
         static let hobby = "Hobby"
-//        static let numOfPosts = "NumOfPosts"
     }
     
     struct ServerModelField_User {
+        static let id = "id"
+        static let createdAt = "created_at"
+        static let updatedAt = "updated_at"
         static let username = "email"
         static let password = "password"
         static let phoneNumber = "phone_number"
@@ -50,9 +53,14 @@ struct Constants {
         static let hobby = "hobby"
         static let shareProfile = "show_profile"
         static let numOfPosts = "num_of_posts"
+        static let profilePhoto = "profile_photo"
     }
     
     struct ServerModeField_Post {
+        static let id = "id"
+        static let createdAt = "created_at"
+        static let updatedAt = "updated_at"
+        static let userId = "user_profile"
         static let deviceType = "device_type"
         static let deviceToken = "device_token"
         static let activityType = "activity_type"

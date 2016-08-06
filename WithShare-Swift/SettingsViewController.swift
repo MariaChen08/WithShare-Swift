@@ -59,34 +59,34 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
         shareProfile = defaults.boolForKey(Constants.NSUserDefaultsKey.shareProfile)
         
         // MARK: For debug purpose
-        user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
-        
-        if fullName != nil {
-            fullNameTextField.text = fullName
-        }
-        if grade != nil {
-            gradeTextField.text = grade
-        }
-        if department != nil {
-            departmentTextField.text = department
-        }
-        if hobby != nil {
-            hobbyTextField.text = hobby
-        }
-        
-        if gender == Constants.Gender.female {
-            genderSegmentedControl.selectedSegmentIndex = 0
-        }
-        else {
-            genderSegmentedControl.selectedSegmentIndex = 1
-        }
-        
-        if shareProfile {
-            shareProfileSegmentedControl.selectedSegmentIndex = 0
-        }
-        else {
-            shareProfileSegmentedControl.selectedSegmentIndex = 1
-        }
+//        user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
+//        
+//        if fullName != nil {
+//            fullNameTextField.text = fullName
+//        }
+//        if grade != nil {
+//            gradeTextField.text = grade
+//        }
+//        if department != nil {
+//            departmentTextField.text = department
+//        }
+//        if hobby != nil {
+//            hobbyTextField.text = hobby
+//        }
+//        
+//        if gender == Constants.Gender.female {
+//            genderSegmentedControl.selectedSegmentIndex = 0
+//        }
+//        else {
+//            genderSegmentedControl.selectedSegmentIndex = 1
+//        }
+//        
+//        if shareProfile {
+//            shareProfileSegmentedControl.selectedSegmentIndex = 0
+//        }
+//        else {
+//            shareProfileSegmentedControl.selectedSegmentIndex = 1
+//        }
         
         //Handle the text field’s user input through delegate callbacks.
         fullNameTextField.delegate = self

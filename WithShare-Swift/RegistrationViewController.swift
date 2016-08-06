@@ -142,10 +142,9 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
         }
     }
     
-    
     // MARK: Actions
     @IBAction func createAccount(sender: AnyObject) {
-//        print("phoneNumber: " + phoneNumber!)
+        print("phoneNumber: " + phoneNumber!)
         if (username == nil || !ValidateUserInput(input: username!).isValidEmail() || !ValidateUserInput(input: username!).isEduSuffix()) {
             alertMessage = "Please enter your PSU email."
             print(alertMessage)
@@ -181,17 +180,20 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
                                                 
                                                 NSOperationQueue.mainQueue().addOperationWithBlock {
                                                     print("signup success!")
-                                                    self.performSegueWithIdentifier("createAccountSegue", sender: self)
+                                                    print("userid: ")
+                                                    print(user.id)
                                                     
                                                     //cache current user status: Logged In
                                                     let defaults = NSUserDefaults.standardUserDefaults()
                                                     defaults.setBool(true, forKey: Constants.NSUserDefaultsKey.logInStatus)
+                                                    defaults.setObject(NSNumber(longLong: user.id!), forKey: Constants.NSUserDefaultsKey.id)
                                                     defaults.setObject(user.username, forKey: Constants.NSUserDefaultsKey.username)
                                                     defaults.setObject(user.password, forKey: Constants.NSUserDefaultsKey.password)
                                                     defaults.setObject(user.phoneNumber, forKey: Constants.NSUserDefaultsKey.phoneNumber)
                                                     defaults.setBool(true, forKey: Constants.NSUserDefaultsKey.shareProfile)
                                                     
                                                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                                                    self.performSegueWithIdentifier("createAccountSegue", sender: self)
                                                 }
 
                                                 

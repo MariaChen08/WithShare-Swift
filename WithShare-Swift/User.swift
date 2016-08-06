@@ -12,7 +12,7 @@ import UIKit
 class User {
     //MARK: Properties
     
-    var id: String?
+    var id: Int64?
     var createdAt: NSDate
     var updatedAt: NSDate?
     

@@ -121,6 +121,10 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
         }
     }
     
+    @IBAction func skipProfile(sender: AnyObject) {
+        self.performSegueWithIdentifier("createProfilePhotoSegue", sender: self)
+    }
+    
     @IBAction func saveProfile(sender: AnyObject) {
         
         profileDict[Constants.ServerModelField_User.username] = user?.username

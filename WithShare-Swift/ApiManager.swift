@@ -42,15 +42,18 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) -> Void in
             var jsonData: NSArray = []
             
-            do {
-                if data != nil {
+            if data != nil {
+                let responseData = String(data: data!, encoding: NSUTF8StringEncoding)
+                print("Get Body:" + responseData!)
+                do {
                     jsonData = try (NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as? NSArray)!
-                } else {
-                    onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["No data": NSObject()]), response: NSURLResponse())
                 }
-            } catch _ {
-                onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON response": NSObject()]), response: response!)
-                return
+                catch _ {
+                    onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), response: NSURLResponse())
+                }
+                    
+            } else {
+                onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["No data": NSObject()]), response: NSURLResponse())
             }
             
             if error != nil {
@@ -64,7 +67,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
     }
     
     // HTTP POST with Basic Authentication (username + password)
-    func POST(url: String, username: String, password: String, data: Dictionary<String,AnyObject>, onSuccess: (response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
+    func POST(url: String, username: String, password: String, data: Dictionary<String,AnyObject>, onSuccess: (databack: [String: AnyObject], response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
         
         let request = NSMutableURLRequest(URL: NSURL(string: url)!)
         let session = NSURLSession.sharedSession()
@@ -86,10 +89,29 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             return
         }
         
+        
+        
         let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) -> Void in
             
+            var dataDict: [String: AnyObject] = [:]
+            
+            print((response as? NSHTTPURLResponse)?.statusCode)
+            if data != nil {
+                let responseData = String(data: data!, encoding: NSUTF8StringEncoding)
+                print("Body:" + responseData!)
+                
+                do {
+                    dataDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! [String: AnyObject]
+                } catch _ {
+                    onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), response: NSURLResponse())
+                }
+
+            }
+            else {
+                print("Body null")
+            }
+            
             if (response as? NSHTTPURLResponse)?.statusCode != 201 {
-                print((response as? NSHTTPURLResponse)?.statusCode)
                 onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Server returned error": NSObject()]), response: NSURLResponse())
                 return
             }
@@ -97,7 +119,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             if error != nil {
                 onError(error: error!, response: response!)
             } else {
-                onSuccess(response: response!)
+                onSuccess(databack: dataDict, response: response!)
             }
         })
         
@@ -105,7 +127,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
     }
     
     // HTTP POST with No Authentication
-    func POST_simple(url: String, data: Dictionary<String,AnyObject>, onSuccess: (response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
+    func POST_simple(url: String, data: Dictionary<String,AnyObject>, onSuccess: (databack: [String: AnyObject], response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
         
         let request = NSMutableURLRequest(URL: NSURL(string: url)!)
         let session = NSURLSession.sharedSession()
@@ -122,8 +144,25 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
         let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) -> Void in
             
+            var dataDict: [String: AnyObject] = [:]
+            
+            print((response as? NSHTTPURLResponse)?.statusCode)
+            if data != nil {
+                let responseData = String(data: data!, encoding: NSUTF8StringEncoding)
+                print("Body:" + responseData!)
+                
+                do {
+                    dataDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! [String: AnyObject]
+                } catch _ {
+                    onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), response: NSURLResponse())
+                }
+                
+            }
+            else {
+                print("Body null")
+            }
+            
             if (response as? NSHTTPURLResponse)?.statusCode != 201 {
-                print((response as? NSHTTPURLResponse)?.statusCode)
                 onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Server returned error": NSObject()]), response: NSURLResponse())
                 return
             }
@@ -131,7 +170,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             if error != nil {
                 onError(error: error!, response: response!)
             } else {
-                onSuccess(response: response!)
+                onSuccess(databack: dataDict, response: response!)
             }
         })
         
@@ -139,7 +178,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
     }
     
     // HTTP PUT with Basic Authentication (username + password)
-    func PUT(url: String, username: String, password: String, data: Dictionary<String,AnyObject>, onSuccess: (response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
+    func PUT(url: String, username: String, password: String, data: Dictionary<String,AnyObject>, onSuccess: (databack: [String: AnyObject], response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
         
         let request = NSMutableURLRequest(URL: NSURL(string: url)!)
         request.HTTPMethod = "PUT"
@@ -165,16 +204,25 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
         let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) -> Void in
             
+            var dataDict: [String: AnyObject] = [:]
+            
+            print((response as? NSHTTPURLResponse)?.statusCode)
+            if data != nil {
+                let responseData = String(data: data!, encoding: NSUTF8StringEncoding)
+                print("Body:" + responseData!)
+                
+                do {
+                    dataDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! [String: AnyObject]
+                } catch _ {
+                    onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), response: NSURLResponse())
+                }
+                
+            }
+            else {
+                print("Body null")
+            }
+            
             if (response as? NSHTTPURLResponse)?.statusCode != 201 {
-                print((response as? NSHTTPURLResponse)?.statusCode)
-                print((response as? NSHTTPURLResponse))
-                if data != nil {
-                    let responseData = String(data: data!, encoding: NSUTF8StringEncoding)
-                    print("Body:" + responseData!)
-                }
-                else {
-                    print("Body null")
-                }
                 onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Server returned error": NSObject()]), response: NSURLResponse())
                 return
             }
@@ -182,7 +230,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             if error != nil {
                 onError(error: error!, response: response!)
             } else {
-                onSuccess(response: response!)
+                onSuccess(databack: dataDict, response: response!)
             }
         })
         
@@ -202,13 +250,16 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         print("signup url: " + fullUrl)
         
         // make the call
-        ApiManager.sharedInstance.POST_simple(fullUrl, data: userPasswordDictionary, onSuccess: {(response) in
+        ApiManager.sharedInstance.POST_simple(fullUrl, data: userPasswordDictionary, onSuccess: {(data, response) in
+            print("signup return data:")
+            print(data)
+            let id = data[Constants.ServerModelField_User.id]
+            user.id = id?.longLongValue
                 onSuccess(user: user)
             }
             , onError: {(error, response) in
                 onError(error: error)
         })
-    
     }
 
     func editProfile(user: User, profileData: Dictionary<String,AnyObject>, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
@@ -226,16 +277,60 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
     }
     
+    func getProfile(user: User, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+//        /userprofiles/{}/'.format(str(self.user_profile.id)))
+        let specificUrl = "userprofiles/" + String(user.id) + "/"
+        
+        let fullUrl = ApiManager.serverUrl + specificUrl
+        
+        ApiManager.sharedInstance.GET(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
+            // put data into the user objects
+            
+            // ids
+            let id = data[Constants.ServerModelField_User.id] as? NSNumber
+            user?.id = id?.longLongValue
+                let userId = datum[Constants.ServerModeField_Post.userId] as? NSNumber
+                post?.userId = userId?.longLongValue
+                //time stamps
+                let createTimeStr = datum[Constants.ServerModeField_Post.createdAt] as! String
+                let createTime = self.FormatDate(createTimeStr)
+                post?.createdAt = createTime
+                let updateTimeStr = datum[Constants.ServerModeField_Post.updatedAt] as! String
+                let updateTime = self.FormatDate(updateTimeStr)
+                post?.updatedAt = updateTime
+                //geo-coordinates
+                let latStr = datum[Constants.ServerModeField_Post.currentLatitude] as? String
+                post?.currentLatitude = Double(latStr!)
+                let longStr = datum[Constants.ServerModeField_Post.currentLongitude] as? String
+                post?.currentLongtitude = Double(longStr!)
+                //other string type fields
+                post?.activityTitle = datum[Constants.ServerModeField_Post.activityType] as? String
+                post?.deviceToken = datum[Constants.ServerModeField_Post.deviceToken] as? String
+                post?.deviceType = datum[Constants.ServerModeField_Post.deviceType] as? String
+                post?.meetPlace = datum[Constants.ServerModeField_Post.meetLocation] as? String
+                post?.detail = datum[Constants.ServerModeField_Post.detail] as? String
+                post?.status = datum[Constants.ServerModeField_Post.status] as? String
+                posts.append(post!)
+           
+            onSuccess(user: User)
+            }, onError: {(error, response) in
+                onError(error: error)
+            }
+        )
+    }
+    
     //MARK: Post Activities APIs
     func createActivity(user: User, post: Post, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
         let specificUrl = "posts/"
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("create activity url: " + fullUrl)
+        print("user id:" + String(user.id!))
+        let activityData: [String: AnyObject] = [Constants.ServerModeField_Post.userId: NSNumber(longLong: user.id!), Constants.ServerModeField_Post.deviceType: post.deviceType!, Constants.ServerModeField_Post.activityType: post.activityTitle!, Constants.ServerModeField_Post.meetLocation: post.meetPlace!, Constants.ServerModeField_Post.detail: post.detail!, Constants.ServerModeField_Post.currentLatitude: post.currentLatitude!,Constants.ServerModeField_Post.currentLongitude: post.currentLongtitude!, Constants.ServerModeField_Post.status: post.status!]
         
-        let activityData: [String: AnyObject] = [Constants.ServerModeField_Post.deviceType: post.deviceType!, Constants.ServerModeField_Post.activityType: post.activityTitle!, Constants.ServerModeField_Post.meetLocation: post.meetPlace!, Constants.ServerModeField_Post.detail: post.detail!, Constants.ServerModeField_Post.currentLatitude: post.currentLatitude!,Constants.ServerModeField_Post.currentLongitude: post.currentLongtitude!, Constants.ServerModeField_Post.status: post.status!]
-        
-        ApiManager.sharedInstance.PUT(fullUrl, username: user.username!, password: user.password!, data: activityData, onSuccess: {(response) in
+        ApiManager.sharedInstance.POST(fullUrl, username: user.username!, password: user.password!, data: activityData, onSuccess: {(data, response) in
+            let id = data[Constants.ServerModelField_User.id]
+            post.id = id?.longLongValue
             onSuccess(user: user)
             }
             , onError: {(error, response) in
@@ -244,11 +339,57 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
     }
 
+    func getActivity(user: User, onSuccess: (posts: [Post]) -> Void, onError: (error: NSError) -> Void) {
+        let specificUrl = "posts/"
+        
+        let fullUrl = ApiManager.serverUrl + specificUrl
+        
+        ApiManager.sharedInstance.GET(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
+                                        // put data into the post objects
+                                        var posts = [Post]()
+            
+                                        for datum in data {
+                                            let post = Post()
+                                            // ids
+                                            let id = datum[Constants.ServerModeField_Post.id] as? NSNumber
+                                            post?.id = id?.longLongValue
+                                            let userId = datum[Constants.ServerModeField_Post.userId] as? NSNumber
+                                            post?.userId = userId?.longLongValue
+                                            //time stamps
+                                            let createTimeStr = datum[Constants.ServerModeField_Post.createdAt] as! String
+                                            let createTime = self.FormatDate(createTimeStr)
+                                            post?.createdAt = createTime
+                                            let updateTimeStr = datum[Constants.ServerModeField_Post.updatedAt] as! String
+                                            let updateTime = self.FormatDate(updateTimeStr)
+                                            post?.updatedAt = updateTime
+                                            //geo-coordinates
+                                            let latStr = datum[Constants.ServerModeField_Post.currentLatitude] as? String
+                                            post?.currentLatitude = Double(latStr!)
+                                            let longStr = datum[Constants.ServerModeField_Post.currentLongitude] as? String
+                                            post?.currentLongtitude = Double(longStr!)
+                                            //other string type fields
+                                            post?.activityTitle = datum[Constants.ServerModeField_Post.activityType] as? String
+                                            post?.deviceToken = datum[Constants.ServerModeField_Post.deviceToken] as? String
+                                            post?.deviceType = datum[Constants.ServerModeField_Post.deviceType] as? String
+                                            post?.meetPlace = datum[Constants.ServerModeField_Post.meetLocation] as? String
+                                            post?.detail = datum[Constants.ServerModeField_Post.detail] as? String
+                                            post?.status = datum[Constants.ServerModeField_Post.status] as? String
+                                            posts.append(post!)
+                                        }
+                                        // sort it
+                                        posts.sortInPlace({ $0.updatedAt?.compare($1.updatedAt!) == NSComparisonResult.OrderedDescending})
+                                        onSuccess(posts: posts)
+            }, onError: {(error, response) in
+                onError(error: error)
+            }
+        )
+
+    }
     
     //MARK: Miscellaneous Formatting
     func FormatDate(dateString: String) -> NSDate {
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
         
         return dateFormatter.dateFromString(dateString)!
     }

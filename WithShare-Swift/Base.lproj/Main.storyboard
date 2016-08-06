@@ -320,6 +320,9 @@
                                         <state key="normal" title="Skip">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="skipProfile:" destination="AC6-YH-VPz" eventType="touchUpInside" id="z3g-1K-K6X"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGS-1Z-R6z">
                                         <rect key="frame" x="250" y="0.0" width="240" height="30"/>
@@ -454,7 +457,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="mYH-6M-jcn" kind="show" id="55l-S1-W6o"/>
+                                                    <action selector="uploadPhoto:" destination="sCd-fz-fNn" eventType="touchUpInside" id="P4h-zw-yf1"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Tx-IS-LpI">
@@ -464,7 +467,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="mYH-6M-jcn" kind="show" id="D1s-jo-R4S"/>
+                                                    <action selector="skipPhoto:" destination="sCd-fz-fNn" eventType="touchUpInside" id="uJW-Pc-9yJ"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -493,6 +496,7 @@
                     <navigationItem key="navigationItem" title="Upload Your Photo" id="W2p-nN-Xh8"/>
                     <connections>
                         <outlet property="profileImage" destination="gQT-0H-HEu" id="byM-um-tBo"/>
+                        <segue destination="mYH-6M-jcn" kind="show" identifier="toHomePageSegue" id="Pyc-kE-ft6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xL4-aH-CCQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1224,7 +1228,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="RJa-mD-s71" userLabel="ActivityDetailStackView">
-                                <rect key="frame" x="50" y="347" width="500" height="73"/>
+                                <rect key="frame" x="50" y="348" width="500" height="73"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Activity Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hei-p4-1iO">
                                         <rect key="frame" x="0.0" y="0.0" width="500" height="21"/>
@@ -1260,12 +1264,21 @@
                                     <constraint firstItem="YRM-iE-r8W" firstAttribute="top" secondItem="ldo-0G-lOP" secondAttribute="bottom" constant="5" id="ulF-CP-0B2"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send her a message:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OLU-P4-KlK">
-                                <rect key="frame" x="50" y="450" width="500" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="HCR-F0-vGj" userLabel="Message Stack View">
+                                <rect key="frame" x="50" y="451" width="500" height="30"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send her a message:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OLU-P4-KlK">
+                                        <rect key="frame" x="0.0" y="0.0" width="161" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="itj-1e-CBr">
+                                        <rect key="frame" x="181" y="0.0" width="319" height="30"/>
+                                        <state key="normal" title="Send"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0de-RV-kV3" userLabel="Message Text Field">
                                 <rect key="frame" x="50" y="491" width="500" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1275,22 +1288,19 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="5se-5i-VEr" firstAttribute="top" secondItem="bTj-Gh-iZV" secondAttribute="bottom" constant="30" id="0tW-vD-Unt"/>
-                            <constraint firstItem="OLU-P4-KlK" firstAttribute="leading" secondItem="3RA-VO-Oby" secondAttribute="leadingMargin" constant="30" id="3Sp-UN-UJS"/>
+                            <constraint firstItem="0de-RV-kV3" firstAttribute="top" secondItem="HCR-F0-vGj" secondAttribute="bottom" constant="10" id="2ES-PZ-pEC"/>
                             <constraint firstItem="0de-RV-kV3" firstAttribute="leading" secondItem="3RA-VO-Oby" secondAttribute="leadingMargin" constant="30" id="9GM-sw-Zch"/>
                             <constraint firstItem="Lqe-yB-CXk" firstAttribute="top" secondItem="0de-RV-kV3" secondAttribute="bottom" constant="30" id="CX4-Ac-RG0"/>
-                            <constraint firstItem="OLU-P4-KlK" firstAttribute="centerX" secondItem="3RA-VO-Oby" secondAttribute="centerX" id="G10-vo-s6j"/>
                             <constraint firstItem="RJa-mD-s71" firstAttribute="top" secondItem="5se-5i-VEr" secondAttribute="bottom" constant="30" id="GN7-WH-K2A"/>
-                            <constraint firstItem="0de-RV-kV3" firstAttribute="top" secondItem="OLU-P4-KlK" secondAttribute="bottom" constant="20" id="HLQ-2L-ZXE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="0de-RV-kV3" secondAttribute="trailing" constant="30" id="Pg5-kh-SVC"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="OLU-P4-KlK" secondAttribute="trailing" constant="30" id="X1a-gl-s3K"/>
-                            <constraint firstItem="0de-RV-kV3" firstAttribute="top" secondItem="OLU-P4-KlK" secondAttribute="bottom" constant="20" id="bqr-bH-TIh"/>
-                            <constraint firstItem="OLU-P4-KlK" firstAttribute="top" secondItem="RJa-mD-s71" secondAttribute="bottom" constant="30" id="fRy-Ok-QRG"/>
                             <constraint firstItem="5se-5i-VEr" firstAttribute="centerX" secondItem="3RA-VO-Oby" secondAttribute="centerX" id="fuC-Go-vNc"/>
+                            <constraint firstItem="HCR-F0-vGj" firstAttribute="top" secondItem="RJa-mD-s71" secondAttribute="bottom" constant="30" id="g04-Vn-CiI"/>
                             <constraint firstItem="RJa-mD-s71" firstAttribute="leading" secondItem="3RA-VO-Oby" secondAttribute="leadingMargin" constant="30" id="jdR-CR-Zem"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="HCR-F0-vGj" secondAttribute="trailing" constant="30" id="mjQ-zX-Vei"/>
                             <constraint firstAttribute="trailingMargin" secondItem="5se-5i-VEr" secondAttribute="trailing" constant="30" id="okN-7f-9Yn"/>
+                            <constraint firstItem="HCR-F0-vGj" firstAttribute="leading" secondItem="3RA-VO-Oby" secondAttribute="leadingMargin" constant="30" id="upE-pI-tK4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="RJa-mD-s71" secondAttribute="trailing" constant="30" id="vuJ-eo-FOT"/>
                             <constraint firstItem="5se-5i-VEr" firstAttribute="leading" secondItem="3RA-VO-Oby" secondAttribute="leadingMargin" constant="30" id="xYx-pY-iAB"/>
-                            <constraint firstItem="OLU-P4-KlK" firstAttribute="top" secondItem="RJa-mD-s71" secondAttribute="bottom" constant="30" id="zvc-qS-vMS"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Activity Detail" id="9zN-GT-zxz">
@@ -1424,12 +1434,12 @@
                     <navigationItem key="navigationItem" title="Create Activity" id="dfy-Af-cYm">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="qvT-XW-oCc">
                             <connections>
-                                <segue destination="NG1-rY-9Pg" kind="unwind" unwindAction="createActivityUnwindToList:" id="azs-pl-Qjr"/>
+                                <segue destination="NG1-rY-9Pg" kind="unwind" identifier="cancelActivityExit" unwindAction="createActivityUnwindToList:" id="xtA-H7-xbZ"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Post" id="JTe-11-T5E">
                             <connections>
-                                <segue destination="NG1-rY-9Pg" kind="unwind" unwindAction="createActivityUnwindToList:" id="GaR-LB-Hgx"/>
+                                <segue destination="NG1-rY-9Pg" kind="unwind" identifier="createActivityExit" unwindAction="createActivityUnwindToList:" id="U00-gS-zOb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1527,7 +1537,7 @@
         <image name="EmptyProfile" width="225" height="225"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="55l-S1-W6o"/>
         <segue reference="IKS-hn-ANJ"/>
+        <segue reference="Pyc-kE-ft6"/>
     </inferredMetricsTieBreakers>
 </document>
