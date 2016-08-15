@@ -9,22 +9,24 @@
 import Foundation
 
 class Join {
-    var id: String?
+    var id: Int64?
     var createdAt: NSDate
-    var deviceToken: String?
-    var deviceType: String?
+    var updatedAt: NSDate?
     
-    var userId: String?
-    var postId: String?
+    var userId: Int64?
+    var postId: Int64?
     
     var currentLatitude: Double?
     var currentLongtitude: Double?
+    
+    var deviceType: String?
     
     // MARK: Initialization
     init?() {
         //UTC time
         self.createdAt = NSDate()
         //        print(self.createdAt)
+        self.deviceType = Constants.deviceType
     }
 
 }

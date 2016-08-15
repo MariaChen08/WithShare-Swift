@@ -111,18 +111,6 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     @IBAction func joinActivityUnwindToList(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.sourceViewController as? DetailViewController {
             print("from activity detail view")
-            //MARK: from debug purpose
-//            if let post = sourceViewController.post {
-//                // Add a new post.
-//                print("new activity created unwind to list")
-//                let newIndexPath = NSIndexPath(forRow: posts.count, inSection: 0)
-//                posts.append(post)
-//                tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
-//            }
-//            else {
-//                print("cancel creating new activity")
-//                // usage log
-//            }
         }
 
     }

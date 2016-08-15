@@ -56,7 +56,7 @@ struct Constants {
         static let profilePhoto = "profile_photo"
     }
     
-    struct ServerModeField_Post {
+    struct ServerModelField_Post {
         static let id = "id"
         static let createdAt = "created_at"
         static let updatedAt = "updated_at"
@@ -70,4 +70,16 @@ struct Constants {
         static let currentLongitude = "current_longitude"
         static let status = "status"
     }
+    
+    struct ServerModelField_Join {
+        static let id = "id"
+        static let createdAt = "created_at"
+        static let updatedAt = "updated_at"
+        static let userId = "user_profile"
+        static let postId = "post"
+        static let deviceType = "device_type"
+        static let currentLatitude = "current_latitude"
+        static let currentLongitude = "current_longitude"
+    }
+
 }

@@ -59,8 +59,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
         shareProfile = defaults.boolForKey(Constants.NSUserDefaultsKey.shareProfile)
         
         // MARK: For debug purpose
-//        user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
-//        
+        user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
+//
 //        if fullName != nil {
 //            fullNameTextField.text = fullName
 //        }

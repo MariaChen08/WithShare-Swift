@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0C29FE20F48AE746A5358B83 /* Pods_WithShare_SwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9D5CE9F061DEF21578A18B8 /* Pods_WithShare_SwiftTests.framework */; };
 		93D36C041D4F708500318EB6 /* ApiManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D36C031D4F708500318EB6 /* ApiManagerTest.swift */; };
+		A41675861D611E4000B36D1E /* MyPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41675851D611E4000B36D1E /* MyPostTableViewCell.swift */; };
+		A41675871D611E4000B36D1E /* MyPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41675851D611E4000B36D1E /* MyPostTableViewCell.swift */; };
 		A417EF511D2B34020092CA52 /* ValidateUserInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */; };
 		A43C27A51D20858300BACEF1 /* CreateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43C27A41D20858300BACEF1 /* CreateProfileViewController.swift */; };
 		A44DA6F81D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6EC1D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift */; };
@@ -66,6 +68,7 @@
 		41F66E638C2EB8DA25E4658D /* Pods-WithShare-SwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WithShare-SwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WithShare-SwiftTests/Pods-WithShare-SwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		683240BD42C667191B12ED70 /* Pods-WithShare-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WithShare-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WithShare-Swift/Pods-WithShare-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		93D36C031D4F708500318EB6 /* ApiManagerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManagerTest.swift; sourceTree = "<group>"; };
+		A41675851D611E4000B36D1E /* MyPostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPostTableViewCell.swift; sourceTree = "<group>"; };
 		A43C27A41D20858300BACEF1 /* CreateProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProfileViewController.swift; sourceTree = "<group>"; };
 		A44DA6EC1D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityTypePopoverMenuViewController.swift; sourceTree = "<group>"; };
 		A44DA6ED1D234B5200E479D1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "WithShare-Swift/AppDelegate.swift"; sourceTree = "<group>"; };
@@ -194,6 +197,7 @@
 			children = (
 				A451EFED1D4EEB9E00093DBD /* JoinedUserCustomCell.swift */,
 				A4CBF1331D34671200027DE1 /* PostTableViewCell.swift */,
+				A41675851D611E4000B36D1E /* MyPostTableViewCell.swift */,
 			);
 			name = "Custom Cells";
 			sourceTree = "<group>";
@@ -468,6 +472,7 @@
 				A4F083541D24CAE400CB78B8 /* CreateActivityViewController.swift in Sources */,
 				A451EFE51D4EAA9D00093DBD /* Join.swift in Sources */,
 				A44DA7021D234B5200E479D1 /* UploadPhotoViewController.swift in Sources */,
+				A41675861D611E4000B36D1E /* MyPostTableViewCell.swift in Sources */,
 				A43C27A51D20858300BACEF1 /* CreateProfileViewController.swift in Sources */,
 				A4CBF1341D34671200027DE1 /* PostTableViewCell.swift in Sources */,
 				A44DA6FF1D234B5200E479D1 /* NewActivitiesTableViewController.swift in Sources */,
@@ -495,6 +500,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A41675871D611E4000B36D1E /* MyPostTableViewCell.swift in Sources */,
 				A451EFEF1D4EEB9E00093DBD /* JoinedUserCustomCell.swift in Sources */,
 				A451EFDB1D4D321600093DBD /* Constants.swift in Sources */,
 				A490AA831D42F30800305CCC /* User.swift in Sources */,

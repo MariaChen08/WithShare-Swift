@@ -633,13 +633,13 @@
         <!--My Activities-->
         <scene sceneID="HEI-9M-fcL">
             <objects>
-                <tableViewController title="My Activities" id="orb-lE-WH7" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="f7r-3y-8pS">
+                <tableViewController title="My Activities" id="orb-lE-WH7" customClass="MyActivitiesTableViewController" customModule="WithShare_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="f7r-3y-8pS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MyPostTableViewCell" rowHeight="90" id="jN7-bb-h92" customClass="PostTableViewCell" customModule="WithShare_Swift" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MyPostTableViewCell" rowHeight="90" id="jN7-bb-h92" customClass="MyPostTableViewCell" customModule="WithShare_Swift" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jN7-bb-h92" id="rLT-SX-bc4">
@@ -892,11 +892,23 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Detail of My Post" id="HeO-3V-vxt">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="Z3m-79-Qfd"/>
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="Z3m-79-Qfd">
+                            <connections>
+                                <segue destination="qLF-wz-jpk" kind="unwind" identifier="backMyActivityExit" unwindAction="backMyActivityUnwindToList:" id="AWR-15-G6F"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Edit Post" id="xKs-yg-Pnz"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="activityTitleLabel" destination="Ye2-DF-RzB" id="Tdc-1t-a5S"/>
+                        <outlet property="closePostButton" destination="EIG-it-6E1" id="wh1-Un-new"/>
+                        <outlet property="detailLabel" destination="VFN-p6-KCE" id="UMk-2r-upS"/>
+                        <outlet property="meetPlaceLabel" destination="8V1-4c-Nwg" id="1ud-Ni-CzS"/>
+                        <outlet property="tableView" destination="KTf-mg-wz1" id="Qq1-m2-7do"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jO7-wb-3JW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="qLF-wz-jpk" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3995" y="2983"/>
         </scene>
@@ -1306,19 +1318,25 @@
                     <navigationItem key="navigationItem" title="Activity Detail" id="9zN-GT-zxz">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="s2v-Gs-q3x">
                             <connections>
-                                <segue destination="Ia2-Iw-bhv" kind="unwind" unwindAction="joinActivityUnwindToList:" id="afR-E3-q9V"/>
+                                <segue destination="Ia2-Iw-bhv" kind="unwind" unwindAction="joinActivityUnwindToList:" id="9mO-gk-hM8"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Join" id="qCW-S3-y2G">
                             <connections>
-                                <segue destination="Ia2-Iw-bhv" kind="unwind" unwindAction="joinActivityUnwindToList:" id="Uzs-a5-71W"/>
+                                <segue destination="Ia2-Iw-bhv" kind="unwind" identifier="joinActivityExit" unwindAction="joinActivityUnwindToList:" id="5Sm-xA-Jlz"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="activityTitleLabel" destination="Hei-p4-1iO" id="c7z-gI-Xnt"/>
+                        <outlet property="departmentLabel" destination="S4I-KA-Pe8" id="mib-L8-85e"/>
                         <outlet property="detailLabel" destination="YRM-iE-r8W" id="zfM-z1-y7O"/>
+                        <outlet property="fullNameLabel" destination="2wF-vA-sDA" id="dbs-BV-G6S"/>
+                        <outlet property="gradeLabel" destination="gf1-W1-f7q" id="4Ih-uF-1fM"/>
+                        <outlet property="hobbyLabel" destination="T1a-Mi-Ufa" id="MCV-Qe-lZk"/>
+                        <outlet property="joinButton" destination="qCW-S3-y2G" id="uqk-ar-OCB"/>
                         <outlet property="meetPlaceLabel" destination="ldo-0G-lOP" id="JoY-Pi-ppc"/>
+                        <outlet property="numOfPostLabel" destination="hsA-Wu-sLE" id="eQa-By-jpX"/>
                         <outlet property="sendMessageLabel" destination="OLU-P4-KlK" id="bQS-8w-05C"/>
                     </connections>
                 </viewController>
@@ -1537,7 +1555,7 @@
         <image name="EmptyProfile" width="225" height="225"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="IKS-hn-ANJ"/>
         <segue reference="Pyc-kE-ft6"/>
+        <segue reference="ffV-7v-LXr"/>
     </inferredMetricsTieBreakers>
 </document>
