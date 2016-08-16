@@ -26,6 +26,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var joinButton: UIBarButtonItem!
     
+    @IBOutlet weak var messageTextField: UITextField!
     
     var post: Post?
     var user: User?
@@ -41,7 +42,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     //default location to IST, PSU
     var center = CLLocationCoordinate2DMake(40.793958335519726, -77.867923433207636)
     
-    var join:Join?
+    var join: Join?
+    var message: String?
     
     override func viewDidLoad() {
         if let post = post {
@@ -49,6 +51,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             meetPlaceLabel.text = "meet@ " + post.meetPlace!
             detailLabel.text = post.detail!
         }
+        
+        //Handle the text field’s user input through delegate callbacks.
+        messageTextField.delegate = self
+        //Close keyboard by clicking anywhere else
+        self.hideKeyboardWhenTappedAround()
+        
         // Retrieve cached user info
         let defaults = NSUserDefaults.standardUserDefaults()
         username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
@@ -67,8 +75,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         //Google Place APIs
         placesClient = GMSPlacesClient.sharedClient()
         
-        //Close keyboard by clicking anywhere else
-        self.hideKeyboardWhenTappedAround()
+        
     }
 
     //MARK: load detail data
@@ -78,31 +85,31 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             print("get profile success")
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 print("get profile success")
-                if (user.fullName != nil) {
+                if (user.fullName != nil && user.fullName != Constants.blankSign) {
                     self.fullNameLabel.text = user.fullName
                 }
                 else {
                     self.fullNameLabel.text = ""
                 }
-                if (user.grade != nil) {
+                if (user.grade != nil && user.grade != Constants.blankSign) {
                     self.gradeLabel.text = user.grade
                 }
                 else {
                     self.gradeLabel.text = ""
                 }
-                if (user.department != nil) {
+                if (user.department != nil && user.department != Constants.blankSign) {
                     self.departmentLabel.text = user.department
                 }
                 else {
                     self.departmentLabel.text = ""
                 }
-                if (user.hobby != nil) {
+                if (user.hobby != nil && user.hobby != Constants.blankSign) {
                     self.hobbyLabel.text = user.hobby
                 }
                 else {
                     self.hobbyLabel.text = ""
                 }
-                self.numOfPostLabel.text = "created " + String(user.numOfPosts!) + " activities"
+                self.numOfPostLabel.text = String(user.numOfPosts!) + " posts"
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
@@ -123,7 +130,9 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             join = Join()
             if (currentCoordinates != nil) {
                 join?.currentLatitude = currentCoordinates!.latitude
+                join?.currentLatitude = (join?.currentLatitude)?.roundFiveDigits()
                 join?.currentLongtitude = currentCoordinates!.longitude
+                join?.currentLongtitude = (join?.currentLongtitude)?.roundFiveDigits()
             }
             else {
                 join?.currentLatitude = 0
@@ -150,6 +159,21 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
                         self.presentViewController(alert, animated: true, completion: nil)
                     }
             })
+        }
+    }
+    
+    // MARK: UITextFieldDelegate
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        //Hide the keyboard
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        message = textField.text
+        if message != nil {
+            message = message!.stringByTrimmingCharactersInSet(
+                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
         }
     }
 

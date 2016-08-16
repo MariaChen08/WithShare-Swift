@@ -53,6 +53,8 @@
 		A4DF928C1D629F8400CDA2EE /* HideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6F11D234B5200E479D1 /* HideKeyboard.swift */; };
 		A4DF928E1D62A08100CDA2EE /* MyJoinTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF928D1D62A08100CDA2EE /* MyJoinTableViewController.swift */; };
 		A4DF928F1D62A08100CDA2EE /* MyJoinTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF928D1D62A08100CDA2EE /* MyJoinTableViewController.swift */; };
+		A4DF92911D62E1B600CDA2EE /* JoinerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF92901D62E1B600CDA2EE /* JoinerDetailViewController.swift */; };
+		A4DF92921D62E1B600CDA2EE /* JoinerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF92901D62E1B600CDA2EE /* JoinerDetailViewController.swift */; };
 		A4E970001D28A506000E4CDD /* ValidateUserInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */; };
 		A4F083541D24CAE400CB78B8 /* CreateActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */; };
 /* End PBXBuildFile section */
@@ -106,6 +108,7 @@
 		A4CBF1331D34671200027DE1 /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		A4DF92891D62549600CDA2EE /* DoubleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		A4DF928D1D62A08100CDA2EE /* MyJoinTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyJoinTableViewController.swift; sourceTree = "<group>"; };
+		A4DF92901D62E1B600CDA2EE /* JoinerDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinerDetailViewController.swift; sourceTree = "<group>"; };
 		A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUserInput.swift; sourceTree = "<group>"; };
 		A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateActivityViewController.swift; sourceTree = "<group>"; };
 		B9D5CE9F061DEF21578A18B8 /* Pods_WithShare_SwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WithShare_SwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,6 +200,7 @@
 				A44DA6EC1D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift */,
 				A451EFE11D4E9B5200093DBD /* DetailViewController.swift */,
 				A4DF928D1D62A08100CDA2EE /* MyJoinTableViewController.swift */,
+				A4DF92901D62E1B600CDA2EE /* JoinerDetailViewController.swift */,
 			);
 			name = Activites;
 			sourceTree = "<group>";
@@ -499,6 +503,7 @@
 				A4E970001D28A506000E4CDD /* ValidateUserInput.swift in Sources */,
 				A48070AA1D260F57005FB37B /* SelectActivityTypeMenu.swift in Sources */,
 				A490AA811D4165CB00305CCC /* ApiManager.swift in Sources */,
+				A4DF92911D62E1B600CDA2EE /* JoinerDetailViewController.swift in Sources */,
 				A451EFDA1D4D321600093DBD /* Constants.swift in Sources */,
 				A44DA6FE1D234B5200E479D1 /* LoginViewController.swift in Sources */,
 				A44DA7011D234B5200E479D1 /* StringExtensions.swift in Sources */,
@@ -517,6 +522,7 @@
 				A490AA831D42F30800305CCC /* User.swift in Sources */,
 				A451EFEC1D4EE12900093DBD /* MyActivityDetailViewController.swift in Sources */,
 				A451EFE91D4EDBC000093DBD /* MyActivitiesTableViewController.swift in Sources */,
+				A4DF92921D62E1B600CDA2EE /* JoinerDetailViewController.swift in Sources */,
 				A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */,
 				A4DF928F1D62A08100CDA2EE /* MyJoinTableViewController.swift in Sources */,
 				A451EFDC1D4D818100093DBD /* Post.swift in Sources */,

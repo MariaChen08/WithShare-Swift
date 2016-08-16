@@ -19,30 +19,57 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
     @IBOutlet weak var tableView: UITableView!
     
     var joins = [Join]()
+//    var joiners = [User]()
+    
+    var post: Post?
+    var user: User?
+//    var joiner: User?
+    var username: String?
+    var password: String?
+    var phoneNumber: String?
+    var currentUserId: Int64?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let post = post {
+            activityTitleLabel.text = "Activity Title: " + post.activityTitle!
+            meetPlaceLabel.text = "meet@ " + post.meetPlace!
+            detailLabel.text = post.detail!
+        }
         
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "JoinedUserCustomCell")
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        // Retrieve cached user info
+        let defaults = NSUserDefaults.standardUserDefaults()
+        username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
+        password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
+        phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
+        currentUserId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
+        user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
+        
+        user?.id = post?.userId
+        
+        self.loadMyJoinData()
+        
+//        self.tableView.registerClass(JoinedUserCustomCell.self, forCellReuseIdentifier: "JoinedUserCustomCell")
+
+        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        print("number of joins:")
+        print(joins.count)
+        return joins.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // Table view cells are reused and should be dequeued using a cell identifier.
-        let cellIdentifier = "JoinMyPostTableViewCell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! JoinedUserCustomCell
+        let cellIdentifier = "JoinedUserCustomCell"
+        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! JoinedUserCustomCell
         
-        // Fetches the appropriate meal for the data source layout.
+        // Fetches the appropriate join for the data source layout.
         let join = joins[indexPath.row]
-        // Configure cells
-//        cell.photoImageView
-        cell.nameLabel.text = ""
-        cell.departmentLabel.text = ""
-        cell.gradeLabel.text = ""
-        cell.hobbyLabel.text = ""
         
         // Configure and format time label
         let dateFormatter = NSDateFormatter()
@@ -54,11 +81,16 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         components = cal.components([.Era, .Year, .Month, .Day], fromDate:join.createdAt)
         let otherDate = cal.dateFromComponents(components)!
         
+        print(join.createdAt)
+        print("Joined at: " + dateFormatter.stringFromDate(join.createdAt) + " Yesterday")
+        
+        cell.joinTimeLabel.text = ""
+        
         if (today.isEqualToDate(otherDate)) {
-            cell.joinTimeLabel.text =  dateFormatter.stringFromDate(join.createdAt) + " Today"
+            cell.joinTimeLabel.text =  "Joined at: " + dateFormatter.stringFromDate(join.createdAt) + " Today"
         }
         else {
-            cell.joinTimeLabel.text =  dateFormatter.stringFromDate(join.createdAt) + " Yesterday"
+            cell.joinTimeLabel.text =  "Joined at: " + dateFormatter.stringFromDate(join.createdAt) + " Yesterday"
         }
         
         return cell
@@ -67,4 +99,40 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
     }
+    
+    //MARK: load joiners
+    func loadMyJoinData() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        ApiManager.sharedInstance.getJoinById(user!, post: post!, onSuccess: {(joins) in
+            for join in joins {
+                self.joins.append(join)
+                print(join.id)
+            }
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                self.tableView.reloadData()
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("load joiners error!")
+                    let alert = UIAlertController(title: "Unable to load joiners!", message:
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
+    }
+    
+    //MARK: Navigations
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showJoinerDetailSegue" {
+            let joinerDetailViewController = segue.destinationViewController as! JoinerDetailViewController
+            // Get the cell that generated this segue.
+            if let selectedActivityCell = sender as? JoinedUserCustomCell {
+                let indexPath = tableView.indexPathForCell(selectedActivityCell)!
+                let selectedActivity = joins[indexPath.row]
+                joinerDetailViewController.join = selectedActivity
+            }
+        }
+    }
+
 }

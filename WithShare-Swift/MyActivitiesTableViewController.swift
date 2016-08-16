@@ -49,15 +49,15 @@ class MyActivitiesTableViewController: UITableViewController {
     
     //MARK: Navigations
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        if segue.identifier == "showActivityDetailSegue" {
-//            let activityDetailViewController = segue.destinationViewController as! DetailViewController
-//            // Get the cell that generated this segue.
-//            if let selectedActivityCell = sender as? PostTableViewCell {
-//                let indexPath = tableView.indexPathForCell(selectedActivityCell)!
-//                let selectedActivity = posts[indexPath.row]
-//                activityDetailViewController.post = selectedActivity
-//            }
-//        }
+        if segue.identifier == "showMyPostDetailSegue" {
+            let activityDetailViewController = segue.destinationViewController as! MyActivityDetailViewController
+            // Get the cell that generated this segue.
+            if let selectedActivityCell = sender as? MyPostTableViewCell {
+                let indexPath = tableView.indexPathForCell(selectedActivityCell)!
+                let selectedActivity = posts[indexPath.row]
+                activityDetailViewController.post = selectedActivity
+            }
+        }
     }
     
     @IBAction func backMyActivityUnwindToList(sender: UIStoryboardSegue) {
