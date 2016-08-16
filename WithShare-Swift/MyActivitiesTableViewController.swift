@@ -19,7 +19,7 @@ class MyActivitiesTableViewController: UITableViewController {
     var phoneNumber: String?
     var currentUserId: Int64?
     
-    var loggedIn:Bool = false
+//    var loggedIn:Bool = false
 //    var activityTypeTitle = "All Activities"
     
     override func viewDidLoad() {

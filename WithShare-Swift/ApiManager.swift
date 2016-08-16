@@ -45,6 +45,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             if data != nil {
                 let responseData = String(data: data!, encoding: NSUTF8StringEncoding)
                 print("Get Body:" + responseData!)
+                
                 do {
                     jsonData = try (NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as? NSArray)!
                 }
@@ -501,6 +502,53 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         let specificUrl = "joins_by_post/" + idField + "/"
         
         let fullUrl = ApiManager.serverUrl + specificUrl
+        
+        ApiManager.sharedInstance.GET(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
+            // put data into the post objects
+            var joins = [Join]()
+            
+            for datum in data {
+                let join = Join()
+                // ids
+                let id = datum[Constants.ServerModelField_Join.id] as? NSNumber
+                join?.id = id?.longLongValue
+                let userId = datum[Constants.ServerModelField_Join.userId] as? NSNumber
+                join?.userId = userId?.longLongValue
+                let postId = datum[Constants.ServerModelField_Join.postId] as? NSNumber
+                join?.postId = postId?.longLongValue
+                //time stamps
+                let createTimeStr = datum[Constants.ServerModelField_Join.createdAt] as! String
+                let createTime = self.FormatDate(createTimeStr)
+                join?.createdAt = createTime
+                let updateTimeStr = datum[Constants.ServerModelField_Join.updatedAt] as! String
+                let updateTime = self.FormatDate(updateTimeStr)
+                join?.updatedAt = updateTime
+                //geo-coordinates
+                let latStr = datum[Constants.ServerModelField_Join.currentLatitude] as? String
+                join?.currentLatitude = Double(latStr!)
+                let longStr = datum[Constants.ServerModelField_Join.currentLongitude] as? String
+                join?.currentLongtitude = Double(longStr!)
+                //other string type fields
+                join?.deviceType = datum[Constants.ServerModelField_Join.deviceType] as? String
+                joins.append(join!)
+            }
+            // sort it
+            joins.sortInPlace({ $0.updatedAt?.compare($1.updatedAt!) == NSComparisonResult.OrderedDescending})
+            onSuccess(joins: joins)
+            }, onError: {(error, response) in
+                onError(error: error)
+            }
+        )
+        
+    }
+
+    func getJoinByUser(user: User, onSuccess: (joins: [Join]) -> Void, onError: (error: NSError) -> Void) {
+        
+        let idField = String(user.id!)
+        let specificUrl = "joins/?user_profile=" + idField
+        
+        let fullUrl = ApiManager.serverUrl + specificUrl
+        print(fullUrl)
         
         ApiManager.sharedInstance.GET(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
             // put data into the post objects

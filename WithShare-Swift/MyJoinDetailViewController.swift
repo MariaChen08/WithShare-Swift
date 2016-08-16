@@ -1,5 +1,5 @@
 //
-//  JoinerDetailViewController.swift
+//  MyJoinDetailViewController.swift
 //  WithShare-Swift
 //
 //  Created by Jiawei Chen on 8/16/16.
@@ -8,29 +8,46 @@
 
 import UIKit
 
-class JoinerDetailViewController: UIViewController, UITextFieldDelegate {
+class MyJoinDetailViewController: UIViewController, UITextFieldDelegate {
 
     //MARK: Properties
     
     @IBOutlet weak var photoImageView: UIImageView!
+    
     @IBOutlet weak var fullNameLabel: UILabel!
+    
     @IBOutlet weak var gradeLabel: UILabel!
+    
     @IBOutlet weak var departmentLabel: UILabel!
+    
     @IBOutlet weak var hobbyLabel: UILabel!
+    
     @IBOutlet weak var numOfPostLabel: UILabel!
-    @IBOutlet weak var sendMessageButton: UIButton!
+    
+    @IBOutlet weak var activityTitleLabel: UILabel!
+    
+    @IBOutlet weak var meetPlaceLabel: UILabel!
+    
+    @IBOutlet weak var timeLabel: UILabel!
+    
+    @IBOutlet weak var detailLabel: UILabel!
     
     @IBOutlet weak var messageTextField: UITextField!
     
     @IBOutlet weak var tableView: UITableView!
     
+    
     var join: Join?
-
+    var post: Post?
+    
     var user: User?
     var username: String?
     var password: String?
     var phoneNumber: String?
-    var joiner: User?
+    var currentUserId: Int64?
+    
+    var message: String?
+    
     
     override func viewDidLoad() {
         if let join = join {
@@ -40,11 +57,12 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate {
             password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
             phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
             
-            joiner = User(username: username!, password: password!, phoneNumber: phoneNumber!)
+            user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
             
-            joiner!.id = join.userId
-            self.loadJoinerProfile()
-
+            user!.id = join.userId
+            
+//            self.loadPostData()
+            self.loadProfileData()
         }
         
         //Handle the text field’s user input through delegate callbacks.
@@ -53,37 +71,38 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate {
         self.hideKeyboardWhenTappedAround()
     }
     
-    //MARK: load joiner profile
-    func loadJoinerProfile() {
+    //MARK: load detail data
+    func loadProfileData() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        ApiManager.sharedInstance.getProfile(joiner!, onSuccess: {(joiner) in
+        ApiManager.sharedInstance.getProfile(user!, onSuccess: {(user) in
+            print("get profile success")
             NSOperationQueue.mainQueue().addOperationWithBlock {
-                print("get joiner profile success")
-                if (joiner.fullName != nil && joiner.fullName != Constants.blankSign) {
-                    self.fullNameLabel.text = joiner.fullName
+                print("get profile success")
+                if (user.fullName != nil && user.fullName != Constants.blankSign) {
+                    self.fullNameLabel.text = user.fullName
                 }
                 else {
                     self.fullNameLabel.text = ""
                 }
-                if (joiner.grade != nil && joiner.grade != Constants.blankSign) {
-                    self.gradeLabel.text = joiner.grade
+                if (user.grade != nil && user.grade != Constants.blankSign) {
+                    self.gradeLabel.text = user.grade
                 }
                 else {
                     self.gradeLabel.text = ""
                 }
-                if (joiner.department != nil && joiner.department != Constants.blankSign) {
-                    self.departmentLabel.text = joiner.department
+                if (user.department != nil && user.department != Constants.blankSign) {
+                    self.departmentLabel.text = user.department
                 }
                 else {
                     self.departmentLabel.text = ""
                 }
-                if (joiner.hobby != nil && joiner.hobby != Constants.blankSign) {
-                    self.hobbyLabel.text = joiner.hobby
+                if (user.hobby != nil && user.hobby != Constants.blankSign) {
+                    self.hobbyLabel.text = user.hobby
                 }
                 else {
                     self.hobbyLabel.text = ""
                 }
-                self.numOfPostLabel.text = String(joiner.numOfPosts!) + " posts"
+                self.numOfPostLabel.text = String(user.numOfPosts!) + " posts"
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
@@ -95,5 +114,6 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate {
                 }
         })
     }
+
 
 }
