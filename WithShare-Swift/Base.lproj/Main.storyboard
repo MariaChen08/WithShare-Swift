@@ -515,12 +515,42 @@
                     <connections>
                         <segue destination="PcG-Tj-5pV" kind="relationship" relationship="viewControllers" id="Tmc-lc-UbK"/>
                         <segue destination="UKZ-60-Erh" kind="relationship" relationship="viewControllers" id="0kg-nY-DIl"/>
-                        <segue destination="15r-hC-w6n" kind="relationship" relationship="viewControllers" id="LsH-gt-84x"/>
+                        <segue destination="biK-Qh-JTg" kind="relationship" relationship="viewControllers" id="n25-eJ-3aV"/>
+                        <segue destination="15r-hC-w6n" kind="relationship" relationship="viewControllers" id="ORL-uZ-Eun"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Men-hK-ZVX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1287" y="2056"/>
+            <point key="canvasLocation" x="1002" y="1946"/>
+        </scene>
+        <!--My Joins-->
+        <scene sceneID="Cas-xx-077">
+            <objects>
+                <tableViewController title="My Joins" id="aCl-vj-7uE" customClass="MyJoinTableViewController" customModule="WithShare_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="jv3-i7-uLj">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="iql-yu-VlP">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iql-yu-VlP" id="Jxf-3N-gAf">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="aCl-vj-7uE" id="ocF-QP-afl"/>
+                            <outlet property="delegate" destination="aCl-vj-7uE" id="Jms-GO-Xlh"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="My Joins" id="lOI-pS-vyX"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mji-8r-deS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1852" y="2996"/>
         </scene>
         <!--All Activities-->
         <scene sceneID="wLC-Fl-QFU">
@@ -630,10 +660,10 @@
             </objects>
             <point key="canvasLocation" x="3631" y="1457"/>
         </scene>
-        <!--My Activities-->
+        <!--My Posts-->
         <scene sceneID="HEI-9M-fcL">
             <objects>
-                <tableViewController title="My Activities" id="orb-lE-WH7" customClass="MyActivitiesTableViewController" customModule="WithShare_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="My Posts" id="orb-lE-WH7" customClass="MyActivitiesTableViewController" customModule="WithShare_Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="f7r-3y-8pS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -716,11 +746,11 @@
                             <outlet property="delegate" destination="orb-lE-WH7" id="TYy-fZ-SQW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="My Activities" id="F91-Yr-htf"/>
+                    <navigationItem key="navigationItem" title="My Posts" id="F91-Yr-htf"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mh7-5s-IqI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3094" y="2983"/>
+            <point key="canvasLocation" x="3906" y="2983"/>
         </scene>
         <!--My Activity Detail -->
         <scene sceneID="Yt3-1Q-S9C">
@@ -910,7 +940,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jO7-wb-3JW" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="qLF-wz-jpk" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3995" y="2983"/>
+            <point key="canvasLocation" x="4807" y="2983"/>
         </scene>
         <!--Settings-->
         <scene sceneID="faD-Vc-0cZ">
@@ -924,13 +954,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EmptyProfile" translatesAutoresizingMaskIntoConstraints="NO" id="leK-BY-bRQ">
-                                <rect key="frame" x="40" y="100" width="100" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="fOq-ab-iBZ"/>
-                                    <constraint firstAttribute="width" secondItem="leK-BY-bRQ" secondAttribute="height" multiplier="1:1" id="khO-zh-ka7"/>
-                                </constraints>
-                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="lLk-F4-BTF" userLabel="NameStackView">
                                 <rect key="frame" x="160" y="102" width="400" height="68"/>
                                 <subviews>
@@ -1051,6 +1074,17 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="EmptyProfile" translatesAutoresizingMaskIntoConstraints="NO" id="leK-BY-bRQ">
+                                <rect key="frame" x="40" y="102" width="100" height="100"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="fOq-ab-iBZ"/>
+                                    <constraint firstAttribute="width" secondItem="leK-BY-bRQ" secondAttribute="height" multiplier="1:1" id="khO-zh-ka7"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Ehg-V2-e1x" appends="YES" id="kNj-7E-CLX"/>
+                                </connections>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1096,8 +1130,13 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3un-oV-547" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Ehg-V2-e1x">
+                    <connections>
+                        <action selector="selectImageFromPhotoLibrary:" destination="15r-hC-w6n" id="d56-7q-L0R"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="528" y="1299"/>
+            <point key="canvasLocation" x="372" y="1155"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="EXr-eK-aFC">
@@ -1531,11 +1570,11 @@
             </objects>
             <point key="canvasLocation" x="2885" y="1579"/>
         </scene>
-        <!--My Activities-->
+        <!--My Posts-->
         <scene sceneID="vT1-LW-Vdi">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UKZ-60-Erh" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="My Activities" id="qAi-OY-jgo"/>
+                    <tabBarItem key="tabBarItem" title="My Posts" id="qAi-OY-jgo"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0Bi-Nr-BuW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1548,7 +1587,26 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6oT-1l-8jy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2173" y="2983"/>
+            <point key="canvasLocation" x="2985" y="2983"/>
+        </scene>
+        <!--My Joins-->
+        <scene sceneID="ysn-FQ-7bS">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="biK-Qh-JTg" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="My Joins" id="Zaa-Q6-zn1"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HFH-5C-typ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="aCl-vj-7uE" kind="relationship" relationship="rootViewController" id="dYL-fv-D5Q"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="m2d-Ud-aKx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1040" y="2996"/>
         </scene>
     </scenes>
     <resources>
@@ -1556,6 +1614,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Pyc-kE-ft6"/>
-        <segue reference="ffV-7v-LXr"/>
+        <segue reference="IKS-hn-ANJ"/>
     </inferredMetricsTieBreakers>
 </document>

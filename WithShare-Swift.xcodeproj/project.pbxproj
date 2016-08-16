@@ -47,9 +47,14 @@
 		A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDB91D206BCA00200133 /* WithShare_SwiftTests.swift */; };
 		A4CBF12E1D34482D00027DE1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CBF12D1D34482D00027DE1 /* SettingsViewController.swift */; };
 		A4CBF1341D34671200027DE1 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CBF1331D34671200027DE1 /* PostTableViewCell.swift */; };
+		A4DF92841D623FBE00CDA2EE /* Pods_WithShare_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E23D9780DC231255BA2678 /* Pods_WithShare_Swift.framework */; };
+		A4DF928A1D62549600CDA2EE /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF92891D62549600CDA2EE /* DoubleExtension.swift */; };
+		A4DF928B1D62549600CDA2EE /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF92891D62549600CDA2EE /* DoubleExtension.swift */; };
+		A4DF928C1D629F8400CDA2EE /* HideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6F11D234B5200E479D1 /* HideKeyboard.swift */; };
+		A4DF928E1D62A08100CDA2EE /* MyJoinTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF928D1D62A08100CDA2EE /* MyJoinTableViewController.swift */; };
+		A4DF928F1D62A08100CDA2EE /* MyJoinTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF928D1D62A08100CDA2EE /* MyJoinTableViewController.swift */; };
 		A4E970001D28A506000E4CDD /* ValidateUserInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */; };
 		A4F083541D24CAE400CB78B8 /* CreateActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */; };
-		BA3356744F8857F77F5FFAEE /* Pods_WithShare_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E23D9780DC231255BA2678 /* Pods_WithShare_Swift.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +104,8 @@
 		A4ACFDBB1D206BCA00200133 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A4CBF12D1D34482D00027DE1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		A4CBF1331D34671200027DE1 /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
+		A4DF92891D62549600CDA2EE /* DoubleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
+		A4DF928D1D62A08100CDA2EE /* MyJoinTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyJoinTableViewController.swift; sourceTree = "<group>"; };
 		A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUserInput.swift; sourceTree = "<group>"; };
 		A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateActivityViewController.swift; sourceTree = "<group>"; };
 		B9D5CE9F061DEF21578A18B8 /* Pods_WithShare_SwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WithShare_SwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,7 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA3356744F8857F77F5FFAEE /* Pods_WithShare_Swift.framework in Frameworks */,
+				A4DF92841D623FBE00CDA2EE /* Pods_WithShare_Swift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +161,7 @@
 				A44DA6F11D234B5200E479D1 /* HideKeyboard.swift */,
 				A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */,
 				A490AA801D4165CB00305CCC /* ApiManager.swift */,
+				A4DF92891D62549600CDA2EE /* DoubleExtension.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -188,6 +196,7 @@
 				A44DA6F31D234B5200E479D1 /* NewActivitiesTableViewController.swift */,
 				A44DA6EC1D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift */,
 				A451EFE11D4E9B5200093DBD /* DetailViewController.swift */,
+				A4DF928D1D62A08100CDA2EE /* MyJoinTableViewController.swift */,
 			);
 			name = Activites;
 			sourceTree = "<group>";
@@ -474,6 +483,8 @@
 				A44DA7021D234B5200E479D1 /* UploadPhotoViewController.swift in Sources */,
 				A41675861D611E4000B36D1E /* MyPostTableViewCell.swift in Sources */,
 				A43C27A51D20858300BACEF1 /* CreateProfileViewController.swift in Sources */,
+				A4DF928E1D62A08100CDA2EE /* MyJoinTableViewController.swift in Sources */,
+				A4DF928A1D62549600CDA2EE /* DoubleExtension.swift in Sources */,
 				A4CBF1341D34671200027DE1 /* PostTableViewCell.swift in Sources */,
 				A44DA6FF1D234B5200E479D1 /* NewActivitiesTableViewController.swift in Sources */,
 				A48070AC1D2759D9005FB37B /* Post.swift in Sources */,
@@ -507,11 +518,14 @@
 				A451EFEC1D4EE12900093DBD /* MyActivityDetailViewController.swift in Sources */,
 				A451EFE91D4EDBC000093DBD /* MyActivitiesTableViewController.swift in Sources */,
 				A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */,
+				A4DF928F1D62A08100CDA2EE /* MyJoinTableViewController.swift in Sources */,
 				A451EFDC1D4D818100093DBD /* Post.swift in Sources */,
 				A490AA821D4165CB00305CCC /* ApiManager.swift in Sources */,
 				93D36C041D4F708500318EB6 /* ApiManagerTest.swift in Sources */,
+				A4DF928C1D629F8400CDA2EE /* HideKeyboard.swift in Sources */,
 				A451EFE61D4EAA9D00093DBD /* Join.swift in Sources */,
 				A417EF511D2B34020092CA52 /* ValidateUserInput.swift in Sources */,
+				A4DF928B1D62549600CDA2EE /* DoubleExtension.swift in Sources */,
 				A451EFE31D4E9B5200093DBD /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

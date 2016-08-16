@@ -12,8 +12,8 @@ class ApiManager: NSObject, NSURLSessionDelegate {
     // this is the singleton that you use to access use the API
     static let sharedInstance = ApiManager()
     
-    // server url: local test at the moment
-    static let serverUrl = "http://localhost:8000/"
+    // server url
+    static let serverUrl = "https://withshare.ist.psu.edu/"
     let cache = NSCache()
     
     // MARK: HTTP GET and POST
@@ -429,6 +429,8 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         let specificUrl = "posts/?user_profile=" + idField
         
         let fullUrl = ApiManager.serverUrl + specificUrl
+        
+        print(fullUrl)
         
         ApiManager.sharedInstance.GET(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
             // put data into the post objects

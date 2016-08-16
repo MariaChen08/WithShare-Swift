@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController, UITextFieldDelegate{
+class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
     //MARK: Properties
     
@@ -40,6 +40,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
     var department: String?
     var hobby: String?
     var shareProfile = true
+    
+//    var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.profilePhoto: "", Constants.ServerModelField_User.shareProfile: true]
     
     var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.shareProfile: true]
     
@@ -141,7 +143,41 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
         }
     }
     
+    // MARK: UIImagePickerControllerDelegate
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        // Dismiss the picker if the user canceled.
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        // The info dictionary contains multiple representations of the image, and this uses the original.
+        let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
+        // Set photoImageView to display the selected image.
+        profileImage.image = selectedImage
+        
+        // Dismiss the picker.
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     //MARK: Actions
+    @IBAction func selectImageFromPhotoLibrary(sender: UITapGestureRecognizer) {
+        // Hide the keyboard.
+        
+        fullNameTextField.resignFirstResponder()
+        gradeTextField.resignFirstResponder()
+        departmentTextField.resignFirstResponder()
+        hobbyTextField.resignFirstResponder()
+        // UIImagePickerController is a view controller that lets a user pick media from their photo library.
+        let imagePickerController = UIImagePickerController()
+        // Only allow photos to be picked, not taken.
+        imagePickerController.sourceType = .PhotoLibrary
+        // Make sure ViewController is notified when the user picks an image.
+        imagePickerController.delegate = self
+        
+        presentViewController(imagePickerController, animated: true, completion: nil)
+    }
+    
     @IBAction func genderIndexChanged(sender: AnyObject) {
         switch genderSegmentedControl.selectedSegmentIndex
         {
@@ -220,7 +256,15 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
         defaults.setBool(shareProfile, forKey: Constants.NSUserDefaultsKey.shareProfile)
         profileDict[Constants.ServerModelField_User.shareProfile] = shareProfile
         
-        print(profileDict)
+//        if (profileImage.image != nil) {
+//            user?.profilePhoto = profileImage.image
+//            // Base64 encode photo
+//            let imageData:NSData = UIImagePNGRepresentation((user?.profilePhoto)!)!
+//            let strBase64 = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+//            profileDict[Constants.ServerModelField_User.profilePhoto] = strBase64
+//        }
+        
+//        print(profileDict)
         
         // Upload to server
         ApiManager.sharedInstance.editProfile(user!, profileData: profileDict, onSuccess: {(user) in
@@ -243,7 +287,5 @@ class SettingsViewController: UIViewController, UITextFieldDelegate{
                 }
         })
     }
-    
-    
 
 }

@@ -16,7 +16,7 @@ class UploadPhotoViewController: UIViewController, UINavigationControllerDelegat
 //    var imagePicker: UIImagePickerController!
     
     var user: User?
-    
+    var photoDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.profilePhoto: ""]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +64,9 @@ class UploadPhotoViewController: UIViewController, UINavigationControllerDelegat
             // Base64 encode photo
             let imageData:NSData = UIImagePNGRepresentation((user?.profilePhoto)!)!
             let strBase64:String = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
-            let photoDict = [Constants.ServerModelField_User.profilePhoto: strBase64]
+//            let photoDict = [Constants.ServerModelField_User.username: user?.username, Constants.ServerModelField_User.profilePhoto: strBase64]
+            photoDict[Constants.ServerModelField_User.username] = user?.username
+            photoDict[Constants.ServerModelField_User.profilePhoto] = strBase64
             
             ApiManager.sharedInstance.editProfile(user!, profileData: photoDict, onSuccess: {(user) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {

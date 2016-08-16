@@ -9,7 +9,7 @@
 import UIKit
 import GoogleMaps
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITextFieldDelegate {
     //MARK: Properties
     @IBOutlet weak var activityTitleLabel: UILabel!
     @IBOutlet weak var meetPlaceLabel: UILabel!
@@ -66,6 +66,9 @@ class DetailViewController: UIViewController {
         
         //Google Place APIs
         placesClient = GMSPlacesClient.sharedClient()
+        
+        //Close keyboard by clicking anywhere else
+        self.hideKeyboardWhenTappedAround()
     }
 
     //MARK: load detail data

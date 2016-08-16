@@ -127,7 +127,9 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             post = Post()
             if (currentCoordinates != nil) {
                 post?.currentLatitude = currentCoordinates!.latitude
+                post?.currentLatitude = (post?.currentLatitude)?.roundFiveDigits()
                 post?.currentLongtitude = currentCoordinates!.longitude
+                post?.currentLongtitude = (post?.currentLongtitude)?.roundFiveDigits()
             }
             else {
                 post?.currentLatitude = 0

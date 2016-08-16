@@ -28,20 +28,23 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         loggedIn = prefs.boolForKey("UserLogIn")
         
         if !loggedIn {
-            performSegueWithIdentifier("needLogInSegue", sender: self)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.performSegueWithIdentifier("needLogInSegue", sender: self)
+            })
+            
             //            self.navigationItem.hidesBackButton = true
         }
-        
-        // Retrieve cached user info
-        let defaults = NSUserDefaults.standardUserDefaults()
-        username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
-        password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
-        phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
-        
-        user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
-        
-        self.loadPostData()
-       
+        else {
+            // Retrieve cached user info
+            let defaults = NSUserDefaults.standardUserDefaults()
+            username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
+            password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
+            phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
+            
+            user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
+            
+            self.loadPostData()
+        }
     }
     
     //MARK: Navigations

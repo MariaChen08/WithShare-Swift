@@ -24,14 +24,14 @@ class MyActivitiesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         
-        //Check if logged in
-        let prefs = NSUserDefaults.standardUserDefaults()
-        loggedIn = prefs.boolForKey("UserLogIn")
-        
-        if !loggedIn {
-            performSegueWithIdentifier("needLogInSegue", sender: self)
-            //            self.navigationItem.hidesBackButton = true
-        }
+//        //Check if logged in
+//        let prefs = NSUserDefaults.standardUserDefaults()
+//        loggedIn = prefs.boolForKey("UserLogIn")
+//        
+//        if !loggedIn {
+//            performSegueWithIdentifier("needLogInSegue", sender: self)
+//            //            self.navigationItem.hidesBackButton = true
+//        }
         
         // Retrieve cached user info
         let defaults = NSUserDefaults.standardUserDefaults()
