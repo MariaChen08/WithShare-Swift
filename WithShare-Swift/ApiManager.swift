@@ -334,7 +334,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         ApiManager.sharedInstance.GET_singleton(fullUrl, username: currentUser.username!, password: currentUser.password!, onSuccess: {(data, response) in
                 print("get profile return data:")
                 print(data)
-            let user = User(username: "",password: "",phoneNumber: "")
+            let user = User(username: "",password: "")
 //                for datum in data {
                     let id = data[Constants.ServerModelField_User.id] as? NSNumber
                     user!.id = id?.longLongValue

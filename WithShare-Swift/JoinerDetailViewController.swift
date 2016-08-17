@@ -40,7 +40,8 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate {
             password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
             phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
             
-            joiner = User(username: username!, password: password!, phoneNumber: phoneNumber!)
+            joiner = User(username: username!, password: password!)
+            joiner?.phoneNumber = phoneNumber
             
             joiner!.id = join.userId
             self.loadJoinerProfile()

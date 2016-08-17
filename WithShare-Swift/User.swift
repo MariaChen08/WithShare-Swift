@@ -34,12 +34,12 @@ class User {
     var numOfPosts: Int?
     
     // MARK: Initialization
-    init?(username: String, password: String, phoneNumber: String) {
+    init?(username: String, password: String) {
         //UTC time
         self.createdAt = NSDate()
         self.username = username
         self.password = password
-        self.phoneNumber = phoneNumber
+//        self.phoneNumber = phoneNumber
     }
     
 }

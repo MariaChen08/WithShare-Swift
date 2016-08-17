@@ -52,6 +52,7 @@ class LoginViewController: UIViewController {
     
     @IBAction func passwordEditingDidEnd(sender: AnyObject) {
         // check fields here
+        password = self.passwordTextField.text
     }
     
     @IBAction func unwindToLogin(segue: UIStoryboardSegue) {
@@ -59,16 +60,30 @@ class LoginViewController: UIViewController {
     
     /* Tests wether the signInButton should be enabled or not  */
     func enableSignIn() {
-//        if self.password.text!.isBlank() || self.emailAddress.text!.isBlank() || !emailAddress.text!.isEmail() || !password.text!.isPassword() {
-//            signInButton.enabled = false
-//        } else {
-//            signInButton.enabled = true
-//        }
-        signInButton.enabled = true
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        ApiManager.sharedInstance.getProfile(user!, onSuccess: {(user) in
+            print("get profile success")
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                print("get profile success")
+                self.signInButton.enabled = true
+                
+                //cache current user status: Logged In
+                let defaults = NSUserDefaults.standardUserDefaults()
+                defaults.setBool(true, forKey: Constants.NSUserDefaultsKey.logInStatus)
+                defaults.setObject(self.username, forKey: Constants.NSUserDefaultsKey.username)
+                defaults.setObject(self.password, forKey: Constants.NSUserDefaultsKey.password)
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("sign in error!")
+                    let alert = UIAlertController(title: "Unable to sign in!", message:
+                        "Incorrect passwork or please check network condition.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
+
         
-        //cache current user status: Logged In
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setBool(true, forKey: "UserLogIn")
     }
     
     //MARK: Navigation

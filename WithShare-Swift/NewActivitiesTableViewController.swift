@@ -26,8 +26,9 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         //Check if logged in
         let prefs = NSUserDefaults.standardUserDefaults()
         loggedIn = prefs.boolForKey("UserLogIn")
+        print(loggedIn)
         
-        if !loggedIn {
+        if (!loggedIn) {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.performSegueWithIdentifier("needLogInSegue", sender: self)
             })
@@ -41,7 +42,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
             password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
             phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
             
-            user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
+            user = User(username: username!, password: password!)
             
             self.loadPostData()
             
@@ -52,7 +53,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         // if there are no posts something bad happened and we should try again
-        if posts.count == 0 {
+        if (loggedIn && posts.count == 0) {
             self.loadPostData()
         }
     }

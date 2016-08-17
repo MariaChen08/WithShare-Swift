@@ -167,7 +167,8 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
         
         if validRegisterInfo {
             //create user account
-            user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
+            user = User(username: username!, password: password!)
+            user?.phoneNumber = phoneNumber
 
             user!.deviceType = Constants.deviceType
             user!.shareProfile = true

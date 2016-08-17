@@ -61,7 +61,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         shareProfile = defaults.boolForKey(Constants.NSUserDefaultsKey.shareProfile)
         
         // MARK: For debug purpose
-        user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
+        user = User(username: username!, password: password!)
+        user?.phoneNumber = phoneNumber
 //
 //        if fullName != nil {
 //            fullNameTextField.text = fullName

@@ -57,7 +57,8 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate {
             password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
             phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
             
-            user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
+            user = User(username: username!, password: password!)
+            user?.phoneNumber = phoneNumber
             
             user!.id = join.userId
             
