@@ -12,11 +12,11 @@ class ActivityTypePopoverMenuViewController: UITableViewController {
     
     //MARK: Properties
     
-    let activityTypes = ["All Activities", "Eat Out", "Physical Activities", "Group Study", "Socializing", "More"]
+    let activityTypes = ["All Posts", "Eat Out", "Physical Activities", "Group Study", "Socializing", "More"]
     
     let activityTypeCellIdentifier = "activityTypeCell"
     
-    var activityType: String? = "All Activities"
+    var activityType: String? = "All Posts"
  
     
     override func viewDidLoad() {
