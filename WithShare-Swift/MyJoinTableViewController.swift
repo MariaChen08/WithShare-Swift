@@ -44,6 +44,15 @@ class MyJoinTableViewController: UITableViewController {
         
         self.loadMyJoinData()
         
+        self.refreshControl?.addTarget(self, action: #selector(MyJoinTableViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        // if there are no posts something bad happened and we should try again
+        if joins.count == 0 {
+            self.loadMyJoinData()
+        }
     }
     
     //MARK: Navigations
@@ -64,13 +73,11 @@ class MyJoinTableViewController: UITableViewController {
         return UIModalPresentationStyle.None
     }
     
+    //MARK: Manage Data Source
     func loadMyJoinData() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getJoinByUser(user!, onSuccess: {(joins) in
-            for join in joins {
-                self.joins.append(join)
-                print(join.id)
-            }
+            self.joins = joins
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 self.tableView.reloadData()
             }
@@ -85,7 +92,10 @@ class MyJoinTableViewController: UITableViewController {
         })
     }
     
-    
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        self.loadMyJoinData()
+        refreshControl.endRefreshing()
+    }
     
     
     //MARK: present dynamic data in table view
@@ -116,10 +126,10 @@ class MyJoinTableViewController: UITableViewController {
         let otherDate = cal.dateFromComponents(components)!
         
         if (today.isEqualToDate(otherDate)) {
-            cell.joinTimeLabel.text =  dateFormatter.stringFromDate(join.createdAt) + " Today"
+            cell.joinTimeLabel.text = "Joined at:" +  dateFormatter.stringFromDate(join.createdAt) + " Today"
         }
         else {
-            cell.joinTimeLabel.text =  dateFormatter.stringFromDate(join.createdAt) + " Yesterday"
+            cell.joinTimeLabel.text =  "Joined at:" + dateFormatter.stringFromDate(join.createdAt) + " Yesterday"
         }
         
         return cell

@@ -44,8 +44,19 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
             user = User(username: username!, password: password!, phoneNumber: phoneNumber!)
             
             self.loadPostData()
+            
+            self.refreshControl?.addTarget(self, action: #selector(NewActivitiesTableViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         }
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        // if there are no posts something bad happened and we should try again
+        if posts.count == 0 {
+            self.loadPostData()
+        }
+    }
+    
     
     //MARK: Navigations
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -96,7 +107,6 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     @IBAction func createActivityUnwindToList(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.sourceViewController as? CreateActivityViewController {
             print("from new activity view")
-            //MARK: from debug purpose
             if let post = sourceViewController.post {
                 // Add a new post.
                 print("new activity created unwind to list")
@@ -118,13 +128,15 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
 
     }
     
+    //MARK: Manage Data Source
     func loadPostData() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getActivity(user!, onSuccess: {(posts) in
-            for post in posts {
-                self.posts.append(post)
-                print(post.id)
-            }
+//            for post in posts {
+//                self.posts.append(post)
+//                print(post.id)
+//            }
+            self.posts = posts
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 self.tableView.reloadData()
             }
@@ -135,12 +147,15 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
                         "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
                     alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
                     self.presentViewController(alert, animated: true, completion: nil)
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 }
         })
     }
 
-    
-
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        self.loadPostData()
+        refreshControl.endRefreshing()
+    }
     
     //MARK: present dynamic data in table view
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

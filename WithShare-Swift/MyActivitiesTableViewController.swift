@@ -45,6 +45,7 @@ class MyActivitiesTableViewController: UITableViewController {
         
         self.loadMyPostData()
         
+        self.refreshControl?.addTarget(self, action: #selector(MyActivitiesTableViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
     }
     
     //MARK: Navigations
@@ -71,13 +72,11 @@ class MyActivitiesTableViewController: UITableViewController {
         return UIModalPresentationStyle.None
     }
     
+    // Manage Data Source
     func loadMyPostData() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getMyActivity(user!, onSuccess: {(posts) in
-            for post in posts {
-                self.posts.append(post)
-                print(post.id)
-            }
+            self.posts = posts
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 self.tableView.reloadData()
             }
@@ -93,6 +92,10 @@ class MyActivitiesTableViewController: UITableViewController {
     }
     
     
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        self.loadMyPostData()
+        refreshControl.endRefreshing()
+    }
     
     
     //MARK: present dynamic data in table view

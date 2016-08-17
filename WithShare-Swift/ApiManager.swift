@@ -104,7 +104,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             }
             
             if error != nil {
-                onError(error: error!, response: response!)
+                onError(error: error!, response: NSURLResponse())
             } else {
                 onSuccess(data: dataDict, response: response!)
             }
@@ -165,7 +165,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             }
             
             if error != nil {
-                onError(error: error!, response: response!)
+                onError(error: error!, response: NSURLResponse())
             } else {
                 onSuccess(databack: dataDict, response: response!)
             }
@@ -216,7 +216,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             }
             
             if error != nil {
-                onError(error: error!, response: response!)
+                onError(error: error!, response: NSURLResponse())
             } else {
                 onSuccess(databack: dataDict, response: response!)
             }
@@ -276,7 +276,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             }
             
             if error != nil {
-                onError(error: error!, response: response!)
+                onError(error: error!, response: NSURLResponse())
             } else {
                 onSuccess(databack: dataDict, response: response!)
             }
