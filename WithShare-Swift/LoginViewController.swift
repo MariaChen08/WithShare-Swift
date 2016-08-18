@@ -96,7 +96,18 @@ class LoginViewController: UIViewController {
     //MARK: Actions
     
     @IBAction func signIn(sender: AnyObject) {
-        enableSignIn()
+        username = self.emailTextField.text!
+        password = self.passwordTextField.text!
+        user = User(username: username!, password: password!)
+        
+        //cache current user status: Logged In
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(true, forKey: Constants.NSUserDefaultsKey.logInStatus)
+        defaults.setObject(self.username, forKey: Constants.NSUserDefaultsKey.username)
+        defaults.setObject(self.password, forKey: Constants.NSUserDefaultsKey.password)
+        
+//        enableSignIn()
+        self.performSegueWithIdentifier("logInSegue", sender: self)
     }
     
 }
