@@ -35,6 +35,11 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     var phoneNumber: String?
     var currentUserId: Int64?
     
+    var senderId: Int64?
+    var senderUsername: String?
+    var receiverId: Int64?
+    var receiverUsername: String?
+    
     let locationManager = CLLocationManager()
     var placesClient: GMSPlacesClient?
     var placePicker : GMSPlacePicker?
@@ -43,7 +48,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     var center = CLLocationCoordinate2DMake(40.793958335519726, -77.867923433207636)
     
     var join: Join?
-    var message: String?
+    var message: Message?
+    var messageContent: String?
     
     override func viewDidLoad() {
         if let post = post {
@@ -60,6 +66,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         // Retrieve cached user info
         let defaults = NSUserDefaults.standardUserDefaults()
         username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
+        senderUsername = username
         password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
         phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
         currentUserId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
@@ -86,6 +93,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             print("get profile success")
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 print("get profile success")
+                self.receiverId = user.id
+                self.receiverUsername = user.username
                 if (user.fullName != nil && user.fullName != Constants.blankSign) {
                     self.fullNameLabel.text = user.fullName
                 }
@@ -171,12 +180,72 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
-        message = textField.text
-        if message != nil {
-            message = message!.stringByTrimmingCharactersInSet(
+        messageContent = textField.text
+        if messageContent != nil {
+            messageContent = messageContent!.stringByTrimmingCharactersInSet(
                     NSCharacterSet.whitespaceAndNewlineCharacterSet())
         }
     }
+    
+    
+    //MARK: Actions
+    @IBAction func sendMessage(sender: AnyObject) {
+        message = Message()
+        if (currentCoordinates != nil) {
+            message?.currentLatitude = currentCoordinates!.latitude
+            message?.currentLatitude = (message?.currentLatitude)?.roundFiveDigits()
+            message?.currentLongtitude = currentCoordinates!.longitude
+            message?.currentLongtitude = (message?.currentLongtitude)?.roundFiveDigits()
+        }
+        else {
+            message?.currentLatitude = 0
+            message?.currentLongtitude = 0
+        }
+        message?.senderId = currentUserId
+        message?.senderUsername = senderUsername
+        message?.receiverId = receiverId
+        message?.receiverUsername = receiverUsername
+        
+        message?.postId = post?.id
+        
+        if (messageContent == nil)
+        {
+            messageContent = ""
+        }
+        message?.content = messageContent
+        
+        print("postid: ")
+        print(self.message?.postId)
+        print("senderid: ")
+        print(self.message?.senderId)
+        print("sender email: " + (self.message?.senderUsername)!)
+        print("receiverid: ")
+        print(self.message?.receiverId)
+        print("receiver email: " + (self.message?.receiverUsername)!)
+        
+        // Upload to server
+        ApiManager.sharedInstance.createMessage(user!, message: message!, onSuccess: {(user) in
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                print("create new message success!")
+                
+                let alert = UIAlertController(title: "Message sent!", message:
+                    "Your message has been sent to " + (self.message?.receiverUsername)!, preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("create new message error!")
+                    let alert = UIAlertController(title: "Unable to send!", message:
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
+    }
+    
 
 }
 

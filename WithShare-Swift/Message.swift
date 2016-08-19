@@ -12,10 +12,15 @@ class Message {
 
     var id: Int64?
     var createdAt: NSDate
+    var updatedAt: NSDate?
+
     
     var senderId: Int64?
     var receiverId: Int64?
     var postId: Int64?
+    
+    var senderUsername: String?
+    var receiverUsername: String?
     
     var currentLatitude: Double?
     var currentLongtitude: Double?

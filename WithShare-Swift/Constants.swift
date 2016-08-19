@@ -85,4 +85,14 @@ struct Constants {
         static let currentLongitude = "current_longitude"
     }
 
+    struct ServerModelField_Message {
+        static let id = "id"
+        static let createdAt = "created_at"
+        static let sender = "sender"
+        static let receiver = "receiver"
+        static let postId = "post"
+        static let currentLatitude = "sender_latitude"
+        static let currentLongitude = "sender_longitude"
+        static let content = "content"
+    }
 }

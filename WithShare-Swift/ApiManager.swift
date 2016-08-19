@@ -600,6 +600,90 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
     }
 
+    //MARK: Message API
+    func createMessage(user: User, message: Message, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+        let specificUrl = "create_message/"
+        
+        let fullUrl = ApiManager.serverUrl + specificUrl
+        print("join activity url: " + fullUrl)
+        print("user id:" + String(user.id!))
+        
+        let senderProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: message.senderId!), Constants.ServerModelField_User.username: message.senderUsername!]
+        
+        let receiverProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: message.receiverId!), Constants.ServerModelField_User.username: message.receiverUsername!]
+        
+//        let messageData: [String: AnyObject] = [Constants.ServerModelField_Message.sender: senderProfile, Constants.ServerModelField_Message.receiver: receiverProfile, Constants.ServerModelField_Message.currentLatitude: message.currentLatitude!, Constants.ServerModelField_Message.currentLongitude: message.currentLongtitude!, Constants.ServerModelField_Message.content: message.content!]
+        
+        let messageData: [String: AnyObject] = [Constants.ServerModelField_Message.sender: senderProfile, Constants.ServerModelField_Message.receiver: receiverProfile, Constants.ServerModelField_Message.postId: NSNumber(longLong: message.postId!), Constants.ServerModelField_Message.currentLatitude: message.currentLatitude!, Constants.ServerModelField_Message.currentLongitude: message.currentLongtitude!, Constants.ServerModelField_Message.content: message.content!]
+        
+        
+        print(messageData)
+        
+        ApiManager.sharedInstance.POST(fullUrl, username: user.username!, password: user.password!, data: messageData, onSuccess: {(data, response) in
+            let id = data[Constants.ServerModelField_Message.id]
+            message.id = id?.longLongValue
+            
+            onSuccess(user: user)
+            }
+            , onError: {(error, response) in
+                onError(error: error)
+        })
+    }
+
+    func getMessageById(user: User, post: Post, onSuccess: (messages: [Message]) -> Void, onError: (error: NSError) -> Void) {
+        
+        let idField = String(post.id!)
+        let specificUrl = "message_by_post/" + idField + "/"
+        
+        let fullUrl = ApiManager.serverUrl + specificUrl
+        print(fullUrl)
+        
+        ApiManager.sharedInstance.GET(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
+            // put data into the post objects
+            var messages = [Message]()
+            
+            for datum in data {
+                let message = Message()
+                // ids
+                let id = datum[Constants.ServerModelField_Message.id] as? NSNumber
+                message?.id = id?.longLongValue
+                //sender profile
+                let senderId = (datum[Constants.ServerModelField_Message.sender] as! NSDictionary)[Constants.ServerModelField_User.id]! as? NSNumber
+                message?.senderId = senderId?.longLongValue
+                let senderUsername = (datum[Constants.ServerModelField_Message.sender] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
+                message?.senderUsername = senderUsername
+                //receiver profile
+                let receiverId = (datum[Constants.ServerModelField_Message.receiver] as! NSDictionary)[Constants.ServerModelField_User.id]! as? NSNumber
+                message?.receiverId = receiverId?.longLongValue
+                let receiverUsername = (datum[Constants.ServerModelField_Message.receiver] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
+                message?.receiverUsername = receiverUsername
+                let postId = datum[Constants.ServerModelField_Message.postId] as? NSNumber
+                message?.postId = postId?.longLongValue
+                //time stamps
+                let createTimeStr = datum[Constants.ServerModelField_Message.createdAt] as! String
+                let createTime = self.FormatDate(createTimeStr)
+                message?.createdAt = createTime
+                let updateTimeStr = datum[Constants.ServerModelField_Join.updatedAt] as! String
+                let updateTime = self.FormatDate(updateTimeStr)
+                message?.updatedAt = updateTime
+                //geo-coordinates
+                let latStr = datum[Constants.ServerModelField_Message.currentLatitude] as? String
+                message?.currentLatitude = Double(latStr!)
+                let longStr = datum[Constants.ServerModelField_Message.currentLongitude] as? String
+                message?.currentLongtitude = Double(longStr!)
+                //other string type fields
+                message?.content = datum[Constants.ServerModelField_Message.content] as? String
+                messages.append(message!)
+            }
+            // sort it
+            messages.sortInPlace({ $0.updatedAt?.compare($1.updatedAt!) == NSComparisonResult.OrderedDescending})
+            onSuccess(messages: messages)
+            }, onError: {(error, response) in
+                onError(error: error)
+            }
+        )
+        
+    }
 
     
     //MARK: Miscellaneous Formatting
