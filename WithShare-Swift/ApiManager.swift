@@ -284,15 +284,13 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
         task.resume()
     }
-
-
     
     //MARK: User Profile Api
     func signUp(user: User, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
         let specificUrl = "signup/"
         
         // Sign up with 1) psu email, 2) password, 3) phone number, 4) device type (iOS), 5) show profile setting and 6) number of posts (initialized as 0)
-        let userPasswordDictionary: [String: AnyObject] = [Constants.ServerModelField_User.username: user.username!, Constants.ServerModelField_User.password: user.password!, Constants.ServerModelField_User.phoneNumber: user.phoneNumber!, Constants.ServerModelField_User.deviceType: user.deviceType!, Constants.ServerModelField_User.shareProfile: user.shareProfile!, Constants.ServerModelField_User.numOfPosts: user.numOfPosts!]
+        let userPasswordDictionary: [String: AnyObject] = [Constants.ServerModelField_User.username: user.username!, Constants.ServerModelField_User.password: user.password!, Constants.ServerModelField_User.phoneNumber: user.phoneNumber!, Constants.ServerModelField_User.deviceType: user.deviceType!, Constants.ServerModelField_User.deviceToken: user.deviceToken!, Constants.ServerModelField_User.shareProfile: user.shareProfile!, Constants.ServerModelField_User.numOfPosts: user.numOfPosts!]
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("signup url: " + fullUrl)
@@ -363,7 +361,8 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("create activity url: " + fullUrl)
         print("user id:" + String(user.id!))
-        let activityData: [String: AnyObject] = [Constants.ServerModelField_Post.userId: NSNumber(longLong: user.id!), Constants.ServerModelField_Post.deviceType: post.deviceType!, Constants.ServerModelField_Post.activityType: post.activityTitle!, Constants.ServerModelField_Post.meetLocation: post.meetPlace!, Constants.ServerModelField_Post.detail: post.detail!, Constants.ServerModelField_Post.currentLatitude: post.currentLatitude!,Constants.ServerModelField_Post.currentLongitude: post.currentLongtitude!, Constants.ServerModelField_Post.status: post.status!]
+        let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
+        let activityData: [String: AnyObject] = [Constants.ServerModelField_Post.userId: userProfile, Constants.ServerModelField_Post.deviceType: post.deviceType!, Constants.ServerModelField_Post.deviceToken: post.deviceToken!, Constants.ServerModelField_Post.activityType: post.activityTitle!, Constants.ServerModelField_Post.meetLocation: post.meetPlace!, Constants.ServerModelField_Post.detail: post.detail!, Constants.ServerModelField_Post.currentLatitude: post.currentLatitude!,Constants.ServerModelField_Post.currentLongitude: post.currentLongtitude!, Constants.ServerModelField_Post.status: post.status!]
         
         ApiManager.sharedInstance.POST(fullUrl, username: user.username!, password: user.password!, data: activityData, onSuccess: {(data, response) in
                 let id = data[Constants.ServerModelField_User.id] 
@@ -391,9 +390,15 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                                             // ids
                                             let id = datum[Constants.ServerModelField_Post.id] as? NSNumber
                                             post?.id = id?.longLongValue
-                                            let userId = datum[Constants.ServerModelField_Post.userId] as? NSNumber
+//                                            let userId = datum[Constants.ServerModelField_Post.userId]![Constants.ServerModelField_User.id] as? NSNumber
+//                                            post?.userId = userId?.longLongValue
+                                            
+                                            let userId = (datum[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.id]! as? NSNumber
                                             post?.userId = userId?.longLongValue
-                                            //time stamps
+                                            
+                                            let username = (datum[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
+                                            post?.username = username
+
                                             let createTimeStr = datum[Constants.ServerModelField_Post.createdAt] as! String
                                             let createTime = self.FormatDate(createTimeStr)
                                             post?.createdAt = createTime
@@ -482,7 +487,10 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("join activity url: " + fullUrl)
         print("user id:" + String(user.id!))
-        let joinData: [String: AnyObject] = [Constants.ServerModelField_Join.userId: NSNumber(longLong: join.userId!), Constants.ServerModelField_Join.postId: NSNumber(longLong: join.postId!), Constants.ServerModelField_Join.deviceType: join.deviceType!, Constants.ServerModelField_Post.currentLatitude: join.currentLatitude!,Constants.ServerModelField_Post.currentLongitude: join.currentLongtitude!]
+        
+        let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
+        
+        let joinData: [String: AnyObject] = [Constants.ServerModelField_Join.userId: userProfile, Constants.ServerModelField_Join.postId: NSNumber(longLong: join.postId!), Constants.ServerModelField_Join.deviceType: join.deviceType!, Constants.ServerModelField_Post.currentLatitude: join.currentLatitude!,Constants.ServerModelField_Post.currentLongitude: join.currentLongtitude!]
         
         ApiManager.sharedInstance.POST(fullUrl, username: user.username!, password: user.password!, data: joinData, onSuccess: {(data, response) in
             let id = data[Constants.ServerModelField_Join.id]
@@ -502,6 +510,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         let specificUrl = "joins_by_post/" + idField + "/"
         
         let fullUrl = ApiManager.serverUrl + specificUrl
+        print(fullUrl)
         
         ApiManager.sharedInstance.GET(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
             // put data into the post objects
@@ -512,8 +521,10 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 // ids
                 let id = datum[Constants.ServerModelField_Join.id] as? NSNumber
                 join?.id = id?.longLongValue
-                let userId = datum[Constants.ServerModelField_Join.userId] as? NSNumber
+                let userId = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.id]! as? NSNumber
                 join?.userId = userId?.longLongValue
+                let username = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
+                join?.username = username
                 let postId = datum[Constants.ServerModelField_Join.postId] as? NSNumber
                 join?.postId = postId?.longLongValue
                 //time stamps

@@ -13,6 +13,8 @@ struct Constants {
     
     static let blankSign = "not specified"
     
+    static var deviceToken = ""
+    
     struct Gender {
         static let female = "female"
         static let male = "male"
@@ -46,6 +48,7 @@ struct Constants {
         static let password = "password"
         static let phoneNumber = "phone_number"
         static let deviceType = "device_type"
+        static let deviceToken = "device_token"
         static let fullname = "full_name"
         static let gender = "gender"
         static let grade = "grade"

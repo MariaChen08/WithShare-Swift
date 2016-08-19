@@ -47,7 +47,7 @@ class WithShare_SwiftTests: XCTestCase {
     }
     
     func testApiManager() {
-        let user = User(username: "test@psu.edu",password: "testPassword", phoneNumber: "8148148888")
+        let user = User(username: "test@psu.edu",password: "testPassword")
 
         //ApiManager.sharedInstance.signUp(user!)
     }

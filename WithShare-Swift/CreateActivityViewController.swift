@@ -137,6 +137,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
                 post?.currentLongtitude = 0
             }
             post?.deviceType = Constants.deviceType
+            post?.deviceToken = Constants.deviceToken
             post?.activityTitle = activityTypeShow
             post?.meetPlace = meetingPlace
             post?.detail = detail

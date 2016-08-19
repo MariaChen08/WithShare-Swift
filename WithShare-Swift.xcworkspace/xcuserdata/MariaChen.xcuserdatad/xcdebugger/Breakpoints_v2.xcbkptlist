@@ -23,13 +23,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WithShare-Swift/NewActivitiesTableViewController.swift"
-            timestampString = "493163960.794807"
+            filePath = "WithShare-Swift/ApiManager.swift"
+            timestampString = "493265065.66132"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "396"
+            endingLineNumber = "396"
+            landmarkName = "getActivity(_:onSuccess:onError:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -39,13 +39,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WithShare-Swift/NewActivitiesTableViewController.swift"
-            timestampString = "493163960.794807"
+            filePath = "WithShare-Swift/ApiManager.swift"
+            timestampString = "493265224.028013"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "398"
+            endingLineNumber = "398"
+            landmarkName = "getActivity(_:onSuccess:onError:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

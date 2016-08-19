@@ -22,6 +22,7 @@ class User {
     var phoneNumber: String?
     var shareProfile: Bool?
     var deviceType: String?
+    var deviceToken: String?
     
     var fullName: String?
     var gender: String?

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: Properties
     @IBOutlet weak var withShareLabel: UILabel!
@@ -17,9 +17,10 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
     
-    var user: User?
     var username: String?
+    var username_saved: String?
     var password: String?
+    var password_saved: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,15 @@ class LoginViewController: UIViewController {
         
         //Close keyboard by clicking anywhere else
         self.hideKeyboardWhenTappedAround()
+        
+        //Handle the text field’s user input through delegate callbacks.
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        
+        emailTextField.tag = 0
+        passwordTextField.tag = 1
+        
+        emailTextField.keyboardType = .EmailAddress
     }
     
     // MARK: UITextFieldDelegate
@@ -41,9 +51,21 @@ class LoginViewController: UIViewController {
         return true
     }
     
-    func emailTextFieldDidEndEditing(emailTextField: UITextField) {
-//        enableSignIn()
+    func textFieldDidEndEditing(textField: UITextField) {
+        switch (textField.tag) {
+        case 0:
+            username = textField.text
+            if username != nil {
+                username = username!.stringByTrimmingCharactersInSet(
+                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            }
+        case 1:
+            password = textField.text
+        default:
+            print("error registration textview")
+        }
     }
+
     
     @IBAction func emailEditingDidEnd(sender: AnyObject) {
         // check fields here
@@ -57,57 +79,29 @@ class LoginViewController: UIViewController {
     
     @IBAction func unwindToLogin(segue: UIStoryboardSegue) {
     }
-    
-    /* Tests wether the signInButton should be enabled or not  */
-    func enableSignIn() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        ApiManager.sharedInstance.getProfile(user!, onSuccess: {(user) in
-            print("get profile success")
-            NSOperationQueue.mainQueue().addOperationWithBlock {
-                print("get profile success")
-                self.signInButton.enabled = true
-                
-                //cache current user status: Logged In
-                let defaults = NSUserDefaults.standardUserDefaults()
-                defaults.setBool(true, forKey: Constants.NSUserDefaultsKey.logInStatus)
-                defaults.setObject(self.username, forKey: Constants.NSUserDefaultsKey.username)
-                defaults.setObject(self.password, forKey: Constants.NSUserDefaultsKey.password)
-            }
-            }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
-                    print("sign in error!")
-                    let alert = UIAlertController(title: "Unable to sign in!", message:
-                        "Incorrect passwork or please check network condition.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
-                }
-        })
-
         
-    }
-    
-    //MARK: Navigation
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        self.user?.username = self.emailTextField.text!
-        self.user?.password = self.passwordTextField.text!
-    }
-    
     //MARK: Actions
     
     @IBAction func signIn(sender: AnyObject) {
         username = self.emailTextField.text!
         password = self.passwordTextField.text!
-        user = User(username: username!, password: password!)
         
-        //cache current user status: Logged In
+        // Retrieve cached user info
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setBool(true, forKey: Constants.NSUserDefaultsKey.logInStatus)
-        defaults.setObject(self.username, forKey: Constants.NSUserDefaultsKey.username)
-        defaults.setObject(self.password, forKey: Constants.NSUserDefaultsKey.password)
+        username_saved = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
+        password_saved = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
         
-//        enableSignIn()
-        self.performSegueWithIdentifier("logInSegue", sender: self)
+        if (username_saved == username && password_saved == password) {
+            defaults.setBool(true, forKey: Constants.NSUserDefaultsKey.logInStatus)
+            self.performSegueWithIdentifier("logInSegue", sender: self)
+        }
+        else {
+            let alert = UIAlertController(title: "Unable to sign in!", message:
+                                    "Incorrect passwork, please try again.", preferredStyle: UIAlertControllerStyle.Alert)
+                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                                self.presentViewController(alert, animated: true, completion: nil)
+
+        }
     }
     
 }
