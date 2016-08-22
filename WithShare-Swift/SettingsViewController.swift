@@ -41,9 +41,9 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
     var hobby: String?
     var shareProfile = true
     
-//    var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.profilePhoto: "", Constants.ServerModelField_User.shareProfile: true]
+    var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.profilePhoto: "", Constants.ServerModelField_User.shareProfile: true]
     
-    var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.shareProfile: true]
+//    var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.shareProfile: true]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -257,13 +257,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         defaults.setBool(shareProfile, forKey: Constants.NSUserDefaultsKey.shareProfile)
         profileDict[Constants.ServerModelField_User.shareProfile] = shareProfile
         
-//        if (profileImage.image != nil) {
-//            user?.profilePhoto = profileImage.image
-//            // Base64 encode photo
-//            let imageData:NSData = UIImagePNGRepresentation((user?.profilePhoto)!)!
-//            let strBase64 = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
-//            profileDict[Constants.ServerModelField_User.profilePhoto] = strBase64
-//        }
+        if (profileImage.image != nil) {
+            user?.profilePhoto = profileImage.image
+            // Base64 encode photo
+            let imageData:NSData = UIImagePNGRepresentation((user?.profilePhoto)!)!
+            let strBase64 = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+            profileDict[Constants.ServerModelField_User.profilePhoto] = strBase64
+        }
         
 //        print(profileDict)
         

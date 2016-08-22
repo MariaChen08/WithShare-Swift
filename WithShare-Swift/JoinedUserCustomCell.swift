@@ -12,5 +12,6 @@ class JoinedUserCustomCell: UITableViewCell {
     //MARK: Properties
     
 
-    @IBOutlet var joinTimeLabel: UILabel!
+    @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var joinTimeLabel: UILabel!
 }

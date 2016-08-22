@@ -10,5 +10,7 @@ import UIKit
 
 class MyJoinTableViewCell: UITableViewCell {
     
+    
+    @IBOutlet weak var activityTitleLabel: UILabel!
     @IBOutlet weak var joinTimeLabel: UILabel!
 }

@@ -72,6 +72,13 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         // Fetches the appropriate join for the data source layout.
         let join = joins[indexPath.row]
         
+        if (join.fullName != nil && join.fullName?.isEmpty == false) {
+            cell.userNameLabel.text = join.fullName
+        }
+        else {
+            cell.userNameLabel.text = join.username
+        }
+        
         // Configure and format time label
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "h:mm a"
@@ -88,10 +95,10 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         cell.joinTimeLabel.text = ""
         
         if (today.isEqualToDate(otherDate)) {
-            cell.joinTimeLabel.text =  "Joined at: " + dateFormatter.stringFromDate(join.createdAt) + " Today"
+            cell.joinTimeLabel.text =  dateFormatter.stringFromDate(join.createdAt) + " Today"
         }
         else {
-            cell.joinTimeLabel.text =  "Joined at: " + dateFormatter.stringFromDate(join.createdAt) + " Yesterday"
+            cell.joinTimeLabel.text =  dateFormatter.stringFromDate(join.createdAt) + " Yesterday"
         }
         
         return cell

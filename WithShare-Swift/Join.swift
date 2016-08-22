@@ -15,7 +15,18 @@ class Join {
     
     var userId: Int64?
     var username: String?
+    
+    //user profile
+    var fullName: String?
+    var joinerGender: String?
+    var joinerGrade: String?
+    var joinerDepartment: String?
+    var joinerHobby: String?
+    var joinerShareProfile: Bool?
+    var joinerNumOfPosts: Int?
+    
     var postId: Int64?
+    var postName: String?
     
     var currentLatitude: Double?
     var currentLongtitude: Double?

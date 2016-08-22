@@ -80,6 +80,7 @@ struct Constants {
         static let updatedAt = "updated_at"
         static let userId = "user_profile"
         static let postId = "post"
+        static let postName = "post_name"
         static let deviceType = "device_type"
         static let currentLatitude = "current_latitude"
         static let currentLongitude = "current_longitude"

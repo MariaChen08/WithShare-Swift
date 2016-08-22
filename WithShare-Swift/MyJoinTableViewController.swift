@@ -115,6 +115,8 @@ class MyJoinTableViewController: UITableViewController {
         
         // Fetches the appropriate meal for the data source layout.
         let join = joins[indexPath.row]
+        
+        cell.activityTitleLabel.text = join.postName
 
         // Configure and format time label
         let dateFormatter = NSDateFormatter()

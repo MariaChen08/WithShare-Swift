@@ -212,7 +212,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
         }
         else {
             // create the alert
-            let alert = UIAlertController(title: "Ooooops", message: alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "Signup Error", message: alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
             
             // add an action (button)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))

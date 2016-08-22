@@ -521,12 +521,33 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 // ids
                 let id = datum[Constants.ServerModelField_Join.id] as? NSNumber
                 join?.id = id?.longLongValue
+                
+                // user profile
                 let userId = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.id]! as? NSNumber
                 join?.userId = userId?.longLongValue
                 let username = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
                 join?.username = username
+                let fullName = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.fullname]! as? String
+                join?.fullName = fullName
+                let gender = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.gender]! as? String
+                join?.joinerGender = gender
+                let grade = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.grade]! as? String
+                join?.joinerGrade = grade
+                let department = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.department]! as? String
+                join?.joinerDepartment = department
+                let hobby = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.hobby]! as? String
+                join?.joinerHobby = hobby
+                let shareProfile = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.shareProfile]! as? Bool
+                join?.joinerShareProfile = shareProfile
+                let numOfPosts = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.numOfPosts]! as? Int
+                join?.joinerNumOfPosts = numOfPosts
+                
+                // post info
                 let postId = datum[Constants.ServerModelField_Join.postId] as? NSNumber
                 join?.postId = postId?.longLongValue
+                let postName = datum[Constants.ServerModelField_Join.postName] as? String
+                join?.postName = postName
+                
                 //time stamps
                 let createTimeStr = datum[Constants.ServerModelField_Join.createdAt] as! String
                 let createTime = self.FormatDate(createTimeStr)
@@ -570,10 +591,33 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 // ids
                 let id = datum[Constants.ServerModelField_Join.id] as? NSNumber
                 join?.id = id?.longLongValue
-                let userId = datum[Constants.ServerModelField_Join.userId] as? NSNumber
+                
+                // user profile
+                let userId = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.id]! as? NSNumber
                 join?.userId = userId?.longLongValue
+                let username = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
+                join?.username = username
+                let fullName = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.fullname]! as? String
+                join?.fullName = fullName
+                let gender = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.gender]! as? String
+                join?.joinerGender = gender
+                let grade = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.grade]! as? String
+                join?.joinerGrade = grade
+                let department = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.department]! as? String
+                join?.joinerDepartment = department
+                let hobby = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.hobby]! as? String
+                join?.joinerHobby = hobby
+                let shareProfile = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.shareProfile]! as? Bool
+                join?.joinerShareProfile = shareProfile
+                let numOfPosts = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.numOfPosts]! as? Int
+                join?.joinerNumOfPosts = numOfPosts
+                
+                // post info
                 let postId = datum[Constants.ServerModelField_Join.postId] as? NSNumber
                 join?.postId = postId?.longLongValue
+                let postName = datum[Constants.ServerModelField_Join.postName] as? String
+                join?.postName = postName
+                
                 //time stamps
                 let createTimeStr = datum[Constants.ServerModelField_Join.createdAt] as! String
                 let createTime = self.FormatDate(createTimeStr)
