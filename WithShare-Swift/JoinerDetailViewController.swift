@@ -189,15 +189,15 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
         cell.messageLabel.text = message.content
         
         // Configure and format time label
-//        let dateFormatter = NSDateFormatter()
-//        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-//        dateFormatter.timeStyle = .ShortStyle
-//        
-//        let dateString = dateFormatter.stringFromDate(message.createdAt)
-//        
-//        print(dateString)
-//        
-//        cell.timeLabel.text = dateString
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        dateFormatter.timeStyle = .ShortStyle
+        
+        let dateString = dateFormatter.stringFromDate(message.createdAt)
+        
+        print(dateString)
+        
+        cell.timeLabel.text = dateString
         return cell
     }
     

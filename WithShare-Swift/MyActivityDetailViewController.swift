@@ -110,10 +110,6 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
     func loadMyJoinData() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getJoinById(user!, post: post!, onSuccess: {(joins) in
-//            for join in joins {
-//                self.joins.append(join)
-//                print(join.id)
-//            }
             self.joins = joins
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 self.tableView.reloadData()

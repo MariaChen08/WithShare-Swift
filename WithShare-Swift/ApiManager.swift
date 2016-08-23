@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class ApiManager: NSObject, NSURLSessionDelegate {
     // this is the singleton that you use to access use the API
@@ -290,7 +291,11 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         let specificUrl = "signup/"
         
         // Sign up with 1) psu email, 2) password, 3) phone number, 4) device type (iOS), 5) show profile setting and 6) number of posts (initialized as 0)
-        let userPasswordDictionary: [String: AnyObject] = [Constants.ServerModelField_User.username: user.username!, Constants.ServerModelField_User.password: user.password!, Constants.ServerModelField_User.phoneNumber: user.phoneNumber!, Constants.ServerModelField_User.deviceType: user.deviceType!, Constants.ServerModelField_User.deviceToken: user.deviceToken!, Constants.ServerModelField_User.shareProfile: user.shareProfile!, Constants.ServerModelField_User.numOfPosts: user.numOfPosts!]
+        
+        let imageData:NSData = UIImagePNGRepresentation((user.profilePhoto)!)!
+        let strBase64:String = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+        
+        let userPasswordDictionary: [String: AnyObject] = [Constants.ServerModelField_User.username: user.username!, Constants.ServerModelField_User.password: user.password!, Constants.ServerModelField_User.phoneNumber: user.phoneNumber!, Constants.ServerModelField_User.deviceType: user.deviceType!, Constants.ServerModelField_User.deviceToken: user.deviceToken!, Constants.ServerModelField_User.shareProfile: user.shareProfile!, Constants.ServerModelField_User.numOfPosts: user.numOfPosts!, Constants.ServerModelField_User.profilePhoto: strBase64]
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("signup url: " + fullUrl)
@@ -768,12 +773,10 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 let postId = datum[Constants.ServerModelField_Message.postId] as? NSNumber
                 message?.postId = postId?.longLongValue
                 //time stamps
-//                let createTimeStr = datum[Constants.ServerModelField_Message.createdAt] as! String
-//                let createTime = self.FormatDate(createTimeStr)
-//                message?.createdAt = createTime
-//                let updateTimeStr = datum[Constants.ServerModelField_Join.updatedAt] as! String
-//                let updateTime = self.FormatDate(updateTimeStr)
-//                message?.updatedAt = updateTime
+                let createTimeStr = datum[Constants.ServerModelField_Message.createdAt] as! String
+                let createTime = self.FormatDate(createTimeStr)
+                message?.createdAt = createTime
+
                 //geo-coordinates
                 let latStr = datum[Constants.ServerModelField_Message.currentLatitude] as? String
                 message?.currentLatitude = Double(latStr!)
@@ -784,7 +787,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 messages.append(message!)
             }
             // sort it
-            messages.sortInPlace({ $0.updatedAt?.compare($1.updatedAt!) == NSComparisonResult.OrderedDescending})
+            messages.sortInPlace({ $0.createdAt.compare($1.createdAt) == NSComparisonResult.OrderedDescending})
             onSuccess(messages: messages)
             }, onError: {(error, response) in
                 onError(error: error)

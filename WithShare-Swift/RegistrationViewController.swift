@@ -170,10 +170,10 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
             user = User(username: username!, password: password!)
             user?.phoneNumber = phoneNumber
             user?.deviceToken = Constants.deviceToken
-            user!.deviceType = Constants.deviceType
-            user!.shareProfile = true
-            user!.numOfPosts = 0
-            
+            user?.deviceType = Constants.deviceType
+            user?.shareProfile = true
+            user?.numOfPosts = 0
+            user?.profilePhoto = UIImage(named: "EmptyProfile")
             
             //register user to server
             ApiManager.sharedInstance.signUp(user!,

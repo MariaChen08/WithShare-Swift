@@ -56,6 +56,20 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             activityTitleLabel.text = "Activity Title: " + post.activityTitle!
             meetPlaceLabel.text = "meet@ " + post.meetPlace!
             detailLabel.text = post.detail!
+            
+            // Retrieve cached user info
+            let defaults = NSUserDefaults.standardUserDefaults()
+            username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
+            senderUsername = username
+            password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
+            phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
+            currentUserId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
+            user = User(username: username!, password: password!)
+            user?.phoneNumber = phoneNumber
+            
+            user?.id = post.userId
+            self.loadPostData()
+
         }
         
         //Handle the text field’s user input through delegate callbacks.
@@ -63,18 +77,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         //Close keyboard by clicking anywhere else
         self.hideKeyboardWhenTappedAround()
         
-        // Retrieve cached user info
-        let defaults = NSUserDefaults.standardUserDefaults()
-        username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
-        senderUsername = username
-        password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
-        phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
-        currentUserId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
-        user = User(username: username!, password: password!)
-        user?.phoneNumber = phoneNumber
-
-        user?.id = post?.userId
-        self.loadPostData()
         
         //Google Map
         locationManager.delegate = self
