@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import GoogleMaps
 
-class JoinerDetailViewController: UIViewController, UITextFieldDelegate {
+class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
 
     //MARK: Properties
     
@@ -32,7 +33,28 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate {
     var phoneNumber: String?
     var joiner: User?
     
+    var messages = [Message]()
+    var post: Post?
+    
+    var messageToSend: Message?
+    var messageContent: String?
+    
+    var senderId: Int64?
+    var senderUsername: String?
+    var receiverId: Int64?
+    var receiverUsername: String?
+    
+    let locationManager = CLLocationManager()
+    var placesClient: GMSPlacesClient?
+    var placePicker : GMSPlacePicker?
+    var currentCoordinates:CLLocationCoordinate2D?
+    //default location to IST, PSU
+    var center = CLLocationCoordinate2DMake(40.793958335519726, -77.867923433207636)
+    
     override func viewDidLoad() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         if let join = join {
             // Retrieve cached user info
             let defaults = NSUserDefaults.standardUserDefaults()
@@ -40,11 +62,20 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate {
             password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
             phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
             
+            senderUsername = username
+            senderId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
+            
             joiner = User(username: username!, password: password!)
             joiner?.phoneNumber = phoneNumber
             
+            user = joiner
+            
             joiner!.id = join.userId
+            
+            post = Post()
+            post!.id = join.postId
             self.loadJoinerProfile()
+            self.loadMessages()
 
         }
         
@@ -53,6 +84,22 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate {
         //Close keyboard by clicking anywhere else
         self.hideKeyboardWhenTappedAround()
     }
+    
+    // MARK: UITextFieldDelegate
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        //Hide the keyboard
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        messageContent = textField.text
+        if messageContent != nil {
+            messageContent = messageContent!.stringByTrimmingCharactersInSet(
+                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        }
+    }
+
     
     //MARK: load joiner profile
     func loadJoinerProfile() {
@@ -85,6 +132,33 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate {
                     self.hobbyLabel.text = ""
                 }
                 self.numOfPostLabel.text = String(joiner.numOfPosts!) + " posts"
+                
+                // joiner as message receiver
+                self.receiverId = joiner.id
+                self.receiverUsername = joiner.username
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("load profile error!")
+                    let alert = UIAlertController(title: "Unable to load profile!", message:
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
+    }
+    
+    //MARK: load messages
+    func loadMessages() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        ApiManager.sharedInstance.getMessageByPost(user!, post: post!, onSuccess: {(messages) in
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                print("get messages success")
+                self.messages = messages
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    self.tableView.reloadData()
+                }
+
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
@@ -97,4 +171,124 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate {
         })
     }
 
+    // MARK: Message Table View
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("number of joins:")
+        print(messages.count)
+        return messages.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        // Table view cells are reused and should be dequeued using a cell identifier.
+        let cellIdentifier = "PostMessageCustomCell"
+        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! PostMessageCustomCell
+        
+        // Fetches the appropriate join for the data source layout.
+        let message = messages[indexPath.row]
+        
+        cell.messageLabel.text = message.content
+        
+        // Configure and format time label
+//        let dateFormatter = NSDateFormatter()
+//        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+//        dateFormatter.timeStyle = .ShortStyle
+//        
+//        let dateString = dateFormatter.stringFromDate(message.createdAt)
+//        
+//        print(dateString)
+//        
+//        cell.timeLabel.text = dateString
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
+    
+    // MARK: Actions
+    @IBAction func sendMessage(sender: AnyObject) {
+        messageToSend = Message()
+        if (currentCoordinates != nil) {
+            messageToSend?.currentLatitude = currentCoordinates!.latitude
+            messageToSend?.currentLatitude = (messageToSend?.currentLatitude)?.roundFiveDigits()
+            messageToSend?.currentLongtitude = currentCoordinates!.longitude
+            messageToSend?.currentLongtitude = (messageToSend?.currentLongtitude)?.roundFiveDigits()
+        }
+        else {
+            messageToSend?.currentLatitude = 0
+            messageToSend?.currentLongtitude = 0
+        }
+        messageToSend?.senderId = senderId
+        messageToSend?.senderUsername = senderUsername
+        messageToSend?.receiverId = receiverId
+        messageToSend?.receiverUsername = receiverUsername
+        
+        messageToSend?.postId = post?.id
+        
+        if (messageContent == nil)
+        {
+            messageContent = ""
+        }
+        messageToSend?.content = messageContent
+        
+        print("postid: ")
+        print(self.messageToSend?.postId)
+        print("senderid: ")
+        print(self.messageToSend?.senderId)
+        print("sender email: " + (self.messageToSend?.senderUsername)!)
+        print("receiverid: ")
+        print(self.messageToSend?.receiverId)
+        print("receiver email: " + (self.messageToSend?.receiverUsername)!)
+        
+        // Upload to server
+        ApiManager.sharedInstance.createMessage(user!, message: messageToSend!, onSuccess: {(user) in
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                print("create new message success!")
+                
+                let alert = UIAlertController(title: "Message sent!", message:
+                    "Your message has been sent to " + (self.messageToSend?.receiverUsername)!, preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("create new message error!")
+                    let alert = UIAlertController(title: "Unable to send!", message:
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
+    }
+    
 }
+
+
+// MARK: - CLLocationManagerDelegate
+extension JoinerDetailViewController: CLLocationManagerDelegate {
+    // called when the user grants or revokes location permissions
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        // verify the user has granted you permission while the app is in use
+        if status == .AuthorizedWhenInUse {
+            
+            locationManager.startUpdatingLocation()
+            //            mapView.myLocationEnabled = true
+            //            mapView.settings.myLocationButton = true
+        }
+    }
+    
+    // executes when the location manager receives new location data.
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            
+            //            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+            print("coordinate: \(location.coordinate)")
+            currentCoordinates = location.coordinate
+            locationManager.stopUpdatingLocation()
+        }
+        
+    }
+}
+

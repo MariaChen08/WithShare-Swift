@@ -26,6 +26,15 @@ class Post {
     
     var detail: String?
     
+    // user profile
+    var fullName: String?
+    var postGender: String?
+    var postGrade: String?
+    var postDepartment: String?
+    var postHobby: String?
+    var postShareProfile: Bool?
+    var postNumOfPosts: Int?
+    
     // MARK: Initialization
     init?() {
         //UTC time

@@ -60,10 +60,10 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate {
             user = User(username: username!, password: password!)
             user?.phoneNumber = phoneNumber
             
-            user!.id = join.userId
+            post = Post()
+            post!.id = join.postId
             
-//            self.loadPostData()
-            self.loadProfileData()
+            self.loadPostData()
         }
         
         //Handle the text field’s user input through delegate callbacks.
@@ -73,37 +73,42 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: load detail data
-    func loadProfileData() {
+    func loadPostData() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        ApiManager.sharedInstance.getProfile(user!, onSuccess: {(user) in
-            print("get profile success")
+        ApiManager.sharedInstance.getPostById(user!, postId: self.post!.id!, onSuccess: {(post) in
+            print("get post profile success")
             NSOperationQueue.mainQueue().addOperationWithBlock {
-                print("get profile success")
-                if (user.fullName != nil && user.fullName != Constants.blankSign) {
-                    self.fullNameLabel.text = user.fullName
+                // load user profile
+                if (post.fullName != nil && post.fullName != Constants.blankSign) {
+                    self.fullNameLabel.text = post.fullName
                 }
                 else {
                     self.fullNameLabel.text = ""
                 }
-                if (user.grade != nil && user.grade != Constants.blankSign) {
-                    self.gradeLabel.text = user.grade
+                if (post.postGrade != nil && post.postGrade != Constants.blankSign) {
+                    self.gradeLabel.text = post.postGrade
                 }
                 else {
                     self.gradeLabel.text = ""
                 }
-                if (user.department != nil && user.department != Constants.blankSign) {
-                    self.departmentLabel.text = user.department
+                if (post.postDepartment != nil && post.postDepartment != Constants.blankSign) {
+                    self.departmentLabel.text = post.postDepartment
                 }
                 else {
                     self.departmentLabel.text = ""
                 }
-                if (user.hobby != nil && user.hobby != Constants.blankSign) {
-                    self.hobbyLabel.text = user.hobby
+                if (post.postHobby != nil && post.postHobby != Constants.blankSign) {
+                    self.hobbyLabel.text = post.postHobby
                 }
                 else {
                     self.hobbyLabel.text = ""
                 }
-                self.numOfPostLabel.text = String(user.numOfPosts!) + " posts"
+                self.numOfPostLabel.text = String(post.postNumOfPosts!) + " posts"
+                
+                // load post
+                self.activityTitleLabel.text = "Activity Title: " + post.activityTitle!
+                self.meetPlaceLabel.text = "meet@ " + post.meetPlace!
+                self.detailLabel.text = post.detail!
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {

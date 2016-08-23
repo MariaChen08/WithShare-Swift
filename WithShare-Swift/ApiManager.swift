@@ -480,6 +480,70 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
     }
     
+    func getPostById(user: User, postId: Int64, onSuccess: (post: Post) -> Void, onError: (error: NSError) -> Void) {
+        
+        let idField = String(postId)
+        let specificUrl = "posts/" + idField + "/"
+        
+        let fullUrl = ApiManager.serverUrl + specificUrl
+        print(fullUrl)
+        
+        ApiManager.sharedInstance.GET_singleton(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
+            print("get post return data:")
+            print(data)
+            let post = Post()
+            
+            let id = data[Constants.ServerModelField_Post.id] as? NSNumber
+            post!.id = id?.longLongValue
+            // user profile
+            let userId = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.id]! as? NSNumber
+            post?.userId = userId?.longLongValue
+            let username = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
+            post?.username = username
+            let fullName = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.fullname]! as? String
+            post?.fullName = fullName
+            let gender = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.gender]! as? String
+            post?.postGender = gender
+            let grade = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.grade]! as? String
+            post?.postGrade = grade
+            let department = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.department]! as? String
+            post?.postDepartment = department
+            let hobby = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.hobby]! as? String
+            post?.postHobby = hobby
+            let shareProfile = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.shareProfile]! as? Bool
+            post?.postShareProfile = shareProfile
+            let numOfPosts = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.numOfPosts]! as? Int
+            post?.postNumOfPosts = numOfPosts
+            
+            //time stamps
+            let createTimeStr = data[Constants.ServerModelField_Post.createdAt] as! String
+            let createTime = self.FormatDate(createTimeStr)
+            post?.createdAt = createTime
+            let updateTimeStr = data[Constants.ServerModelField_Post.updatedAt] as! String
+            let updateTime = self.FormatDate(updateTimeStr)
+            post?.updatedAt = updateTime
+            //geo-coordinates
+            let latStr = data[Constants.ServerModelField_Post.currentLatitude] as? String
+            post?.currentLatitude = Double(latStr!)
+            let longStr = data[Constants.ServerModelField_Post.currentLongitude] as? String
+            post?.currentLongtitude = Double(longStr!)
+            //other string type fields
+            post?.activityTitle = data[Constants.ServerModelField_Post.activityType] as? String
+            post?.deviceToken = data[Constants.ServerModelField_Post.deviceToken] as? String
+            post?.deviceType = data[Constants.ServerModelField_Post.deviceType] as? String
+            post?.meetPlace = data[Constants.ServerModelField_Post.meetLocation] as? String
+            post?.detail = data[Constants.ServerModelField_Post.detail] as? String
+            post?.status = data[Constants.ServerModelField_Post.status] as? String
+            
+            onSuccess(post: post!)
+            }
+            , onError: {(error, response) in
+                onError(error: error)
+        })
+        
+    }
+
+    
     //MARK: Join Activities APIs
     func createJoinActivity(user: User, join: Join, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
         let specificUrl = "joins/"
@@ -674,7 +738,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         })
     }
 
-    func getMessageById(user: User, post: Post, onSuccess: (messages: [Message]) -> Void, onError: (error: NSError) -> Void) {
+    func getMessageByPost(user: User, post: Post, onSuccess: (messages: [Message]) -> Void, onError: (error: NSError) -> Void) {
         
         let idField = String(post.id!)
         let specificUrl = "message_by_post/" + idField + "/"
@@ -704,12 +768,12 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 let postId = datum[Constants.ServerModelField_Message.postId] as? NSNumber
                 message?.postId = postId?.longLongValue
                 //time stamps
-                let createTimeStr = datum[Constants.ServerModelField_Message.createdAt] as! String
-                let createTime = self.FormatDate(createTimeStr)
-                message?.createdAt = createTime
-                let updateTimeStr = datum[Constants.ServerModelField_Join.updatedAt] as! String
-                let updateTime = self.FormatDate(updateTimeStr)
-                message?.updatedAt = updateTime
+//                let createTimeStr = datum[Constants.ServerModelField_Message.createdAt] as! String
+//                let createTime = self.FormatDate(createTimeStr)
+//                message?.createdAt = createTime
+//                let updateTimeStr = datum[Constants.ServerModelField_Join.updatedAt] as! String
+//                let updateTime = self.FormatDate(updateTimeStr)
+//                message?.updatedAt = updateTime
                 //geo-coordinates
                 let latStr = datum[Constants.ServerModelField_Message.currentLatitude] as? String
                 message?.currentLatitude = Double(latStr!)

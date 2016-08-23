@@ -53,11 +53,9 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         
         self.loadMyJoinData()
         
-//        self.tableView.registerClass(JoinedUserCustomCell.self, forCellReuseIdentifier: "JoinedUserCustomCell")
-
-        
     }
     
+    // MARK: Joiner Table View
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("number of joins:")
         print(joins.count)
@@ -72,7 +70,7 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         // Fetches the appropriate join for the data source layout.
         let join = joins[indexPath.row]
         
-        if (join.fullName != nil && join.fullName?.isEmpty == false) {
+        if (join.fullName != nil && join.fullName != Constants.blankSign) {
             cell.userNameLabel.text = join.fullName
         }
         else {
@@ -112,10 +110,11 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
     func loadMyJoinData() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getJoinById(user!, post: post!, onSuccess: {(joins) in
-            for join in joins {
-                self.joins.append(join)
-                print(join.id)
-            }
+//            for join in joins {
+//                self.joins.append(join)
+//                print(join.id)
+//            }
+            self.joins = joins
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 self.tableView.reloadData()
             }
