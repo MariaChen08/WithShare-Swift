@@ -137,5 +137,11 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
             }
         }
     }
+    
+    //MARK: Actions
+    @IBAction func closeActivity(sender: AnyObject) {
+        
+    }
+    
 
 }

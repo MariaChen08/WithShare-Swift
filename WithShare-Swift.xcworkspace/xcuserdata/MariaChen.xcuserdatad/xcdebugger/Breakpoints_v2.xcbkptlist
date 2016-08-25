@@ -24,11 +24,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WithShare-Swift/ApiManager.swift"
-            timestampString = "493679841.156003"
+            timestampString = "493766613.272333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "401"
-            endingLineNumber = "401"
+            startingLineNumber = "411"
+            endingLineNumber = "411"
             landmarkName = "getActivity(_:onSuccess:onError:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -40,11 +40,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WithShare-Swift/ApiManager.swift"
-            timestampString = "493679841.156003"
+            timestampString = "493766613.272333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "403"
-            endingLineNumber = "403"
+            startingLineNumber = "413"
+            endingLineNumber = "413"
             landmarkName = "getActivity(_:onSuccess:onError:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -88,12 +88,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WithShare-Swift/ApiManager.swift"
-            timestampString = "493679841.156003"
+            timestampString = "493766613.272333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "494"
-            endingLineNumber = "494"
+            startingLineNumber = "504"
+            endingLineNumber = "504"
             landmarkName = "getPostById(_:postId:onSuccess:onError:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WithShare-Swift/SettingsViewController.swift"
+            timestampString = "493765930.450595"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "297"
+            endingLineNumber = "297"
+            landmarkName = "loadProfileData()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

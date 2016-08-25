@@ -19,7 +19,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     var phoneNumber: String?
     
     var loggedIn:Bool = false
-    var activityTypeTitle = "All Activities"
+    var activityTypeTitle = "All Posts"
     
     override func viewDidLoad() {
         
@@ -70,7 +70,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
             //create new activity
         else if segue.identifier == "createActivitySegue" {
             let createActivityViewController = segue.destinationViewController as! CreateActivityViewController
-            if activityTypeTitle != "All Activities" {
+            if activityTypeTitle != "All Posts" {
                 createActivityViewController.activityTypeShow = activityTypeTitle
                 print("activity Type before segue: " + activityTypeTitle)
             }
@@ -101,6 +101,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
             activityTypeTitle = sourceViewController.activityType!
             print(sourceViewController.activityType)
             self.title = activityTypeTitle
+            self.loadPostData()
         }
         
     }
@@ -109,17 +110,6 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         if let sourceViewController = sender.sourceViewController as? CreateActivityViewController {
             print("from new activity view")
             self.loadPostData()
-//            if let post = sourceViewController.post {
-//                // Add a new post.
-//                print("new activity created unwind to list")
-//                let newIndexPath = NSIndexPath(forRow: posts.count, inSection: 0)
-//                posts.append(post)
-//                tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
-//            }
-//            else {
-//                print("cancel creating new activity")
-//                // usage log
-//            }
         }
     }
     
@@ -134,11 +124,19 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     func loadPostData() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getActivity(user!, onSuccess: {(posts) in
-//            for post in posts {
-//                self.posts.append(post)
-//                print(post.id)
-//            }
-            self.posts = posts
+            self.posts =  posts
+            // Filter posts
+            let countPosts = posts.count
+            if (self.activityTypeTitle != "All Posts") {
+                var flag = 0
+                for index in 0...countPosts-1 {
+                    if (posts[index].activityTitle != self.activityTypeTitle) {
+                        self.posts.removeAtIndex(index-flag)
+                        flag += 1
+                    }
+                }
+            }
+            
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 self.tableView.reloadData()
             }
@@ -153,6 +151,12 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
                 }
         })
     }
+    
+//    func filterActivityType(type: String) {
+//        var filter_posts = [Post]()
+//        filter_posts = self.posts
+//        
+//    }
 
     func handleRefresh(refreshControl: UIRefreshControl) {
         self.loadPostData()
@@ -177,7 +181,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         let post = posts[indexPath.row]
         // Configure cells
         cell.ActivityTitleLabel.font = UIFont.boldSystemFontOfSize(16.0)
-        cell.ActivityTitleLabel.text = "Title: " + post.activityTitle!
+        cell.ActivityTitleLabel.text = post.activityTitle!
         cell.DetailLabel.text = post.detail
         cell.MeetLocationLabel.text = "meet@: " + post.meetPlace!
 

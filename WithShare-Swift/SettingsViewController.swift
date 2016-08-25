@@ -34,6 +34,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
     var username: String?
     var password: String?
     var phoneNumber: String?
+    var currentUserId: Int64?
+    
     var fullName: String?
     var gender: String?
     var grade: String?
@@ -42,54 +44,22 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
     var shareProfile = true
     
     var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.profilePhoto: "", Constants.ServerModelField_User.shareProfile: true]
-    
-//    var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.shareProfile: true]
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // retrieve cached string-type user profile
+        // Retrieve cached user info
         let defaults = NSUserDefaults.standardUserDefaults()
         username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
         password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
         phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
-        fullName = defaults.stringForKey(Constants.NSUserDefaultsKey.fullName)
-        gender = defaults.stringForKey(Constants.NSUserDefaultsKey.gender)
-        grade = defaults.stringForKey(Constants.NSUserDefaultsKey.grade)
-        department = defaults.stringForKey(Constants.NSUserDefaultsKey.department)
-        hobby = defaults.stringForKey(Constants.NSUserDefaultsKey.hobby)
-        shareProfile = defaults.boolForKey(Constants.NSUserDefaultsKey.shareProfile)
-        
-        // MARK: For debug purpose
+        currentUserId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
         user = User(username: username!, password: password!)
+        user!.id = currentUserId
         user?.phoneNumber = phoneNumber
-//
-//        if fullName != nil {
-//            fullNameTextField.text = fullName
-//        }
-//        if grade != nil {
-//            gradeTextField.text = grade
-//        }
-//        if department != nil {
-//            departmentTextField.text = department
-//        }
-//        if hobby != nil {
-//            hobbyTextField.text = hobby
-//        }
-//        
-//        if gender == Constants.Gender.female {
-//            genderSegmentedControl.selectedSegmentIndex = 0
-//        }
-//        else {
-//            genderSegmentedControl.selectedSegmentIndex = 1
-//        }
-//        
-//        if shareProfile {
-//            shareProfileSegmentedControl.selectedSegmentIndex = 0
-//        }
-//        else {
-//            shareProfileSegmentedControl.selectedSegmentIndex = 1
-//        }
+        
+        //Show user profile
+        self.loadProfileData()
         
         //Handle the text field’s user input through delegate callbacks.
         fullNameTextField.delegate = self
@@ -214,11 +184,11 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         profileDict[Constants.ServerModelField_User.username] = user?.username
         
         // cache string-type user profile
-        let defaults = NSUserDefaults.standardUserDefaults()
+//        let defaults = NSUserDefaults.standardUserDefaults()
         
         if fullName != nil {
             fullNameTextField.text = fullName
-            defaults.setObject(fullName, forKey: Constants.NSUserDefaultsKey.fullName)
+//            defaults.setObject(fullName, forKey: Constants.NSUserDefaultsKey.fullName)
             profileDict[Constants.ServerModelField_User.fullname] = fullName
         }
         else {
@@ -227,7 +197,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         }
         if grade != nil {
             gradeTextField.text = grade
-            defaults.setObject(grade, forKey: Constants.NSUserDefaultsKey.grade)
+//            defaults.setObject(grade, forKey: Constants.NSUserDefaultsKey.grade)
             profileDict[Constants.ServerModelField_User.grade] = grade
         }
         else {
@@ -236,7 +206,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         }
         if department != nil {
             departmentTextField.text = department
-            defaults.setObject(department, forKey: Constants.NSUserDefaultsKey.department)
+//            defaults.setObject(department, forKey: Constants.NSUserDefaultsKey.department)
             profileDict[Constants.ServerModelField_User.department] = department
         }
         else {
@@ -245,27 +215,27 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         }
         if hobby != nil {
             hobbyTextField.text = hobby
-            defaults.setObject(hobby, forKey: Constants.NSUserDefaultsKey.hobby)
+//            defaults.setObject(hobby, forKey: Constants.NSUserDefaultsKey.hobby)
             profileDict[Constants.ServerModelField_User.hobby] = hobby
         }
         else {
             hobbyTextField.text = "e.g. basketball, music, etc."
             profileDict[Constants.ServerModelField_User.hobby] = Constants.blankSign
         }
-        defaults.setObject(gender, forKey: Constants.NSUserDefaultsKey.gender)
+//        defaults.setObject(gender, forKey: Constants.NSUserDefaultsKey.gender)
         profileDict[Constants.ServerModelField_User.gender] = gender
-        defaults.setBool(shareProfile, forKey: Constants.NSUserDefaultsKey.shareProfile)
+//        defaults.setBool(shareProfile, forKey: Constants.NSUserDefaultsKey.shareProfile)
         profileDict[Constants.ServerModelField_User.shareProfile] = shareProfile
         
         if (profileImage.image != nil) {
             user?.profilePhoto = profileImage.image
+            // down scale photo
+            user?.profilePhoto = resizeImage((user?.profilePhoto!)!, newWidth: 200)
             // Base64 encode photo
             let imageData:NSData = UIImagePNGRepresentation((user?.profilePhoto)!)!
             let strBase64 = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
             profileDict[Constants.ServerModelField_User.profilePhoto] = strBase64
         }
-        
-//        print(profileDict)
         
         // Upload to server
         ApiManager.sharedInstance.editProfile(user!, profileData: profileDict, onSuccess: {(user) in
@@ -287,6 +257,70 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
                     self.presentViewController(alert, animated: true, completion: nil)
                 }
         })
+    }
+    
+    //MARK: load detail data
+    func loadProfileData() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        ApiManager.sharedInstance.getProfile(user!, onSuccess: {(user) in
+            print("get profile success")
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                print("get profile success")
+                
+                if user.fullName != nil {
+                    self.fullNameTextField.text = user.fullName
+                }
+                if user.grade != nil {
+                    self.gradeTextField.text = user.grade
+                }
+                if user.department != nil {
+                    self.departmentTextField.text = user.department
+                }
+                if user.hobby != nil {
+                    self.hobbyTextField.text = user.hobby
+                }
+                
+                if user.gender == Constants.Gender.female {
+                    self.genderSegmentedControl.selectedSegmentIndex = 0
+                }
+                else {
+                    self.genderSegmentedControl.selectedSegmentIndex = 1
+                }
+                        
+                if (user.shareProfile == true) {
+                    self.shareProfileSegmentedControl.selectedSegmentIndex = 0
+                }
+                else {
+                    self.shareProfileSegmentedControl.selectedSegmentIndex = 1
+                }
+                
+                if (user.profilePhoto != nil) {
+                    self.profileImage.image = user.profilePhoto
+                }
+
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("load profile error!")
+                    let alert = UIAlertController(title: "Unable to load profile!", message:
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
+    }
+
+    // MARK: resize image
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
+        
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight))
+        image.drawInRect(CGRectMake(0, 0, newWidth, newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
 
 }

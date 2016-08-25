@@ -292,10 +292,10 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
         // Sign up with 1) psu email, 2) password, 3) phone number, 4) device type (iOS), 5) show profile setting and 6) number of posts (initialized as 0)
         
-        let imageData:NSData = UIImagePNGRepresentation((user.profilePhoto)!)!
-        let strBase64:String = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+//        let imageData:NSData = UIImagePNGRepresentation((user.profilePhoto)!)!
+//        let strBase64:String = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
         
-        let userPasswordDictionary: [String: AnyObject] = [Constants.ServerModelField_User.username: user.username!, Constants.ServerModelField_User.password: user.password!, Constants.ServerModelField_User.phoneNumber: user.phoneNumber!, Constants.ServerModelField_User.deviceType: user.deviceType!, Constants.ServerModelField_User.deviceToken: user.deviceToken!, Constants.ServerModelField_User.shareProfile: user.shareProfile!, Constants.ServerModelField_User.numOfPosts: user.numOfPosts!, Constants.ServerModelField_User.profilePhoto: strBase64]
+        let userPasswordDictionary: [String: AnyObject] = [Constants.ServerModelField_User.username: user.username!, Constants.ServerModelField_User.password: user.password!, Constants.ServerModelField_User.phoneNumber: user.phoneNumber!, Constants.ServerModelField_User.deviceType: user.deviceType!, Constants.ServerModelField_User.deviceToken: user.deviceToken!, Constants.ServerModelField_User.shareProfile: user.shareProfile!, Constants.ServerModelField_User.numOfPosts: user.numOfPosts!]
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("signup url: " + fullUrl)
@@ -337,20 +337,30 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         ApiManager.sharedInstance.GET_singleton(fullUrl, username: currentUser.username!, password: currentUser.password!, onSuccess: {(data, response) in
                 print("get profile return data:")
                 print(data)
-            let user = User(username: "",password: "")
-//                for datum in data {
-                    let id = data[Constants.ServerModelField_User.id] as? NSNumber
-                    user!.id = id?.longLongValue
-                    user!.username = data[Constants.ServerModelField_User.username] as? String
-                    user!.phoneNumber = data[Constants.ServerModelField_User.phoneNumber] as? String
-                    user!.fullName = data[Constants.ServerModelField_User.fullname] as? String
-                    user!.gender = data[Constants.ServerModelField_User.gender] as? String
-                    user!.grade = data[Constants.ServerModelField_User.grade] as? String
-                    user!.department = data[Constants.ServerModelField_User.department] as? String
-                    user!.hobby = data[Constants.ServerModelField_User.hobby] as? String
-                    user!.shareProfile = data[Constants.ServerModelField_User.shareProfile] as? Bool
-                    user!.numOfPosts = data[Constants.ServerModelField_User.numOfPosts] as? Int
-//                }
+                let user = User(username: "",password: "")
+                let id = data[Constants.ServerModelField_User.id] as? NSNumber
+                user!.id = id?.longLongValue
+                user!.username = data[Constants.ServerModelField_User.username] as? String
+                user!.phoneNumber = data[Constants.ServerModelField_User.phoneNumber] as? String
+                user!.fullName = data[Constants.ServerModelField_User.fullname] as? String
+                user!.gender = data[Constants.ServerModelField_User.gender] as? String
+                user!.grade = data[Constants.ServerModelField_User.grade] as? String
+                user!.department = data[Constants.ServerModelField_User.department] as? String
+                user!.hobby = data[Constants.ServerModelField_User.hobby] as? String
+                user!.shareProfile = data[Constants.ServerModelField_User.shareProfile] as? Bool
+                user!.numOfPosts = data[Constants.ServerModelField_User.numOfPosts] as? Int
+            
+                // Decode profile image
+                if (data[Constants.ServerModelField_User.profilePhoto] != nil) {
+                    let base64Image = data[Constants.ServerModelField_User.profilePhoto] as? String
+                    if (base64Image != nil) {
+                        
+                        let decodedImage = NSData(base64EncodedString: "fd6a3c2e-244", options: NSDataBase64DecodingOptions(rawValue: 0) )
+                    
+                        user?.profilePhoto = UIImage(data: decodedImage!)
+                    }
+
+                }
                 onSuccess(user: user!)
             }
             , onError: {(error, response) in

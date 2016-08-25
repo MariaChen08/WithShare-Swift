@@ -26,6 +26,15 @@ struct Constants {
         static let modified = "modified"
     }
     
+    struct activityTypes {
+        static let eatOut = "Eat Out"
+        static let physicalActivity = "Physical Activities"
+        static let groupStudy = "Group Study"
+        static let socializing = "Socializing"
+        static let more = "More"
+        static let count = 5
+    }
+    
     struct NSUserDefaultsKey {
         static let logInStatus = "UserLogIn"
         static let id = "ID"

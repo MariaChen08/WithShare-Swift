@@ -61,10 +61,12 @@ class UploadPhotoViewController: UIViewController, UINavigationControllerDelegat
     // Actions
     @IBAction func uploadPhoto(sender: AnyObject) {
         if (user?.profilePhoto != nil) {
+            // down scale photo
+            user?.profilePhoto = resizeImage((user?.profilePhoto!)!, newWidth: 200)
             // Base64 encode photo
             let imageData:NSData = UIImagePNGRepresentation((user?.profilePhoto)!)!
             let strBase64:String = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
-//            let photoDict = [Constants.ServerModelField_User.username: user?.username, Constants.ServerModelField_User.profilePhoto: strBase64]
+
             photoDict[Constants.ServerModelField_User.username] = user?.username
             photoDict[Constants.ServerModelField_User.profilePhoto] = strBase64
             
@@ -93,4 +95,16 @@ class UploadPhotoViewController: UIViewController, UINavigationControllerDelegat
         self.performSegueWithIdentifier("toHomePageSegue", sender: self)
     }
     
+    // MARK: resize image
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
+        
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight))
+        image.drawInRect(CGRectMake(0, 0, newWidth, newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
 }

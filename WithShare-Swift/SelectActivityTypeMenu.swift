@@ -11,11 +11,11 @@ import UIKit
 class SelectActivityTypeMenu: UITableViewController {
     //MARK: Properties
     
-    let activityTypes = ["Eat Out", "Physical Activities", "Group Study", "Socializing", "More"]
+    let activityTypes = [Constants.activityTypes.eatOut, Constants.activityTypes.physicalActivity, Constants.activityTypes.groupStudy, Constants.activityTypes.socializing, Constants.activityTypes.more]
     
     let activityTypeCellIdentifier = "selectActivityTypeCell"
     
-    var activityType: String? = "Eat Out"
+    var activityType: String? = Constants.activityTypes.eatOut
     
     
     override func viewDidLoad() {

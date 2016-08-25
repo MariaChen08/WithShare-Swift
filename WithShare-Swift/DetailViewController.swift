@@ -97,6 +97,17 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
                 print("get profile success")
                 self.receiverId = user.id
                 self.receiverUsername = user.username
+                
+                if (user.gender == Constants.Gender.female) {
+                    self.sendMessageLabel.text = "Send her a message:"
+                }
+                else if (user.gender == Constants.Gender.male) {
+                    self.sendMessageLabel.text = "Send him a message:"
+                }
+                else {
+                    self.sendMessageLabel.text = "Send a message:"
+                }
+                
                 if (user.fullName != nil && user.fullName != Constants.blankSign) {
                     self.fullNameLabel.text = user.fullName
                 }
