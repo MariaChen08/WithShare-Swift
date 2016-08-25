@@ -45,7 +45,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             
             if data != nil {
                 let responseData = String(data: data!, encoding: NSUTF8StringEncoding)
-                print("Get Body:" + responseData!)
+//                print("Get Body:" + responseData!)
                 
                 do {
                     jsonData = try (NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as? NSArray)!
@@ -351,16 +351,16 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 user!.numOfPosts = data[Constants.ServerModelField_User.numOfPosts] as? Int
             
                 // Decode profile image
-                if (data[Constants.ServerModelField_User.profilePhoto] != nil) {
-                    let base64Image = data[Constants.ServerModelField_User.profilePhoto] as? String
-                    if (base64Image != nil) {
-                        
-                        let decodedImage = NSData(base64EncodedString: "fd6a3c2e-244", options: NSDataBase64DecodingOptions(rawValue: 0) )
-                    
-                        user?.profilePhoto = UIImage(data: decodedImage!)
-                    }
-
-                }
+//                if (data[Constants.ServerModelField_User.profilePhoto] != nil) {
+//                    let base64Image = data[Constants.ServerModelField_User.profilePhoto] as? String
+//                    if (base64Image != nil) {
+//                        
+//                        let decodedImage = NSData(base64EncodedString: "fd6a3c2e-244", options: NSDataBase64DecodingOptions(rawValue: 0) )
+//                    
+//                        user?.profilePhoto = UIImage(data: decodedImage!)
+//                    }
+//
+//                }
                 onSuccess(user: user!)
             }
             , onError: {(error, response) in
@@ -392,9 +392,18 @@ class ApiManager: NSObject, NSURLSessionDelegate {
     }
 
     func getActivity(user: User, onSuccess: (posts: [Post]) -> Void, onError: (error: NSError) -> Void) {
-        let specificUrl = "posts/"
+        // get yesterday
+        let yesterDayDate = NSCalendar.currentCalendar().dateByAddingUnit(.Day, value: -1, toDate: NSDate(), options: [])
+        // Format time
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
+        dateFormatter.timeZone = NSTimeZone(name: "UTC")
+        let dateString = dateFormatter.stringFromDate(yesterDayDate!)
         
-        let fullUrl = ApiManager.serverUrl + specificUrl
+        // Construct API URL
+        let specificUrl = "posts/?created_at=" + dateString
+        let fullUrl = ApiManager.serverUrl + specificUrl        
+        print(fullUrl)
         
         ApiManager.sharedInstance.GET(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
                                         // put data into the post objects
@@ -414,10 +423,10 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                                             let username = (datum[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
                                             post?.username = username
 
-                                            let createTimeStr = datum[Constants.ServerModelField_Post.createdAt] as! String
+                                            let createTimeStr = datum[Constants.ServerModelField_Post.createdAt] as! String + "UTC"
                                             let createTime = self.FormatDate(createTimeStr)
                                             post?.createdAt = createTime
-                                            let updateTimeStr = datum[Constants.ServerModelField_Post.updatedAt] as! String
+                                            let updateTimeStr = datum[Constants.ServerModelField_Post.updatedAt] as! String + "UTC"
                                             let updateTime = self.FormatDate(updateTimeStr)
                                             post?.updatedAt = updateTime
                                             //geo-coordinates
@@ -465,10 +474,10 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 let userId = datum[Constants.ServerModelField_Post.userId] as? NSNumber
                 post?.userId = userId?.longLongValue
                 //time stamps
-                let createTimeStr = datum[Constants.ServerModelField_Post.createdAt] as! String
+                let createTimeStr = datum[Constants.ServerModelField_Post.createdAt] as! String + "UTC"
                 let createTime = self.FormatDate(createTimeStr)
                 post?.createdAt = createTime
-                let updateTimeStr = datum[Constants.ServerModelField_Post.updatedAt] as! String
+                let updateTimeStr = datum[Constants.ServerModelField_Post.updatedAt] as! String + "UTC"
                 let updateTime = self.FormatDate(updateTimeStr)
                 post?.updatedAt = updateTime
                 //geo-coordinates
@@ -531,10 +540,10 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             post?.postNumOfPosts = numOfPosts
             
             //time stamps
-            let createTimeStr = data[Constants.ServerModelField_Post.createdAt] as! String
+            let createTimeStr = data[Constants.ServerModelField_Post.createdAt] as! String + "UTC"
             let createTime = self.FormatDate(createTimeStr)
             post?.createdAt = createTime
-            let updateTimeStr = data[Constants.ServerModelField_Post.updatedAt] as! String
+            let updateTimeStr = data[Constants.ServerModelField_Post.updatedAt] as! String + "UTC"
             let updateTime = self.FormatDate(updateTimeStr)
             post?.updatedAt = updateTime
             //geo-coordinates
@@ -628,10 +637,10 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 join?.postName = postName
                 
                 //time stamps
-                let createTimeStr = datum[Constants.ServerModelField_Join.createdAt] as! String
+                let createTimeStr = datum[Constants.ServerModelField_Join.createdAt] as! String + "UTC"
                 let createTime = self.FormatDate(createTimeStr)
                 join?.createdAt = createTime
-                let updateTimeStr = datum[Constants.ServerModelField_Join.updatedAt] as! String
+                let updateTimeStr = datum[Constants.ServerModelField_Join.updatedAt] as! String + "UTC"
                 let updateTime = self.FormatDate(updateTimeStr)
                 join?.updatedAt = updateTime
                 //geo-coordinates
@@ -698,10 +707,10 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 join?.postName = postName
                 
                 //time stamps
-                let createTimeStr = datum[Constants.ServerModelField_Join.createdAt] as! String
+                let createTimeStr = datum[Constants.ServerModelField_Join.createdAt] as! String + "UTC"
                 let createTime = self.FormatDate(createTimeStr)
                 join?.createdAt = createTime
-                let updateTimeStr = datum[Constants.ServerModelField_Join.updatedAt] as! String
+                let updateTimeStr = datum[Constants.ServerModelField_Join.updatedAt] as! String + "UTC"
                 let updateTime = self.FormatDate(updateTimeStr)
                 join?.updatedAt = updateTime
                 //geo-coordinates
@@ -783,7 +792,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 let postId = datum[Constants.ServerModelField_Message.postId] as? NSNumber
                 message?.postId = postId?.longLongValue
                 //time stamps
-                let createTimeStr = datum[Constants.ServerModelField_Message.createdAt] as! String
+                let createTimeStr = datum[Constants.ServerModelField_Message.createdAt] as! String + "UTC"
                 let createTime = self.FormatDate(createTimeStr)
                 message?.createdAt = createTime
 
@@ -809,9 +818,13 @@ class ApiManager: NSObject, NSURLSessionDelegate {
     
     //MARK: Miscellaneous Formatting
     func FormatDate(dateString: String) -> NSDate {
+        print("server time:" + dateString)
+//        dateString = dateString + "UTC"
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
-        
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'zzz"
+        dateFormatter.timeZone = NSTimeZone()
+        print("NSDate:")
+        print(dateFormatter.dateFromString(dateString)!)
         return dateFormatter.dateFromString(dateString)!
     }
     

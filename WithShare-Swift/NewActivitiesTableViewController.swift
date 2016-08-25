@@ -151,12 +151,6 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
                 }
         })
     }
-    
-//    func filterActivityType(type: String) {
-//        var filter_posts = [Post]()
-//        filter_posts = self.posts
-//        
-//    }
 
     func handleRefresh(refreshControl: UIRefreshControl) {
         self.loadPostData()
@@ -188,8 +182,16 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         // Configure and format time label
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "h:mm a"
+        dateFormatter.timeZone = NSTimeZone()
+        
+        let now = NSDate()
+        print("UTC time post create:")
+        print(post.createdAt)
+        print("local time post create:")
+        print(dateFormatter.stringFromDate(post.createdAt))
+        
         let cal = NSCalendar.currentCalendar()
-        var components = cal.components([.Era, .Year, .Month, .Day], fromDate:NSDate())
+        var components = cal.components([.Era, .Year, .Month, .Day], fromDate: now)
         let today = cal.dateFromComponents(components)!
         
         components = cal.components([.Era, .Year, .Month, .Day], fromDate:post.createdAt)
