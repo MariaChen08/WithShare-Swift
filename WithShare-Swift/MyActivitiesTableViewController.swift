@@ -117,7 +117,7 @@ class MyActivitiesTableViewController: UITableViewController {
         let post = posts[indexPath.row]
         // Configure cells
         cell.ActivityTitleLabel.font = UIFont.boldSystemFontOfSize(16.0)
-        cell.ActivityTitleLabel.text = "Title: " + post.activityTitle!
+        cell.ActivityTitleLabel.text = post.activityTitle!
         cell.DetailLabel.text = post.detail
         cell.MeetLocationLabel.text = "meet@: " + post.meetPlace!
         

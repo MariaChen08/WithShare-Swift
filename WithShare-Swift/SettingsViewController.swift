@@ -267,16 +267,16 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 print("get profile success")
                 
-                if user.fullName != nil {
+                if (user.fullName != nil && user.fullName != Constants.blankSign) {
                     self.fullNameTextField.text = user.fullName
                 }
-                if user.grade != nil {
+                if (user.grade != nil && user.grade != Constants.blankSign) {
                     self.gradeTextField.text = user.grade
                 }
-                if user.department != nil {
+                if (user.department != nil && user.department != Constants.blankSign) {
                     self.departmentTextField.text = user.department
                 }
-                if user.hobby != nil {
+                if (user.hobby != nil && user.hobby != Constants.blankSign) {
                     self.hobbyTextField.text = user.hobby
                 }
                 

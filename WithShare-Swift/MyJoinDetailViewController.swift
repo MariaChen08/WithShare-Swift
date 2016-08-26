@@ -36,6 +36,7 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var joinButton: UIBarButtonItem!
     
     var join: Join?
     var post: Post?
@@ -50,14 +51,33 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate {
     
     
     override func viewDidLoad() {
+        // Initial blank page
+        fullNameLabel.text = ""
+        gradeLabel.text = ""
+        departmentLabel.text = ""
+        numOfPostLabel.text = ""
+        activityTitleLabel.text = ""
+        meetPlaceLabel.text = ""
+        detailLabel.text = ""
+        
+        activityTitleLabel.font = UIFont.boldSystemFontOfSize(18.0)
+
+        
         if let join = join {
+            if (join.status == Constants.JoinStatus.confirm) {
+                self.joinButton.title = "";
+                self.joinButton.enabled = false;
+            }
+            
             // Retrieve cached user info
             let defaults = NSUserDefaults.standardUserDefaults()
             username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
             password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
             phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
+            currentUserId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
             
             user = User(username: username!, password: password!)
+            user?.id = currentUserId
             user?.phoneNumber = phoneNumber
             
             post = Post()
@@ -106,7 +126,7 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate {
                 self.numOfPostLabel.text = String(post.postNumOfPosts!) + " posts"
                 
                 // load post
-                self.activityTitleLabel.text = "Activity Title: " + post.activityTitle!
+                self.activityTitleLabel.text = post.activityTitle!
                 self.meetPlaceLabel.text = "meet@ " + post.meetPlace!
                 self.detailLabel.text = post.detail!
             }
@@ -121,5 +141,27 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate {
         })
     }
 
+    @IBAction func confirmJoin(sender: AnyObject) {
+        self.join?.status = Constants.JoinStatus.confirm
+        print(self.join?.status)
+        // Upload to server
+        ApiManager.sharedInstance.confirmJoinActivity(self.user!, join: self.join!, onSuccess: {(user) in
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                print("confirm new activity success!")
+                print("joinid: ")
+                print(self.join!.id)
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("join activity error!")
+                    let alert = UIAlertController(title: "Unable to join activity!", message:
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
+    }
+    
 
 }

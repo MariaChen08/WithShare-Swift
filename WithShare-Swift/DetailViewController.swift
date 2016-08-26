@@ -52,8 +52,19 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     var messageContent: String?
     
     override func viewDidLoad() {
+        // Initial blank page
+        fullNameLabel.text = ""
+        gradeLabel.text = ""
+        departmentLabel.text = ""
+        numOfPostLabel.text = ""
+        activityTitleLabel.text = ""
+        meetPlaceLabel.text = ""
+        detailLabel.text = ""
+        
+        activityTitleLabel.font = UIFont.boldSystemFontOfSize(18.0)
+        
         if let post = post {
-            activityTitleLabel.text = "Activity Title: " + post.activityTitle!
+            activityTitleLabel.text = post.activityTitle!
             meetPlaceLabel.text = "meet@ " + post.meetPlace!
             detailLabel.text = post.detail!
             
@@ -163,25 +174,27 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             }
             join?.userId = currentUserId
             join?.postId = post?.id
+            join?.status = Constants.JoinStatus.confirm
             
             // Upload to server
-            ApiManager.sharedInstance.createJoinActivity(user!, join: join!, onSuccess: {(user) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
-                    print("create new activity success!")
-                    print("joinid: ")
-                    print(self.join!.id)
-                    self.performSegueWithIdentifier("joinActivityExit", sender: self)
-                }
-                }, onError: {(error) in
-                    NSOperationQueue.mainQueue().addOperationWithBlock {
-                        print("join activity error!")
-                        let alert = UIAlertController(title: "Unable to join activity!", message:
-                            "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-                        
-                        self.presentViewController(alert, animated: true, completion: nil)
-                    }
-            })
+            self.createJoin()
+//            ApiManager.sharedInstance.createJoinActivity(user!, join: join!, onSuccess: {(user) in
+//                NSOperationQueue.mainQueue().addOperationWithBlock {
+//                    print("create new activity success!")
+//                    print("joinid: ")
+//                    print(self.join!.id)
+//                    self.performSegueWithIdentifier("joinActivityExit", sender: self)
+//                }
+//                }, onError: {(error) in
+//                    NSOperationQueue.mainQueue().addOperationWithBlock {
+//                        print("join activity error!")
+//                        let alert = UIAlertController(title: "Unable to join activity!", message:
+//                            "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+//                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+//                        
+//                        self.presentViewController(alert, animated: true, completion: nil)
+//                    }
+//            })
         }
     }
     
@@ -236,14 +249,38 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         print(self.message?.receiverId)
         print("receiver email: " + (self.message?.receiverUsername)!)
         
+        join = Join()
+        if (currentCoordinates != nil) {
+            join?.currentLatitude = currentCoordinates!.latitude
+            join?.currentLatitude = (join?.currentLatitude)?.roundFiveDigits()
+            join?.currentLongtitude = currentCoordinates!.longitude
+            join?.currentLongtitude = (join?.currentLongtitude)?.roundFiveDigits()
+        }
+        else {
+            join?.currentLatitude = 0
+            join?.currentLongtitude = 0
+        }
+        join?.userId = currentUserId
+        join?.postId = post?.id
+
+        
         // Upload to server
         ApiManager.sharedInstance.createMessage(user!, message: message!, onSuccess: {(user) in
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 print("create new message success!")
                 
+//                let alert = UIAlertController(title: "Message sent!", message:
+//                    "Your message has been sent to " + (self.message?.receiverUsername)!, preferredStyle: UIAlertControllerStyle.Alert)
                 let alert = UIAlertController(title: "Message sent!", message:
-                    "Your message has been sent to " + (self.message?.receiverUsername)!, preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                    "Do you confirm to join the activity? Or just interested at the moment?", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "Yes, join", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+                    self.join?.status = Constants.JoinStatus.confirm
+                    self.createJoin()
+                    }))
+                alert.addAction(UIAlertAction(title: "No, just interested", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+                    self.join?.status = Constants.JoinStatus.interested
+                    self.createJoin()
+                }))
                 
                 self.presentViewController(alert, animated: true, completion: nil)
             }
@@ -259,6 +296,28 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         })
     }
     
+    // MARK: confirm join or just interested
+    func createJoin() {
+        // Upload to server
+        ApiManager.sharedInstance.createJoinActivity(self.user!, join: self.join!, onSuccess: {(user) in
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                print("create new activity success!")
+                print("joinid: ")
+                print(self.join!.id)
+                self.performSegueWithIdentifier("joinActivityExit", sender: self)
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("join activity error!")
+                    let alert = UIAlertController(title: "Unable to join activity!", message:
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
+    }
+
 
 }
 

@@ -24,6 +24,12 @@ struct Constants {
     struct PostStatus {
         static let active = "active"
         static let modified = "modified"
+        static let closed = "closed"
+    }
+    
+    struct JoinStatus {
+        static let confirm = "confirmed"
+        static let interested = "interested"
     }
     
     struct activityTypes {
@@ -93,6 +99,7 @@ struct Constants {
         static let deviceType = "device_type"
         static let currentLatitude = "current_latitude"
         static let currentLongitude = "current_longitude"
+        static let status = "status"
     }
 
     struct ServerModelField_Message {

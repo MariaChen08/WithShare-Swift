@@ -31,6 +31,17 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        // Initial blank page
+//        fullNameLabel.text = ""
+//        gradeLabel.text = ""
+//        departmentLabel.text = ""
+//        numOfPostLabel.text = ""
+//        activityTitleLabel.text = ""
+//        meetPlaceLabel.text = ""
+//        detailLabel.text = ""
+//        
+//        activityTitleLabel.font = UIFont.boldSystemFontOfSize(18.0)
+        
         if let post = post {
             activityTitleLabel.text = "Activity Title: " + post.activityTitle!
             meetPlaceLabel.text = "meet@ " + post.meetPlace!
@@ -49,7 +60,8 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         user = User(username: username!, password: password!)
         user?.phoneNumber = phoneNumber
         
-        user?.id = post?.userId
+//        user?.id = post?.userId
+        user?.id = currentUserId
         
         self.loadMyJoinData()
         
@@ -140,7 +152,26 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
     
     //MARK: Actions
     @IBAction func closeActivity(sender: AnyObject) {
-        
+        self.post?.status = Constants.PostStatus.closed
+//        print(self.post?.status)
+        // Upload to server
+        ApiManager.sharedInstance.editActivity(self.user!, post: self.post!, onSuccess: {(user) in
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                print("close activity success!")
+                print("postid: ")
+                print(self.post!.id)
+//                self.performSegueWithIdentifier("joinActivityExit", sender: self)
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("close activity error!")
+                    let alert = UIAlertController(title: "Unable to close activity!", message:
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
     }
     
 

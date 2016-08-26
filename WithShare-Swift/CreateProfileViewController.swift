@@ -113,11 +113,11 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
         switch genderSegmentedControl.selectedSegmentIndex
         {
             case 0:
-                gender = "female";
+                gender = Constants.Gender.female;
             case 1:
-                gender = "male";
+                gender = Constants.Gender.male;
             default:
-                break;
+                gender = Constants.Gender.female;
         }
     }
     

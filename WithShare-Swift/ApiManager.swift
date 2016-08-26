@@ -271,7 +271,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 print("Body null")
             }
             
-            if (response as? NSHTTPURLResponse)?.statusCode != 201 {
+            if ((response as? NSHTTPURLResponse)?.statusCode != 201 && (response as? NSHTTPURLResponse)?.statusCode != 200) {
                 onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Server returned error": NSObject()]), response: NSURLResponse())
                 return
             }
@@ -390,6 +390,29 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         })
         
     }
+    
+    func editActivity(user: User, post: Post, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+        let idField = String(post.id!)
+        let specificUrl = "posts/" + idField + "/"
+        
+        let fullUrl = ApiManager.serverUrl + specificUrl
+        print("create activity url: " + fullUrl)
+        print("user id:" + String(user.id!))
+        let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
+        let activityData: [String: AnyObject] = [Constants.ServerModelField_Post.userId: userProfile, Constants.ServerModelField_Post.deviceType: post.deviceType!, Constants.ServerModelField_Post.deviceToken: post.deviceToken!, Constants.ServerModelField_Post.activityType: post.activityTitle!, Constants.ServerModelField_Post.meetLocation: post.meetPlace!, Constants.ServerModelField_Post.detail: post.detail!, Constants.ServerModelField_Post.currentLatitude: post.currentLatitude!,Constants.ServerModelField_Post.currentLongitude: post.currentLongtitude!, Constants.ServerModelField_Post.status: post.status!]
+        
+        ApiManager.sharedInstance.PUT(fullUrl, username: user.username!, password: user.password!, data: activityData, onSuccess: {(data, response) in
+            let id = data[Constants.ServerModelField_User.id]
+            post.id = id?.longLongValue
+            
+            onSuccess(user: user)
+            }
+            , onError: {(error, response) in
+                onError(error: error)
+        })
+        
+    }
+
 
     func getActivity(user: User, onSuccess: (posts: [Post]) -> Void, onError: (error: NSError) -> Void) {
         // get yesterday
@@ -401,7 +424,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         let dateString = dateFormatter.stringFromDate(yesterDayDate!)
         
         // Construct API URL
-        let specificUrl = "posts/?created_at=" + dateString
+        let specificUrl = "posts/?created_at_gt=" + dateString
         let fullUrl = ApiManager.serverUrl + specificUrl        
         print(fullUrl)
         
@@ -578,7 +601,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
         let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
         
-        let joinData: [String: AnyObject] = [Constants.ServerModelField_Join.userId: userProfile, Constants.ServerModelField_Join.postId: NSNumber(longLong: join.postId!), Constants.ServerModelField_Join.deviceType: join.deviceType!, Constants.ServerModelField_Post.currentLatitude: join.currentLatitude!,Constants.ServerModelField_Post.currentLongitude: join.currentLongtitude!]
+        let joinData: [String: AnyObject] = [Constants.ServerModelField_Join.userId: userProfile, Constants.ServerModelField_Join.postId: NSNumber(longLong: join.postId!), Constants.ServerModelField_Join.deviceType: join.deviceType!, Constants.ServerModelField_Join.currentLatitude: join.currentLatitude!,Constants.ServerModelField_Join.currentLongitude: join.currentLongtitude!, Constants.ServerModelField_Join.status: join.status!]
         
         ApiManager.sharedInstance.POST(fullUrl, username: user.username!, password: user.password!, data: joinData, onSuccess: {(data, response) in
             let id = data[Constants.ServerModelField_Join.id]
@@ -591,6 +614,33 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         })
         
     }
+    
+    func confirmJoinActivity(user: User, join: Join, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+        let idField = String(join.id!)
+        let specificUrl = "joins/" + idField + "/"
+        
+        let fullUrl = ApiManager.serverUrl + specificUrl
+        print("join activity url: " + fullUrl)
+        print("user id:" + String(user.id!))
+        print(join.status)
+        
+        let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
+        
+        let joinData: [String: AnyObject] = [Constants.ServerModelField_Join.userId: userProfile, Constants.ServerModelField_Join.postId: NSNumber(longLong: join.postId!), Constants.ServerModelField_Join.deviceType: join.deviceType!, Constants.ServerModelField_Join.currentLatitude: join.currentLatitude!,Constants.ServerModelField_Join.currentLongitude: join.currentLongtitude!, Constants.ServerModelField_Join.status: join.status!]
+
+        
+        ApiManager.sharedInstance.PUT(fullUrl, username: user.username!, password: user.password!, data: joinData, onSuccess: {(data, response) in
+            let id = data[Constants.ServerModelField_Join.id]
+            join.id = id?.longLongValue
+            
+            onSuccess(user: user)
+            }
+            , onError: {(error, response) in
+                onError(error: error)
+        })
+        
+    }
+
     
     func getJoinById(user: User, post: Post, onSuccess: (joins: [Join]) -> Void, onError: (error: NSError) -> Void) {
         
@@ -650,6 +700,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 join?.currentLongtitude = Double(longStr!)
                 //other string type fields
                 join?.deviceType = datum[Constants.ServerModelField_Join.deviceType] as? String
+                join?.status = datum[Constants.ServerModelField_Join.status] as? String
                 joins.append(join!)
             }
             // sort it
@@ -720,6 +771,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 join?.currentLongtitude = Double(longStr!)
                 //other string type fields
                 join?.deviceType = datum[Constants.ServerModelField_Join.deviceType] as? String
+                join?.status = datum[Constants.ServerModelField_Join.status] as? String
                 joins.append(join!)
             }
             // sort it

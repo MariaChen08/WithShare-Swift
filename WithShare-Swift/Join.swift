@@ -33,6 +33,8 @@ class Join {
     
     var deviceType: String?
     
+    var status: String?
+    
     // MARK: Initialization
     init?() {
         //UTC time

@@ -35,7 +35,6 @@
 		A451EFE51D4EAA9D00093DBD /* Join.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFE41D4EAA9D00093DBD /* Join.swift */; };
 		A451EFE61D4EAA9D00093DBD /* Join.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFE41D4EAA9D00093DBD /* Join.swift */; };
 		A451EFE81D4EDBC000093DBD /* MyActivitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFE71D4EDBC000093DBD /* MyActivitiesTableViewController.swift */; };
-		A451EFE91D4EDBC000093DBD /* MyActivitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFE71D4EDBC000093DBD /* MyActivitiesTableViewController.swift */; };
 		A451EFEB1D4EE12900093DBD /* MyActivityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFEA1D4EE12900093DBD /* MyActivityDetailViewController.swift */; };
 		A451EFEE1D4EEB9E00093DBD /* JoinedUserCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFED1D4EEB9E00093DBD /* JoinedUserCustomCell.swift */; };
 		A451EFEF1D4EEB9E00093DBD /* JoinedUserCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A451EFED1D4EEB9E00093DBD /* JoinedUserCustomCell.swift */; };
@@ -545,7 +544,6 @@
 				A451EFDB1D4D321600093DBD /* Constants.swift in Sources */,
 				A4DF92951D62EF2300CDA2EE /* MyJoinTableViewCell.swift in Sources */,
 				A490AA831D42F30800305CCC /* User.swift in Sources */,
-				A451EFE91D4EDBC000093DBD /* MyActivitiesTableViewController.swift in Sources */,
 				A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */,
 				A4DF928F1D62A08100CDA2EE /* MyJoinTableViewController.swift in Sources */,
 				A451EFDC1D4D818100093DBD /* Post.swift in Sources */,
@@ -692,7 +690,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.ist.psu.hci.WithShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "826e3cfe-8a52-4589-91c1-0ff06701a854";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -708,7 +706,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.ist.psu.hci.WithShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "826e3cfe-8a52-4589-91c1-0ff06701a854";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

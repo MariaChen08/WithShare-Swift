@@ -128,11 +128,20 @@ class MyJoinTableViewController: UITableViewController {
         components = cal.components([.Era, .Year, .Month, .Day], fromDate:join.createdAt)
         let otherDate = cal.dateFromComponents(components)!
         
-        if (today.isEqualToDate(otherDate)) {
-            cell.joinTimeLabel.text = "Joined at:" +  dateFormatter.stringFromDate(join.createdAt) + " Today"
+        var joinQuote: String
+        if (join.status == Constants.JoinStatus.interested) {
+            joinQuote = "Message initially sent:"
+            cell.activityTitleLabel.text = join.postName! + "\n" + "(Interested)"
         }
         else {
-            cell.joinTimeLabel.text =  "Joined at:" + dateFormatter.stringFromDate(join.createdAt) + " Yesterday"
+            joinQuote = "Joined at:"
+        }
+        
+        if (today.isEqualToDate(otherDate)) {
+            cell.joinTimeLabel.text = joinQuote +  dateFormatter.stringFromDate(join.createdAt) + " Today"
+        }
+        else {
+            cell.joinTimeLabel.text =  joinQuote + dateFormatter.stringFromDate(join.createdAt) + " Yesterday"
         }
         
         return cell
