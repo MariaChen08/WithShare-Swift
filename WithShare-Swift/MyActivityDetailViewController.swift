@@ -31,21 +31,16 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        // Initial blank page
-//        fullNameLabel.text = ""
-//        gradeLabel.text = ""
-//        departmentLabel.text = ""
-//        numOfPostLabel.text = ""
-//        activityTitleLabel.text = ""
-//        meetPlaceLabel.text = ""
-//        detailLabel.text = ""
-//        
-//        activityTitleLabel.font = UIFont.boldSystemFontOfSize(18.0)
+        activityTitleLabel.font = UIFont.boldSystemFontOfSize(17.0)
         
         if let post = post {
-            activityTitleLabel.text = "Activity Title: " + post.activityTitle!
+            activityTitleLabel.text = post.activityTitle!
             meetPlaceLabel.text = "meet@ " + post.meetPlace!
             detailLabel.text = post.detail!
+            if (post.status == Constants.PostStatus.closed) {
+                closePostButton.enabled = false
+                closePostButton.setTitle("closed", forState: .Normal)
+            }
         }
         
         tableView.delegate = self
@@ -148,6 +143,10 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
                 joinerDetailViewController.join = selectedActivity
             }
         }
+        else if segue.identifier == "editPostSegue" {
+            let postViewController = segue.destinationViewController as! CreateActivityViewController
+            postViewController.post = self.post
+        }
     }
     
     //MARK: Actions
@@ -160,7 +159,8 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
                 print("close activity success!")
                 print("postid: ")
                 print(self.post!.id)
-//                self.performSegueWithIdentifier("joinActivityExit", sender: self)
+                self.closePostButton.enabled = false
+                self.closePostButton.setTitle("closed", forState: .Normal)
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
@@ -174,5 +174,8 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         })
     }
     
-
+    @IBAction func editPost(sender: AnyObject) {
+        self.performSegueWithIdentifier("editPostSegue", sender: self)
+    }
+    
 }

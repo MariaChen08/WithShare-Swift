@@ -518,7 +518,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 posts.append(post!)
             }
             // sort it
-            posts.sortInPlace({ $0.updatedAt?.compare($1.updatedAt!) == NSComparisonResult.OrderedDescending})
+            posts.sortInPlace({ $0.createdAt.compare($1.createdAt) == NSComparisonResult.OrderedDescending})
             onSuccess(posts: posts)
             }, onError: {(error, response) in
                 onError(error: error)
@@ -626,7 +626,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
         let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
         
-        let joinData: [String: AnyObject] = [Constants.ServerModelField_Join.userId: userProfile, Constants.ServerModelField_Join.postId: NSNumber(longLong: join.postId!), Constants.ServerModelField_Join.deviceType: join.deviceType!, Constants.ServerModelField_Join.currentLatitude: join.currentLatitude!,Constants.ServerModelField_Join.currentLongitude: join.currentLongtitude!, Constants.ServerModelField_Join.status: join.status!]
+        let joinData: [String: AnyObject] = [Constants.ServerModelField_Join.userId: userProfile, Constants.ServerModelField_Join.postId: NSNumber(longLong: join.postId!), Constants.ServerModelField_Join.deviceType: join.deviceType!, Constants.ServerModelField_Join.currentLatitude: join.currentLatitude!,Constants.ServerModelField_Join.currentLongitude: join.currentLongtitude!, Constants.ServerModelField_Join.status: Constants.JoinStatus.confirm]
 
         
         ApiManager.sharedInstance.PUT(fullUrl, username: user.username!, password: user.password!, data: joinData, onSuccess: {(data, response) in

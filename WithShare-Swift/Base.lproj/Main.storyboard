@@ -810,16 +810,26 @@
                                 <rect key="frame" x="40" y="84" width="520" height="206"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="kl9-5g-n7U" userLabel="ActivityDetailStackView">
-                                        <rect key="frame" x="0.0" y="67" width="460" height="73"/>
+                                        <rect key="frame" x="0.0" y="49" width="520" height="108"/>
                                         <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="EIG-it-6E1">
+                                                <rect key="frame" x="0.0" y="0.0" width="520" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="60" id="hg1-FX-ak8"/>
+                                                </constraints>
+                                                <state key="normal" title="Close Activity"/>
+                                                <connections>
+                                                    <action selector="closeActivity:" destination="jqz-dA-wnd" eventType="touchUpInside" id="MqR-kz-6bs"/>
+                                                </connections>
+                                            </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Activity Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ye2-DF-RzB">
-                                                <rect key="frame" x="0.0" y="0.0" width="460" height="21"/>
+                                                <rect key="frame" x="0.0" y="35" width="520" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="meeting place" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8V1-4c-Nwg">
-                                                <rect key="frame" x="0.0" y="26" width="460" height="21"/>
+                                                <rect key="frame" x="0.0" y="61" width="520" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="NY4-UL-B2j"/>
                                                 </constraints>
@@ -828,7 +838,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="detail" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VFN-p6-KCE">
-                                                <rect key="frame" x="0.0" y="52" width="460" height="21"/>
+                                                <rect key="frame" x="0.0" y="87" width="520" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="As4-20-00O"/>
                                                 </constraints>
@@ -839,29 +849,21 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="VFN-p6-KCE" secondAttribute="trailing" id="1Gw-ih-MZW"/>
-                                            <constraint firstItem="8V1-4c-Nwg" firstAttribute="top" secondItem="Ye2-DF-RzB" secondAttribute="bottom" constant="5" id="Gs0-am-EcG"/>
+                                            <constraint firstItem="EIG-it-6E1" firstAttribute="top" secondItem="kl9-5g-n7U" secondAttribute="top" id="ALG-5t-vdl"/>
+                                            <constraint firstItem="8V1-4c-Nwg" firstAttribute="top" secondItem="Ye2-DF-RzB" secondAttribute="bottom" constant="5" id="QNp-f2-hvY"/>
                                             <constraint firstAttribute="trailing" secondItem="Ye2-DF-RzB" secondAttribute="trailing" id="S74-wW-VxO"/>
                                             <constraint firstItem="8V1-4c-Nwg" firstAttribute="leading" secondItem="kl9-5g-n7U" secondAttribute="leading" id="ViG-6B-D7M"/>
                                             <constraint firstItem="VFN-p6-KCE" firstAttribute="top" secondItem="8V1-4c-Nwg" secondAttribute="bottom" constant="5" id="WPW-pM-Ccn"/>
+                                            <constraint firstItem="EIG-it-6E1" firstAttribute="leading" secondItem="kl9-5g-n7U" secondAttribute="leading" id="YpI-nP-yrD"/>
+                                            <constraint firstItem="Ye2-DF-RzB" firstAttribute="top" secondItem="EIG-it-6E1" secondAttribute="bottom" constant="5" id="a65-Dp-LYt"/>
                                             <constraint firstAttribute="trailing" secondItem="8V1-4c-Nwg" secondAttribute="trailing" id="bdo-PE-zMZ"/>
                                             <constraint firstItem="VFN-p6-KCE" firstAttribute="leading" secondItem="kl9-5g-n7U" secondAttribute="leading" id="cXk-Ws-hx1"/>
                                             <constraint firstItem="Ye2-DF-RzB" firstAttribute="leading" secondItem="kl9-5g-n7U" secondAttribute="leading" id="cpo-l6-YqO"/>
-                                            <constraint firstItem="Ye2-DF-RzB" firstAttribute="top" secondItem="kl9-5g-n7U" secondAttribute="top" id="dMX-Po-0BB"/>
                                             <constraint firstItem="VFN-p6-KCE" firstAttribute="top" secondItem="8V1-4c-Nwg" secondAttribute="bottom" constant="5" id="mRv-ib-F5R"/>
                                             <constraint firstAttribute="bottom" secondItem="VFN-p6-KCE" secondAttribute="bottom" id="pI9-EZ-dET"/>
+                                            <constraint firstAttribute="trailing" secondItem="EIG-it-6E1" secondAttribute="trailing" id="rT9-3f-o0E"/>
                                         </constraints>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="EIG-it-6E1">
-                                        <rect key="frame" x="460" y="88" width="60" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="60" id="hg1-FX-ak8"/>
-                                        </constraints>
-                                        <state key="normal" title="Close Activity"/>
-                                        <connections>
-                                            <action selector="closeActivity:" destination="jqz-dA-wnd" eventType="touchUpInside" id="MqR-kz-6bs"/>
-                                            <segue destination="qLF-wz-jpk" kind="unwind" unwindAction="backMyActivityUnwindToList:" id="eAK-ay-i6A"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="KTf-mg-wz1">
@@ -952,7 +954,11 @@
                                 <segue destination="qLF-wz-jpk" kind="unwind" identifier="backMyActivityExit" unwindAction="backMyActivityUnwindToList:" id="AWR-15-G6F"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Edit Post" id="xKs-yg-Pnz"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit Post" id="xKs-yg-Pnz">
+                            <connections>
+                                <action selector="editPost:" destination="jqz-dA-wnd" id="cbZ-gQ-cLq"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="activityTitleLabel" destination="Ye2-DF-RzB" id="Tdc-1t-a5S"/>
@@ -960,6 +966,7 @@
                         <outlet property="detailLabel" destination="VFN-p6-KCE" id="UMk-2r-upS"/>
                         <outlet property="meetPlaceLabel" destination="8V1-4c-Nwg" id="1ud-Ni-CzS"/>
                         <outlet property="tableView" destination="KTf-mg-wz1" id="Qq1-m2-7do"/>
+                        <segue destination="Oqh-3Y-1T1" kind="show" identifier="editPostSegue" id="WOc-bL-L9d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jO7-wb-3JW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -993,13 +1000,13 @@
                                         <rect key="frame" x="130" y="0.0" width="390" height="100"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="full name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YOX-XL-88s">
-                                                <rect key="frame" x="0.0" y="0.0" width="390" height="17"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="390" height="0.0"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="grade" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AjQ-YC-xy1">
-                                                <rect key="frame" x="0.0" y="22" width="390" height="21"/>
+                                                <rect key="frame" x="0.0" y="5" width="390" height="17"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" id="ISm-Mm-CaV"/>
                                                 </constraints>
@@ -1008,7 +1015,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="department" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mgc-DP-rPP">
-                                                <rect key="frame" x="0.0" y="48" width="390" height="21"/>
+                                                <rect key="frame" x="0.0" y="27" width="390" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" id="wpI-RU-Pvm"/>
                                                 </constraints>
@@ -1017,7 +1024,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="hobby" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tSv-hd-gpp">
-                                                <rect key="frame" x="0.0" y="74" width="390" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="53" width="390" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -1722,12 +1729,12 @@
                     <navigationItem key="navigationItem" title="Create Activity" id="dfy-Af-cYm">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="qvT-XW-oCc">
                             <connections>
-                                <segue destination="NG1-rY-9Pg" kind="unwind" identifier="cancelActivityExit" unwindAction="createActivityUnwindToList:" id="xtA-H7-xbZ"/>
+                                <segue destination="NG1-rY-9Pg" kind="unwind" identifier="editActivityExit" unwindAction="editPostUnwindToList:" id="lgs-7b-Hzy"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Post" id="JTe-11-T5E">
                             <connections>
-                                <segue destination="NG1-rY-9Pg" kind="unwind" identifier="createActivityExit" unwindAction="createActivityUnwindToList:" id="U00-gS-zOb"/>
+                                <segue destination="NG1-rY-9Pg" kind="unwind" identifier="editActivitySuccessExit" unwindAction="editPostUnwindToList:" id="hVw-xn-PNp"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1826,13 +1833,13 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="342-AI-8sr" userLabel="ProfileStackView">
                                         <rect key="frame" x="130" y="0.0" width="390" height="100"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="full name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="REd-o3-NRA">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="full name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="REd-o3-NRA">
                                                 <rect key="frame" x="0.0" y="0.0" width="390" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="grade" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y75-AJ-elr">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="grade" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y75-AJ-elr">
                                                 <rect key="frame" x="0.0" y="22" width="390" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" id="dwG-bT-pnS"/>
@@ -1841,7 +1848,7 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="department" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eH3-6i-QIm">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="department" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eH3-6i-QIm">
                                                 <rect key="frame" x="0.0" y="48" width="390" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" id="LBB-pn-BaJ"/>
@@ -1850,7 +1857,7 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="hobby" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cwz-h0-V6n">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="hobby" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cwz-h0-V6n">
                                                 <rect key="frame" x="0.0" y="74" width="390" height="0.0"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -2058,5 +2065,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="Nzi-xX-rKq"/>
         <segue reference="ffV-7v-LXr"/>
+        <segue reference="WOc-bL-L9d"/>
     </inferredMetricsTieBreakers>
 </document>

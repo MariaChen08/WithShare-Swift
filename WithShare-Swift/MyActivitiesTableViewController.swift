@@ -33,16 +33,6 @@ class MyActivitiesTableViewController: UITableViewController {
 //            //            self.navigationItem.hidesBackButton = true
 //        }
         
-        // Retrieve cached user info
-        let defaults = NSUserDefaults.standardUserDefaults()
-        username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
-        password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
-        phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
-        currentUserId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
-        
-        user = User(username: username!, password: password!)
-        user?.phoneNumber = phoneNumber
-        user?.id = currentUserId
         
         self.loadMyPostData()
         
@@ -75,10 +65,30 @@ class MyActivitiesTableViewController: UITableViewController {
     
     // Manage Data Source
     func loadMyPostData() {
+        // Retrieve cached user info
+        let defaults = NSUserDefaults.standardUserDefaults()
+        self.username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
+        self.password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
+        self.phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
+        self.currentUserId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
+        
+        self.user = User(username: username!, password: password!)
+        self.user?.phoneNumber = phoneNumber
+        self.user?.id = currentUserId
+
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        ApiManager.sharedInstance.getMyActivity(user!, onSuccess: {(posts) in
+        ApiManager.sharedInstance.getMyActivity(self.user!, onSuccess: {(posts) in
             self.posts = posts
             NSOperationQueue.mainQueue().addOperationWithBlock {
+                // Filter posts
+                let countPosts = posts.count
+                var flag = 0
+                for index in 0...countPosts-1 {
+                    if (posts[index].status == Constants.PostStatus.modified) {
+                        self.posts.removeAtIndex(index-flag)
+                        flag += 1
+                    }
+                }
                 self.tableView.reloadData()
             }
             }, onError: {(error) in
@@ -96,6 +106,11 @@ class MyActivitiesTableViewController: UITableViewController {
     func handleRefresh(refreshControl: UIRefreshControl) {
         self.loadMyPostData()
         refreshControl.endRefreshing()
+    }
+    
+    //MARK: unwind segues
+    @IBAction func editPostUnwindToList(segue:UIStoryboardSegue) {
+        self.loadMyPostData()
     }
     
     

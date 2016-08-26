@@ -40,9 +40,15 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     var center = CLLocationCoordinate2DMake(40.793958335519726, -77.867923433207636)
     
     var post:Post?
+    var oldPost:Post?
         
     override func viewDidLoad() {
-        print("activity Type after segue: " + activityTypeShow!)
+        if let post = post {
+            activityTypeShow = post.activityTitle!
+            detailTextField.text = post.detail!
+            oldPost = post
+        }
+
         activityTypeButton.setTitle(activityTypeShow, forState: .Normal)
         addressLabel.numberOfLines = 0
         
@@ -126,6 +132,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
                 detail = ""
             }
             post = Post()
+            
             if (currentCoordinates != nil) {
                 post?.currentLatitude = currentCoordinates!.latitude
                 post?.currentLatitude = (post?.currentLatitude)?.roundFiveDigits()
@@ -144,27 +151,31 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             post?.status = Constants.PostStatus.active
             post?.username = user?.username
             
+            if oldPost != nil {
+                self.editActivity()
+            }
+            self.createActivity()
             
-            print("post created:" + post!.username!)
-            
-            // Upload to server
-            ApiManager.sharedInstance.createActivity(user!, post: post!, onSuccess: {(user) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
-                    print("create new activity success!")
-                    print("postid: ")
-                    print(self.post!.id)
-                    self.performSegueWithIdentifier("createActivityExit", sender: self)
-                }
-                }, onError: {(error) in
-                    NSOperationQueue.mainQueue().addOperationWithBlock {
-                        print("create new activity error!")
-                        let alert = UIAlertController(title: "Unable to create new activity!", message:
-                            "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-                        
-                        self.presentViewController(alert, animated: true, completion: nil)
-                    }
-            })
+//            print("post created:" + post!.username!)
+//            
+//            // Upload to server
+//            ApiManager.sharedInstance.createActivity(user!, post: post!, onSuccess: {(user) in
+//                NSOperationQueue.mainQueue().addOperationWithBlock {
+//                    print("create new activity success!")
+//                    print("postid: ")
+//                    print(self.post!.id)
+//                    self.performSegueWithIdentifier("createActivityExit", sender: self)
+//                }
+//                }, onError: {(error) in
+//                    NSOperationQueue.mainQueue().addOperationWithBlock {
+//                        print("create new activity error!")
+//                        let alert = UIAlertController(title: "Unable to create new activity!", message:
+//                            "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+//                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+//                        
+//                        self.presentViewController(alert, animated: true, completion: nil)
+//                    }
+//            })
         }
     }
     
@@ -245,6 +256,53 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             }
         })
     }
+    
+    //MARK: upload to server
+    func createActivity() {
+        // Upload to server
+        ApiManager.sharedInstance.createActivity(self.user!, post: self.post!, onSuccess: {(user) in
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                print("create new activity success!")
+                print("postid: ")
+                print(self.post!.id)
+//                self.performSegueWithIdentifier("createActivityExit", sender: self)
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("create new activity error!")
+                    let alert = UIAlertController(title: "Unable to create new activity!", message:
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
+
+    }
+    
+    func editActivity() {
+        self.oldPost?.status = Constants.PostStatus.modified
+        // Upload to server
+        ApiManager.sharedInstance.editActivity(self.user!, post: self.oldPost!, onSuccess: {(user) in
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                print("edit activity success!")
+                print("postid: ")
+                print(self.oldPost!.id)
+//                self.performSegueWithIdentifier("createActivityExit", sender: self)
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("create new activity error!")
+                    let alert = UIAlertController(title: "Unable to edit activity!", message:
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
+        
+    }
+
 }
 
 // MARK: - CLLocationManagerDelegate
