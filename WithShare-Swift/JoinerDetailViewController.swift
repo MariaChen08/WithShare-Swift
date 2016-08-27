@@ -54,6 +54,7 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
     override func viewDidLoad() {
         tableView.delegate = self
         tableView.dataSource = self
+        self.tableView.addSubview(self.refreshControl)
         
         if let join = join {
             // Retrieve cached user info
@@ -156,6 +157,17 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
                 print("get messages success")
                 self.messages = messages
                 NSOperationQueue.mainQueue().addOperationWithBlock {
+                    // Filter messages
+                    let countMessages = messages.count
+                    var flag = 0
+                    for index in 0...countMessages-1 {
+                        guard ( (messages[index].senderId == self.senderId && messages[index].receiverId == self.joiner!.id) || (messages[index].senderId == self.joiner!.id && messages[index].receiverId == self.senderId) ) else {
+                            self.messages.removeAtIndex(index-flag)
+                            flag += 1
+                            break
+                        }
+                    }
+
                     self.tableView.reloadData()
                 }
 
@@ -185,8 +197,15 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
         
         // Fetches the appropriate join for the data source layout.
         let message = messages[indexPath.row]
-        
-        cell.messageLabel.text = message.content
+        if (message.senderFullname != nil && message.senderFullname != Constants.blankSign) {
+            cell.messageLabel.text = message.senderFullname
+        }
+        else {
+            cell.messageLabel.text = message.senderUsername
+        }
+        if (message.content != nil) {
+            cell.messageLabel.text =  cell.messageLabel.text! + ": " + message.content!
+        }
         
         // Configure and format time label
         let dateFormatter = NSDateFormatter()
@@ -203,6 +222,23 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+    }
+    
+    //Pull to refresh
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(JoinerDetailViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        
+        return refreshControl
+    }()
+    
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        // Do some reloading of data and update the table view's data source
+        // Fetch more objects from a web service, for example...
+        
+        // Simply adding an object to the data source for this example
+        self.loadMessages()
+        refreshControl.endRefreshing()
     }
     
     // MARK: Actions

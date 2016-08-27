@@ -84,6 +84,10 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
             cell.userNameLabel.text = join.username
         }
         
+        if (join.status == Constants.JoinStatus.interested) {
+            cell.userNameLabel.text = cell.userNameLabel.text! + "(interested)"
+        }
+        
         // Configure and format time label
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "h:mm a"

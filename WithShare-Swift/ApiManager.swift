@@ -836,11 +836,16 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 message?.senderId = senderId?.longLongValue
                 let senderUsername = (datum[Constants.ServerModelField_Message.sender] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
                 message?.senderUsername = senderUsername
+                let senderFullname = (datum[Constants.ServerModelField_Message.sender] as! NSDictionary)[Constants.ServerModelField_User.fullname]! as? String
+                message?.senderFullname = senderFullname
                 //receiver profile
                 let receiverId = (datum[Constants.ServerModelField_Message.receiver] as! NSDictionary)[Constants.ServerModelField_User.id]! as? NSNumber
                 message?.receiverId = receiverId?.longLongValue
                 let receiverUsername = (datum[Constants.ServerModelField_Message.receiver] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
                 message?.receiverUsername = receiverUsername
+                let receiverFullname = (datum[Constants.ServerModelField_Message.receiver] as! NSDictionary)[Constants.ServerModelField_User.fullname]! as? String
+                message?.receiverFullname = receiverFullname
+                
                 let postId = datum[Constants.ServerModelField_Message.postId] as? NSNumber
                 message?.postId = postId?.longLongValue
                 //time stamps

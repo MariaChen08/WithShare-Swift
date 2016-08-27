@@ -20,7 +20,9 @@ class Message {
     var postId: Int64?
     
     var senderUsername: String?
+    var senderFullname: String?
     var receiverUsername: String?
+    var receiverFullname: String?
     
     var currentLatitude: Double?
     var currentLongtitude: Double?
