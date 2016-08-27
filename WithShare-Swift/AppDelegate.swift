@@ -50,6 +50,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         print(userInfo)
+        var mess:String?
+//        var displayName:String?
+        
+        
+        if let result = userInfo["aps"] as? NSDictionary {
+            
+            if let mess = result["alert"] as? String {
+                
+//                mess = alert
+//                let alert = UIAlertView(title: "You have a new message.", message: mess, delegate: nil, cancelButtonTitle: "OK")
+//                alert.show()
+                let alertController = UIAlertController(title: "You have a new message.", message:
+                    mess, preferredStyle: UIAlertControllerStyle.Alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                
+                
+                window!.rootViewController?.presentViewController(alertController, animated: true, completion: nil)
+                
+                NSNotificationCenter.defaultCenter().postNotificationName("newMessageReceived", object: nil)
+                
+            }
+            
+        }
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -73,7 +96,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
 
 }
 

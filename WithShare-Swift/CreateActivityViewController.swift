@@ -156,26 +156,14 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             }
             self.createActivity()
             
-//            print("post created:" + post!.username!)
-//            
-//            // Upload to server
-//            ApiManager.sharedInstance.createActivity(user!, post: post!, onSuccess: {(user) in
-//                NSOperationQueue.mainQueue().addOperationWithBlock {
-//                    print("create new activity success!")
-//                    print("postid: ")
-//                    print(self.post!.id)
-//                    self.performSegueWithIdentifier("createActivityExit", sender: self)
-//                }
-//                }, onError: {(error) in
-//                    NSOperationQueue.mainQueue().addOperationWithBlock {
-//                        print("create new activity error!")
-//                        let alert = UIAlertController(title: "Unable to create new activity!", message:
-//                            "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-//                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-//                        
-//                        self.presentViewController(alert, animated: true, completion: nil)
-//                    }
-//            })
+            // dismiss view controller
+            self.navigationController?.popViewControllerAnimated(true);
+        }
+        
+        //Cancel post new activity
+        if cancelButton === sender {
+            // dismiss view controllers
+            self.navigationController?.popViewControllerAnimated(true);
         }
     }
     
@@ -277,7 +265,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
                     self.presentViewController(alert, animated: true, completion: nil)
                 }
         })
-
+      
     }
     
     func editActivity() {

@@ -204,6 +204,11 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
                 print("confirm new activity success!")
                 print("joinid: ")
                 print(self.join!.id)
+                self.joinButton.enabled = false
+                let alert = UIAlertController(title: "Join activity Success!", message:
+                    "Thank you for joining:" + self.post!.activityTitle!, preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {

@@ -29,6 +29,15 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
     var phoneNumber: String?
     var currentUserId: Int64?
     
+    //table pull to refresh
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(MyActivityDetailViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        
+        return refreshControl
+    }()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         activityTitleLabel.font = UIFont.boldSystemFontOfSize(17.0)
@@ -61,6 +70,17 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         self.loadMyJoinData()
         
     }
+    
+    //Pull to refresh
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        // Do some reloading of data and update the table view's data source
+        // Fetch more objects from a web service, for example...
+        
+        // Simply adding an object to the data source for this example
+        self.loadMyJoinData()
+        refreshControl.endRefreshing()
+    }
+
     
     // MARK: Joiner Table View
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
