@@ -66,7 +66,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         if let post = post {
             activityTitleLabel.text = post.activityTitle!
             meetPlaceLabel.text = "meet@ " + post.meetPlace!
-            detailLabel.text = post.detail!
+            if (post.detail?.isEmpty == false) {
+                detailLabel.text = "detail: " + post.detail!
+            }
+            else {
+                detailLabel.text = post.detail!
+            }
             
             // Retrieve cached user info
             let defaults = NSUserDefaults.standardUserDefaults()

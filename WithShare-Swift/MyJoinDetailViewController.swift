@@ -84,6 +84,7 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
         self.tableView.addSubview(self.refreshControl)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 80
+        
         // Initial blank page
         fullNameLabel.text = ""
         gradeLabel.text = ""
@@ -94,6 +95,10 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
         detailLabel.text = ""
         
         activityTitleLabel.font = UIFont.boldSystemFontOfSize(18.0)
+        
+        //
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
 
         
         if let join = join {

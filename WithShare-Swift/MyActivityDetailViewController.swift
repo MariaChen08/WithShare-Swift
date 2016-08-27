@@ -45,7 +45,13 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         if let post = post {
             activityTitleLabel.text = post.activityTitle!
             meetPlaceLabel.text = "meet@ " + post.meetPlace!
-            detailLabel.text = post.detail!
+            if (post.detail?.isEmpty == false) {
+                detailLabel.text = "detail: " + post.detail!
+            }
+            else {
+                detailLabel.text = post.detail!
+            }
+
             if (post.status == Constants.PostStatus.closed) {
                 closePostButton.enabled = false
                 closePostButton.setTitle("closed", forState: .Normal)

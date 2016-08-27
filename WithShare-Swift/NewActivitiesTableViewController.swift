@@ -129,10 +129,12 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
             let countPosts = posts.count
             if (self.activityTypeTitle != "All Posts") {
                 var flag = 0
-                for index in 0...countPosts-1 {
-                    if (posts[index].activityTitle != self.activityTypeTitle) {
-                        self.posts.removeAtIndex(index-flag)
-                        flag += 1
+                if (countPosts > 0) {
+                    for index in 0...countPosts-1 {
+                        if (posts[index].activityTitle != self.activityTypeTitle) {
+                            self.posts.removeAtIndex(index-flag)
+                            flag += 1
+                        }
                     }
                 }
             }

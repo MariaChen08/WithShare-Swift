@@ -129,6 +129,34 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
         
         profileDict[Constants.ServerModelField_User.username] = user?.username
         
+        // read all text input
+        firstName = firstNameTextField.text
+        if firstName != nil {
+            firstName = firstName!.stringByTrimmingCharactersInSet(
+                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        }
+        lastName = lastNameTextField.text
+        if lastName != nil {
+            lastName = lastName!.stringByTrimmingCharactersInSet(
+                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        }
+        grade = gradeTextField.text
+        if grade != nil {
+            grade = grade!.stringByTrimmingCharactersInSet(
+                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        }
+        department = departmentTextField.text
+        if department != nil {
+            department = department!.stringByTrimmingCharactersInSet(
+                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        }
+        hobby = hobbyTextField.text
+        if hobby != nil {
+            hobby = hobby!.stringByTrimmingCharactersInSet(
+                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        }
+
+        
         // cache string-type user profile
         let defaults = NSUserDefaults.standardUserDefaults()
         
@@ -162,19 +190,28 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
             defaults.setObject(grade, forKey: Constants.NSUserDefaultsKey.grade)
             profileDict[Constants.ServerModelField_User.grade] = grade
         }
-        profileDict[Constants.ServerModelField_User.grade] = Constants.blankSign
+        else {
+            profileDict[Constants.ServerModelField_User.grade] = Constants.blankSign
+
+        }
         if (department != nil) {
             user?.department = department
             defaults.setObject(department, forKey: Constants.NSUserDefaultsKey.department)
             profileDict[Constants.ServerModelField_User.department] = department
         }
-        profileDict[Constants.ServerModelField_User.department] = Constants.blankSign
+        else {
+            profileDict[Constants.ServerModelField_User.department] = Constants.blankSign
+        }
+        
         if (hobby != nil) {
             user?.hobby = hobby
             defaults.setObject(hobby, forKey: Constants.NSUserDefaultsKey.hobby)
             profileDict[Constants.ServerModelField_User.hobby] = hobby
         }
-        profileDict[Constants.ServerModelField_User.hobby] = Constants.blankSign
+        else {
+            profileDict[Constants.ServerModelField_User.hobby] = Constants.blankSign
+        }
+        
         print("create profile: ")
         print(profileDict)
         

@@ -83,12 +83,15 @@ class MyActivitiesTableViewController: UITableViewController {
                 // Filter posts
                 let countPosts = posts.count
                 var flag = 0
-                for index in 0...countPosts-1 {
-                    if (posts[index].status == Constants.PostStatus.modified) {
-                        self.posts.removeAtIndex(index-flag)
-                        flag += 1
+                if (countPosts > 0) {
+                    for index in 0...countPosts-1 {
+                        if (posts[index].status == Constants.PostStatus.modified) {
+                            self.posts.removeAtIndex(index-flag)
+                            flag += 1
+                        }
                     }
                 }
+                
                 self.tableView.reloadData()
             }
             }, onError: {(error) in
