@@ -51,6 +51,14 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
     //default location to IST, PSU
     var center = CLLocationCoordinate2DMake(40.793958335519726, -77.867923433207636)
     
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(JoinerDetailViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        
+        return refreshControl
+    }()
+
+    
     override func viewDidLoad() {
         //configure tableview
         tableView.delegate = self
@@ -228,12 +236,6 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
     }
     
     //Pull to refresh
-    lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(JoinerDetailViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
-        
-        return refreshControl
-    }()
     
     func handleRefresh(refreshControl: UIRefreshControl) {
         // Do some reloading of data and update the table view's data source

@@ -37,6 +37,7 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
     
     @IBOutlet weak var tableView: UITableView!
     
+    
     @IBOutlet weak var joinButton: UIBarButtonItem!
     
     var join: Join?
@@ -64,6 +65,16 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
     var currentCoordinates:CLLocationCoordinate2D?
     //default location to IST, PSU
     var center = CLLocationCoordinate2DMake(40.793958335519726, -77.867923433207636)
+    
+    //table pull to refresh
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(MyJoinDetailViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        
+        return refreshControl
+    }()
+    
+
     
     
     override func viewDidLoad() {
@@ -284,14 +295,7 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
     }
     
     //Pull to refresh
-    lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(JoinerDetailViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
-        
-        return refreshControl
-    }()
-    
-    func handleRefresh(refreshControl: UIRefreshControl) {
+        func handleRefresh(refreshControl: UIRefreshControl) {
         // Do some reloading of data and update the table view's data source
         // Fetch more objects from a web service, for example...
         
