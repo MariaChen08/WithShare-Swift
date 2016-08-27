@@ -43,6 +43,7 @@
 		A490AA811D4165CB00305CCC /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A490AA801D4165CB00305CCC /* ApiManager.swift */; };
 		A490AA821D4165CB00305CCC /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A490AA801D4165CB00305CCC /* ApiManager.swift */; };
 		A490AA831D42F30800305CCC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6F71D234B5200E479D1 /* User.swift */; };
+		A49EA7FB1D7217E9009EEB3F /* MyJoinMessageCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49EA7FA1D7217E9009EEB3F /* MyJoinMessageCustomCell.swift */; };
 		A4ACFDAA1D206BCA00200133 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDA81D206BCA00200133 /* Main.storyboard */; };
 		A4ACFDAF1D206BCA00200133 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDAD1D206BCA00200133 /* LaunchScreen.storyboard */; };
 		A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDB91D206BCA00200133 /* WithShare_SwiftTests.swift */; };
@@ -59,7 +60,6 @@
 		A4DF92941D62EF2300CDA2EE /* MyJoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF92931D62EF2300CDA2EE /* MyJoinTableViewCell.swift */; };
 		A4DF92951D62EF2300CDA2EE /* MyJoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF92931D62EF2300CDA2EE /* MyJoinTableViewCell.swift */; };
 		A4DF92971D62F2AF00CDA2EE /* MyJoinDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF92961D62F2AF00CDA2EE /* MyJoinDetailViewController.swift */; };
-		A4DF92981D62F2AF00CDA2EE /* MyJoinDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF92961D62F2AF00CDA2EE /* MyJoinDetailViewController.swift */; };
 		A4E970001D28A506000E4CDD /* ValidateUserInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */; };
 		A4F083541D24CAE400CB78B8 /* CreateActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */; };
 /* End PBXBuildFile section */
@@ -103,6 +103,7 @@
 		A48070A91D260F57005FB37B /* SelectActivityTypeMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectActivityTypeMenu.swift; sourceTree = "<group>"; };
 		A48070AB1D2759D9005FB37B /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		A490AA801D4165CB00305CCC /* ApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
+		A49EA7FA1D7217E9009EEB3F /* MyJoinMessageCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyJoinMessageCustomCell.swift; sourceTree = "<group>"; };
 		A4ACFDA11D206BCA00200133 /* WithShare-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WithShare-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4ACFDA91D206BCA00200133 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A4ACFDAE1D206BCA00200133 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -224,6 +225,7 @@
 				A41675851D611E4000B36D1E /* MyPostTableViewCell.swift */,
 				A4DF92931D62EF2300CDA2EE /* MyJoinTableViewCell.swift */,
 				A41054B31D6BAD8100566A5C /* PostMessageCustomCell.swift */,
+				A49EA7FA1D7217E9009EEB3F /* MyJoinMessageCustomCell.swift */,
 			);
 			name = "Custom Cells";
 			sourceTree = "<group>";
@@ -514,6 +516,7 @@
 				A451EFEE1D4EEB9E00093DBD /* JoinedUserCustomCell.swift in Sources */,
 				A44DA6F91D234B5200E479D1 /* AppDelegate.swift in Sources */,
 				A44DA6FD1D234B5200E479D1 /* HideKeyboard.swift in Sources */,
+				A49EA7FB1D7217E9009EEB3F /* MyJoinMessageCustomCell.swift in Sources */,
 				A44DA7001D234B5200E479D1 /* RegistrationViewController.swift in Sources */,
 				A451EFEB1D4EE12900093DBD /* MyActivityDetailViewController.swift in Sources */,
 				A44DA6F81D234B5200E479D1 /* ActivityTypePopoverMenuViewController.swift in Sources */,
@@ -540,7 +543,6 @@
 			files = (
 				A41675871D611E4000B36D1E /* MyPostTableViewCell.swift in Sources */,
 				A451EFEF1D4EEB9E00093DBD /* JoinedUserCustomCell.swift in Sources */,
-				A4DF92981D62F2AF00CDA2EE /* MyJoinDetailViewController.swift in Sources */,
 				A451EFDB1D4D321600093DBD /* Constants.swift in Sources */,
 				A4DF92951D62EF2300CDA2EE /* MyJoinTableViewCell.swift in Sources */,
 				A490AA831D42F30800305CCC /* User.swift in Sources */,

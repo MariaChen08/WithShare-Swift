@@ -52,9 +52,12 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
     var center = CLLocationCoordinate2DMake(40.793958335519726, -77.867923433207636)
     
     override func viewDidLoad() {
+        //configure tableview
         tableView.delegate = self
         tableView.dataSource = self
         self.tableView.addSubview(self.refreshControl)
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 80
         
         if let join = join {
             // Retrieve cached user info
@@ -164,7 +167,7 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
                         guard ( (messages[index].senderId == self.senderId && messages[index].receiverId == self.joiner!.id) || (messages[index].senderId == self.joiner!.id && messages[index].receiverId == self.senderId) ) else {
                             self.messages.removeAtIndex(index-flag)
                             flag += 1
-                            break
+                            continue
                         }
                     }
 
