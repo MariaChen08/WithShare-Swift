@@ -66,24 +66,15 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
     //default location to IST, PSU
     var center = CLLocationCoordinate2DMake(40.793958335519726, -77.867923433207636)
     
-    //table pull to refresh
-    lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(MyJoinDetailViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
-        
-        return refreshControl
-    }()
-    
-
-    
+    var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         //configure tableview
         tableView.delegate = self
         tableView.dataSource = self
-        self.tableView.addSubview(self.refreshControl)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 80
+        refreshControl = UIRefreshControl()
         
         // Initial blank page
         fullNameLabel.text = ""
@@ -121,6 +112,9 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
             
             self.loadPostData()
             self.loadMessages()
+            
+            refreshControl.addTarget(self, action: #selector(MyJoinDetailViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+            tableView.addSubview(refreshControl) // not required when using UITableViewController
         }
         
         //Handle the text field’s user input through delegate callbacks.
@@ -349,11 +343,9 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 print("create new message success!")
                 
-                let alert = UIAlertController(title: "Message sent!", message:
-                    "Your message has been sent to " + (self.messageToSend?.receiverUsername)!, preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-                
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.messageTextField.text = ""
+                // dismiss view controller
+                self.navigationController?.popViewControllerAnimated(true);
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {

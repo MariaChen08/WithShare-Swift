@@ -56,11 +56,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WithShare-Swift/MyJoinDetailViewController.swift"
-            timestampString = "494034740.280434"
+            timestampString = "494044640.498728"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -72,11 +72,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WithShare-Swift/MyJoinDetailViewController.swift"
-            timestampString = "494034740.280434"
+            timestampString = "494044640.498728"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
             landmarkName = "loadPostData()"
             landmarkType = "5">
          </BreakpointContent>
@@ -136,11 +136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WithShare-Swift/MyJoinDetailViewController.swift"
-            timestampString = "494034740.280434"
+            timestampString = "494044640.498728"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
             landmarkName = "confirmJoin(_:)"
             landmarkType = "5">
             <Locations>
@@ -255,54 +255,6 @@
             endingLineNumber = "254"
             landmarkName = "handleRefresh(_:)"
             landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WithShare-Swift/MyJoinDetailViewController.swift"
-            timestampString = "494034740.280434"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "353"
-            endingLineNumber = "353"
-            landmarkName = "sendMessage(_:)"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WithShare_Swift.MyJoinDetailViewController.(sendMessage (Swift.AnyObject) -&gt; ()).(closure #1).(closure #1)"
-                  moduleName = "WithShare-Swift"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/MariaChen/Desktop/Projects/WithShare/WithShare-Swift/WithShare-Swift/WithShare-Swift/MyJoinDetailViewController.swift"
-                  timestampString = "494043931.29357"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "353"
-                  endingLineNumber = "353"
-                  offsetFromSymbolStart = "248">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WithShare_Swift.MyJoinDetailViewController.(sendMessage (Swift.AnyObject) -&gt; ()).(closure #1).(closure #1)"
-                  moduleName = "WithShare-Swift"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/MariaChen/Desktop/Projects/WithShare/WithShare-Swift/WithShare-Swift/WithShare-Swift/MyJoinDetailViewController.swift"
-                  timestampString = "494043931.293827"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "353"
-                  endingLineNumber = "353"
-                  offsetFromSymbolStart = "1676">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
