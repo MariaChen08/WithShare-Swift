@@ -96,11 +96,6 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
         
         activityTitleLabel.font = UIFont.boldSystemFontOfSize(18.0)
         
-        //
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
-
-        
         if let join = join {
             if (join.status == Constants.JoinStatus.confirm) {
                 self.joinButton.title = "";
