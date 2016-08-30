@@ -39,8 +39,10 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     //default location to IST, PSU
     var center = CLLocationCoordinate2DMake(40.793958335519726, -77.867923433207636)
     
-    var post:Post?
+    var post: Post?
     var oldPost:Post?
+    
+    var usageLog: UsageLog?
         
     override func viewDidLoad() {
         if let post = post {
@@ -163,6 +165,30 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         //Cancel post new activity
         if cancelButton === sender {
             // dismiss view controllers
+            usageLog = UsageLog()
+            usageLog?.userId = self.user?.id
+            usageLog?.code = "CA"
+            usageLog?.description = "cancel create activity"
+            
+            if (currentCoordinates != nil) {
+                usageLog?.currentLatitude = currentCoordinates!.latitude
+                usageLog?.currentLatitude = (usageLog?.currentLatitude)?.roundFiveDigits()
+                usageLog?.currentLongtitude = currentCoordinates!.longitude
+                usageLog?.currentLongtitude = (usageLog?.currentLongtitude)?.roundFiveDigits()
+            }
+            else {
+                usageLog?.currentLatitude = 0
+                usageLog?.currentLongtitude = 0
+            }
+            if (oldPost != nil) {
+                usageLog?.postId = oldPost!.id
+            }
+            else {
+                usageLog?.postId = 5
+            }
+            
+            self.createUsageLog()
+            
             self.navigationController?.popViewControllerAnimated(true);
         }
     }
@@ -253,7 +279,6 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
                 print("create new activity success!")
                 print("postid: ")
                 print(self.post!.id)
-//                self.performSegueWithIdentifier("createActivityExit", sender: self)
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
@@ -276,7 +301,6 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
                 print("edit activity success!")
                 print("postid: ")
                 print(self.oldPost!.id)
-//                self.performSegueWithIdentifier("createActivityExit", sender: self)
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
@@ -286,6 +310,22 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
                     alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
                     
                     self.presentViewController(alert, animated: true, completion: nil)
+                }
+        })
+        
+    }
+    
+    func createUsageLog() {
+        // Upload to server
+        ApiManager.sharedInstance.usageLog(self.user!, usageLog: self.usageLog!, onSuccess: {(user) in
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                print("create new usage log success!")
+                print("usageLogid: ")
+                print(self.usageLog!.id)
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("cannot create usage log error!")
                 }
         })
         

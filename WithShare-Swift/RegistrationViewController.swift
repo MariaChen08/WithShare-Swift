@@ -193,6 +193,12 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
                                                     defaults.setObject(user.phoneNumber, forKey: Constants.NSUserDefaultsKey.phoneNumber)
                                                     defaults.setBool(true, forKey: Constants.NSUserDefaultsKey.shareProfile)
                                                     
+                                                    let alert = UIAlertController(title: "Signup Success!", message:
+                                                        Constants.termOfService, preferredStyle: UIAlertControllerStyle.Alert)
+                                                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                                                    
+                                                    self.presentViewController(alert, animated: true, completion: nil)
+                                                    
                                                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                                                     self.performSegueWithIdentifier("createAccountSegue", sender: self)
                                                 }

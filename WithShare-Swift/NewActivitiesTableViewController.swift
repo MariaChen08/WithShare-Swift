@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMaps
 
 class NewActivitiesTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
     
@@ -21,12 +22,22 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     var loggedIn:Bool = false
     var activityTypeTitle = "All Posts"
     
+    let locationManager = CLLocationManager()
+    var placesClient: GMSPlacesClient?
+    var placePicker : GMSPlacePicker?
+    var currentCoordinates:CLLocationCoordinate2D?
+    //default location to IST, PSU
+    var center = CLLocationCoordinate2DMake(40.793958335519726, -77.867923433207636)
+    
     override func viewDidLoad() {
         
         //Check if logged in
         let prefs = NSUserDefaults.standardUserDefaults()
         loggedIn = prefs.boolForKey("UserLogIn")
         print(loggedIn)
+        
+        //MARK: debug purpose only
+        loggedIn = true
         
         if (!loggedIn) {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -38,8 +49,10 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         else {
             // Retrieve cached user info
             let defaults = NSUserDefaults.standardUserDefaults()
-            username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
-            password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
+//            username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
+//            password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
+            username = "testyk@psu.edu"
+            password = "a"
             phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
             
             user = User(username: username!, password: password!)
@@ -86,6 +99,8 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
                 let indexPath = tableView.indexPathForCell(selectedActivityCell)!
                 let selectedActivity = posts[indexPath.row]
                 activityDetailViewController.post = selectedActivity
+                activityDetailViewController.indexPostion = indexPath.row
+                activityDetailViewController.currentCoordinates = currentCoordinates
             }
         }
     }
@@ -210,4 +225,32 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     }
 
 }
+
+
+// MARK: - CLLocationManagerDelegate
+extension NewActivitiesTableViewController: CLLocationManagerDelegate {
+    // called when the user grants or revokes location permissions
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        // verify the user has granted you permission while the app is in use
+        if status == .AuthorizedWhenInUse {
+            
+            locationManager.startUpdatingLocation()
+            //            mapView.myLocationEnabled = true
+            //            mapView.settings.myLocationButton = true
+        }
+    }
+    
+    // executes when the location manager receives new location data.
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            
+            //            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+            print("coordinate: \(location.coordinate)")
+            currentCoordinates = location.coordinate
+            locationManager.stopUpdatingLocation()
+        }
+        
+    }
+}
+
 

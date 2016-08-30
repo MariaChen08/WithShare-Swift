@@ -871,6 +871,29 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         )
         
     }
+    
+    //MARK: Usage Log
+    func usageLog(user:User, usageLog: UsageLog, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+        let specificUrl = "usagelogs/"
+        
+        let fullUrl = ApiManager.serverUrl + specificUrl
+        print("create usage log url: " + fullUrl)
+//        print("user id:" + String(user.id!))
+//        let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
+        
+        let usageData: [String: AnyObject] = [Constants.ServerModelField_UsageLog.userId: NSNumber(longLong: usageLog.userId!), Constants.ServerModelField_UsageLog.postId: NSNumber(longLong: usageLog.postId!), Constants.ServerModelField_UsageLog.code: usageLog.code!, Constants.ServerModelField_UsageLog.description: usageLog.description!, Constants.ServerModelField_UsageLog.currentLatitude: usageLog.currentLatitude!,Constants.ServerModelField_UsageLog.currentLongitude: usageLog.currentLongtitude!]
+        
+        ApiManager.sharedInstance.POST(fullUrl, username: user.username!, password: user.password!, data: usageData, onSuccess: {(data, response) in
+            let id = data[Constants.ServerModelField_UsageLog.id]
+            usageLog.id = id?.longLongValue
+            
+            onSuccess(user: user)
+            }
+            , onError: {(error, response) in
+                onError(error: error)
+        })
+        
+    }
 
     
     //MARK: Miscellaneous Formatting

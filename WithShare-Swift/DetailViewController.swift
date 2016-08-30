@@ -51,6 +51,9 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     var message: Message?
     var messageContent: String?
     
+    var indexPostion: Int?
+    var usageLog: UsageLog?
+    
     override func viewDidLoad() {
         // Initial blank page
         fullNameLabel.text = ""
@@ -62,6 +65,19 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         detailLabel.text = ""
         
         activityTitleLabel.font = UIFont.boldSystemFontOfSize(18.0)
+        
+        //Handle the text field’s user input through delegate callbacks.
+        messageTextField.delegate = self
+        //Close keyboard by clicking anywhere else
+        self.hideKeyboardWhenTappedAround()
+        
+        
+        //Google Map
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        
+        //Google Place APIs
+        placesClient = GMSPlacesClient.sharedClient()
         
         if let post = post {
             activityTitleLabel.text = post.activityTitle!
@@ -85,21 +101,29 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             
             user?.id = post.userId
             self.loadPostData()
+            
+            usageLog = UsageLog()
+            usageLog?.userId = currentUserId
+            usageLog?.postId = post.id
+            usageLog?.code = "indexPath: " + String(indexPostion)
+            usageLog?.description = "view activity detail"
+            
+            if (currentCoordinates != nil) {
+                usageLog?.currentLatitude = currentCoordinates!.latitude
+                usageLog?.currentLatitude = (usageLog?.currentLatitude)?.roundFiveDigits()
+                usageLog?.currentLongtitude = currentCoordinates!.longitude
+                usageLog?.currentLongtitude = (usageLog?.currentLongtitude)?.roundFiveDigits()
+            }
+            else {
+                usageLog?.currentLatitude = 0
+                usageLog?.currentLongtitude = 0
+            }
+            usageLog?.postId = post.id
+            self.createUsageLog()
 
         }
         
-        //Handle the text field’s user input through delegate callbacks.
-        messageTextField.delegate = self
-        //Close keyboard by clicking anywhere else
-        self.hideKeyboardWhenTappedAround()
-        
-        
-        //Google Map
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        
-        //Google Place APIs
-        placesClient = GMSPlacesClient.sharedClient()
+       
         
         
     }
@@ -322,7 +346,22 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
                 }
         })
     }
-
+    
+    func createUsageLog() {
+        // Upload to server
+        ApiManager.sharedInstance.usageLog(self.user!, usageLog: self.usageLog!, onSuccess: {(user) in
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                print("create new usage log success!")
+                print("usageLogid: ")
+                print(self.usageLog!.id)
+            }
+            }, onError: {(error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    print("cannot create usage log error!")
+                }
+        })
+        
+    }
 
 }
 
