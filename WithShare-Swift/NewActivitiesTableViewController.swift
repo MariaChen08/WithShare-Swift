@@ -36,8 +36,6 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         loggedIn = prefs.boolForKey("UserLogIn")
         print(loggedIn)
         
-        //MARK: debug purpose only
-        loggedIn = true
         
         if (!loggedIn) {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -49,10 +47,10 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         else {
             // Retrieve cached user info
             let defaults = NSUserDefaults.standardUserDefaults()
-//            username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
-//            password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
-            username = "testyk@psu.edu"
-            password = "a"
+            username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
+            password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
+//            username = "testyk@psu.edu"
+//            password = "a"
             phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
             
             user = User(username: username!, password: password!)

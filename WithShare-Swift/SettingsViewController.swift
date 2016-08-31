@@ -297,6 +297,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
                 if (user.profilePhoto != nil) {
                     self.profileImage.image = user.profilePhoto
                 }
+//                else {
+//                    //base64 string to NSData
+//                    let decodedData = NSData(base64EncodedString: base64String, options: NSDataBase64DecodingOptions(rawValue: 0))
+//                    
+//                    //NSData to UIImage
+//                    var decodedIamge = UIImage(data: decodedData!)
+//                }
 
             }
             }, onError: {(error) in

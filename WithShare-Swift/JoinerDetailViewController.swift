@@ -13,7 +13,8 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
 
     //MARK: Properties
     
-    @IBOutlet weak var photoImageView: UIImageView!
+    
+    @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var fullNameLabel: UILabel!
     @IBOutlet weak var gradeLabel: UILabel!
     @IBOutlet weak var departmentLabel: UILabel!
@@ -150,6 +151,9 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
                     self.hobbyLabel.text = ""
                 }
                 self.numOfPostLabel.text = String(joiner.numOfPosts!) + " posts"
+                if (joiner.profilePhoto != nil) {
+                    self.profileImage.image = joiner.profilePhoto
+                }
                 
                 // joiner as message receiver
                 self.receiverId = joiner.id

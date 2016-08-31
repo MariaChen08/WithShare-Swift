@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class Post {
     var id: Int64?
@@ -34,6 +35,7 @@ class Post {
     var postHobby: String?
     var postShareProfile: Bool?
     var postNumOfPosts: Int?
+    var postPhoto: UIImage?
     
     // MARK: Initialization
     init?() {

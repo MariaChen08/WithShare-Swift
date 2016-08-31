@@ -195,12 +195,15 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
                                                     
                                                     let alert = UIAlertController(title: "Signup Success!", message:
                                                         Constants.termOfService, preferredStyle: UIAlertControllerStyle.Alert)
-                                                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                                                    alert.addAction(UIAlertAction(title: "Agree to terms.", style: UIAlertActionStyle.Default,handler: { (action: UIAlertAction!) in
+                                                        self.performSegueWithIdentifier("createAccountSegue", sender: self)
+                                                    }))
+
                                                     
                                                     self.presentViewController(alert, animated: true, completion: nil)
                                                     
                                                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                                                    self.performSegueWithIdentifier("createAccountSegue", sender: self)
+                                                    
                                                 }
 
                                                 

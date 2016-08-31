@@ -21,11 +21,11 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var departmentLabel: UILabel!
     @IBOutlet weak var hobbyLabel: UILabel!
     @IBOutlet weak var numOfPostLabel: UILabel!
+    @IBOutlet weak var profileImage: UIImageView!
+    
     
     @IBOutlet weak var sendMessageLabel: UILabel!
-    
     @IBOutlet weak var joinButton: UIBarButtonItem!
-    
     @IBOutlet weak var messageTextField: UITextField!
     
     var post: Post?
@@ -173,6 +173,10 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
                     self.hobbyLabel.text = ""
                 }
                 self.numOfPostLabel.text = String(user.numOfPosts!) + " posts"
+                
+                if (user.profilePhoto != nil) {
+                    self.profileImage.image = user.profilePhoto
+                }
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
@@ -207,23 +211,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             
             // Upload to server
             self.createJoin()
-//            ApiManager.sharedInstance.createJoinActivity(user!, join: join!, onSuccess: {(user) in
-//                NSOperationQueue.mainQueue().addOperationWithBlock {
-//                    print("create new activity success!")
-//                    print("joinid: ")
-//                    print(self.join!.id)
-//                    self.performSegueWithIdentifier("joinActivityExit", sender: self)
-//                }
-//                }, onError: {(error) in
-//                    NSOperationQueue.mainQueue().addOperationWithBlock {
-//                        print("join activity error!")
-//                        let alert = UIAlertController(title: "Unable to join activity!", message:
-//                            "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-//                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-//                        
-//                        self.presentViewController(alert, animated: true, completion: nil)
-//                    }
-//            })
         }
     }
     
@@ -298,8 +285,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 print("create new message success!")
                 
-//                let alert = UIAlertController(title: "Message sent!", message:
-//                    "Your message has been sent to " + (self.message?.receiverUsername)!, preferredStyle: UIAlertControllerStyle.Alert)
                 let alert = UIAlertController(title: "Message sent!", message:
                     "Do you confirm to join the activity? Or just interested at the moment?", preferredStyle: UIAlertControllerStyle.Alert)
                 alert.addAction(UIAlertAction(title: "Yes, join", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in

@@ -90,7 +90,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             print((response as? NSHTTPURLResponse)?.statusCode)
             if data != nil {
                 let responseData = String(data: data!, encoding: NSUTF8StringEncoding)
-                print("Body:" + responseData!)
+//                print("Body:" + responseData!)
                 
                 do {
                     dataDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! [String: AnyObject]
@@ -292,10 +292,10 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
         // Sign up with 1) psu email, 2) password, 3) phone number, 4) device type (iOS), 5) show profile setting and 6) number of posts (initialized as 0)
         
-//        let imageData:NSData = UIImagePNGRepresentation((user.profilePhoto)!)!
-//        let strBase64:String = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+        let imageData:NSData = UIImagePNGRepresentation((user.profilePhoto)!)!
+        let strBase64:String = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
         
-        let userPasswordDictionary: [String: AnyObject] = [Constants.ServerModelField_User.username: user.username!, Constants.ServerModelField_User.password: user.password!, Constants.ServerModelField_User.phoneNumber: user.phoneNumber!, Constants.ServerModelField_User.deviceType: user.deviceType!, Constants.ServerModelField_User.deviceToken: user.deviceToken!, Constants.ServerModelField_User.shareProfile: user.shareProfile!, Constants.ServerModelField_User.numOfPosts: user.numOfPosts!]
+        let userPasswordDictionary: [String: AnyObject] = [Constants.ServerModelField_User.username: user.username!, Constants.ServerModelField_User.password: user.password!, Constants.ServerModelField_User.phoneNumber: user.phoneNumber!, Constants.ServerModelField_User.deviceType: user.deviceType!, Constants.ServerModelField_User.deviceToken: user.deviceToken!, Constants.ServerModelField_User.shareProfile: user.shareProfile!, Constants.ServerModelField_User.numOfPosts: user.numOfPosts!, Constants.ServerModelField_User.profilePhoto: strBase64]
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("signup url: " + fullUrl)
@@ -336,7 +336,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         let fullUrl = ApiManager.serverUrl + specificUrl
         ApiManager.sharedInstance.GET_singleton(fullUrl, username: currentUser.username!, password: currentUser.password!, onSuccess: {(data, response) in
                 print("get profile return data:")
-                print(data)
+//                print(data)
                 let user = User(username: "",password: "")
                 let id = data[Constants.ServerModelField_User.id] as? NSNumber
                 user!.id = id?.longLongValue
@@ -351,16 +351,16 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 user!.numOfPosts = data[Constants.ServerModelField_User.numOfPosts] as? Int
             
                 // Decode profile image
-//                if (data[Constants.ServerModelField_User.profilePhoto] != nil) {
-//                    let base64Image = data[Constants.ServerModelField_User.profilePhoto] as? String
-//                    if (base64Image != nil) {
-//                        
-//                        let decodedImage = NSData(base64EncodedString: "fd6a3c2e-244", options: NSDataBase64DecodingOptions(rawValue: 0) )
-//                    
-//                        user?.profilePhoto = UIImage(data: decodedImage!)
-//                    }
-//
-//                }
+                if (data[Constants.ServerModelField_User.profilePhoto] != nil) {
+                    let base64Image = data[Constants.ServerModelField_User.profilePhoto] as? String
+                    if (base64Image != nil) {
+                        
+                        let decodedImage = NSData(base64EncodedString: base64Image!, options: NSDataBase64DecodingOptions(rawValue: 0) )
+                    
+                        user?.profilePhoto = UIImage(data: decodedImage!)
+                    }
+
+                }
                 onSuccess(user: user!)
             }
             , onError: {(error, response) in
@@ -562,6 +562,15 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             let numOfPosts = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.numOfPosts]! as? Int
             post?.postNumOfPosts = numOfPosts
             
+            // Decode profile image
+            let base64Image = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.profilePhoto]! as? String
+            if (base64Image != nil) {
+                    let decodedImage = NSData(base64EncodedString: base64Image!, options: NSDataBase64DecodingOptions(rawValue: 0) )
+                if (decodedImage != nil) {
+                    post?.postPhoto = UIImage(data: decodedImage!)
+                }
+            }
+            
             //time stamps
             let createTimeStr = data[Constants.ServerModelField_Post.createdAt] as! String + "UTC"
             let createTime = self.FormatDate(createTimeStr)
@@ -602,6 +611,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
         
         let joinData: [String: AnyObject] = [Constants.ServerModelField_Join.userId: userProfile, Constants.ServerModelField_Join.postId: NSNumber(longLong: join.postId!), Constants.ServerModelField_Join.deviceType: join.deviceType!, Constants.ServerModelField_Join.currentLatitude: join.currentLatitude!,Constants.ServerModelField_Join.currentLongitude: join.currentLongtitude!, Constants.ServerModelField_Join.status: join.status!]
+        print(joinData)
         
         ApiManager.sharedInstance.POST(fullUrl, username: user.username!, password: user.password!, data: joinData, onSuccess: {(data, response) in
             let id = data[Constants.ServerModelField_Join.id]

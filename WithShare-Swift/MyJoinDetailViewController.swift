@@ -91,6 +91,7 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
             if (join.status == Constants.JoinStatus.confirm) {
                 self.joinButton.title = "";
                 self.joinButton.enabled = false;
+                
             }
             
             // Retrieve cached user info
@@ -102,6 +103,9 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
             
             senderId = currentUserId
             senderUsername = username
+            
+            receiverId = join.userId
+            receiverUsername = join.username
             
             user = User(username: username!, password: password!)
             user?.id = currentUserId
@@ -173,6 +177,10 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
                 }
                 self.numOfPostLabel.text = String(post.postNumOfPosts!) + " posts"
                 
+                if (post.postPhoto != nil) {
+                    self.photoImageView.image = post.postPhoto
+                }
+                
                 // load post
                 self.activityTitleLabel.text = post.activityTitle!
                 self.meetPlaceLabel.text = "meet@ " + post.meetPlace!
@@ -188,7 +196,7 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
                 }
         })
     }
-
+    
     @IBAction func confirmJoin(sender: AnyObject) {
         self.join?.status = Constants.JoinStatus.confirm
         print(self.join?.status)
