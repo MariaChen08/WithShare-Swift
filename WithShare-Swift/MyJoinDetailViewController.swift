@@ -148,6 +148,7 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
         ApiManager.sharedInstance.getPostById(user!, postId: self.post!.id!, onSuccess: {(post) in
             print("get post profile success")
             NSOperationQueue.mainQueue().addOperationWithBlock {
+                self.post = post
                 self.receiverId = post.userId
                 self.receiverUsername = post.username
                 // load user profile
@@ -208,7 +209,7 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
                 print(self.join!.id)
                 self.joinButton.enabled = false
                 let alert = UIAlertController(title: "Join activity Success!", message:
-                    "Thank you for joining:" + self.post!.activityTitle!, preferredStyle: UIAlertControllerStyle.Alert)
+                    "Thank you for joining:" + self.join!.postName!, preferredStyle: UIAlertControllerStyle.Alert)
                 alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
