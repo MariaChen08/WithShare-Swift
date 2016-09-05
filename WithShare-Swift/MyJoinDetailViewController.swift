@@ -236,14 +236,16 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
                     // Filter messages
                     let countMessages = messages.count
                     var flag = 0
-                    for index in 0...countMessages-1 {
-                        guard ( (messages[index].senderId == self.senderId && messages[index].receiverId == self.receiverId) || (messages[index].senderId == self.receiverId && messages[index].receiverId == self.senderId) ) else {
-                            self.messages.removeAtIndex(index-flag)
-                            flag += 1
-                            continue
+                    if (countMessages > 0) {
+                        for index in 0...countMessages-1 {
+                            guard ( (messages[index].senderId == self.senderId && messages[index].receiverId == self.receiverId) || (messages[index].senderId == self.receiverId && messages[index].receiverId == self.senderId) ) else {
+                                self.messages.removeAtIndex(index-flag)
+                                flag += 1
+                                continue
+                            }
                         }
+
                     }
-                    
                     self.tableView.reloadData()
                 }
                 
