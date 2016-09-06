@@ -130,6 +130,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             if (meetingPlace == nil || meetingPlace == "Please add meeting place") {
                 meetingPlace = "Not specified"
             }
+            detail = detailTextField.text
             if detail == nil {
                 detail = ""
             }

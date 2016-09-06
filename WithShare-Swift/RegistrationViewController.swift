@@ -144,7 +144,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     
     // MARK: Actions
     @IBAction func createAccount(sender: AnyObject) {
-        print("phoneNumber: " + phoneNumber!)
+//        print("phoneNumber: " + phoneNumber!)
         if (username == nil || !ValidateUserInput(input: username!).isValidEmail() || !ValidateUserInput(input: username!).isEduSuffix()) {
             alertMessage = "Please enter your PSU email."
             print(alertMessage)
