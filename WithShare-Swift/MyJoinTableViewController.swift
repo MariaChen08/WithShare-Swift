@@ -80,6 +80,7 @@ class MyJoinTableViewController: UITableViewController {
         ApiManager.sharedInstance.getJoinByUser(user!, onSuccess: {(joins) in
             self.joins = joins
             NSOperationQueue.mainQueue().addOperationWithBlock {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 self.tableView.reloadData()
             }
             }, onError: {(error) in

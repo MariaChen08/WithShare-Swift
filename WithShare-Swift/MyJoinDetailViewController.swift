@@ -148,6 +148,7 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
         ApiManager.sharedInstance.getPostById(user!, postId: self.post!.id!, onSuccess: {(post) in
             print("get post profile success")
             NSOperationQueue.mainQueue().addOperationWithBlock {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 self.post = post
                 self.receiverId = post.userId
                 self.receiverUsername = post.username
@@ -230,6 +231,7 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getMessageByPost(user!, post: post!, onSuccess: {(messages) in
             NSOperationQueue.mainQueue().addOperationWithBlock {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 print("get messages success")
                 self.messages = messages
                 NSOperationQueue.mainQueue().addOperationWithBlock {

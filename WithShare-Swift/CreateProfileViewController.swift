@@ -219,6 +219,8 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
         ApiManager.sharedInstance.editProfile(user!, profileData: profileDict, onSuccess: {(user) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
                     print("create profile success!")
+                    
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                     self.performSegueWithIdentifier("createProfilePhotoSegue", sender: self)
                 }
             }, onError: {(error) in

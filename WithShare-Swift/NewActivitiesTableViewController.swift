@@ -153,6 +153,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
             }
             
             NSOperationQueue.mainQueue().addOperationWithBlock {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 self.tableView.reloadData()
             }
             }, onError: {(error) in

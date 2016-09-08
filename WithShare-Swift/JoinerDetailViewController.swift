@@ -125,6 +125,7 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getProfile(joiner!, onSuccess: {(joiner) in
             NSOperationQueue.mainQueue().addOperationWithBlock {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 print("get joiner profile success")
                 if (joiner.fullName != nil && joiner.fullName != Constants.blankSign) {
                     self.fullNameLabel.text = joiner.fullName
@@ -178,6 +179,7 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
                 print("get messages success")
                 self.messages = messages
                 NSOperationQueue.mainQueue().addOperationWithBlock {
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                     // Filter messages
                     let countMessages = messages.count
                     var flag = 0

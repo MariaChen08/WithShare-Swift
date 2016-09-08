@@ -80,6 +80,7 @@ class MyActivitiesTableViewController: UITableViewController {
         ApiManager.sharedInstance.getMyActivity(self.user!, onSuccess: {(posts) in
             self.posts = posts
             NSOperationQueue.mainQueue().addOperationWithBlock {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 // Filter posts
                 let countPosts = posts.count
                 var flag = 0

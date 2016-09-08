@@ -186,6 +186,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
                                              onSuccess: {(user) in
                                                 
                                                 NSOperationQueue.mainQueue().addOperationWithBlock {
+                                                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                                                     print("signup success!")
                                                     print("userid: ")
                                                     print(user.id)

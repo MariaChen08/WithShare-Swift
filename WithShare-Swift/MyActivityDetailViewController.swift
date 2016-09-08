@@ -149,6 +149,7 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         ApiManager.sharedInstance.getJoinById(user!, post: post!, onSuccess: {(joins) in
             self.joins = joins
             NSOperationQueue.mainQueue().addOperationWithBlock {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 self.tableView.reloadData()
             }
             }, onError: {(error) in
@@ -181,8 +182,23 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
     
     //MARK: Actions
     @IBAction func closeActivity(sender: AnyObject) {
+        let alert = UIAlertController(title: "Close activity?", message:
+            "Do you confirm to close the activity?", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+            self.confirmCloseActivity()
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func editPost(sender: AnyObject) {
+        self.performSegueWithIdentifier("editPostSegue", sender: self)
+    }
+    
+    func confirmCloseActivity() {
         self.post?.status = Constants.PostStatus.closed
-//        print(self.post?.status)
+        //        print(self.post?.status)
         // Upload to server
         ApiManager.sharedInstance.editActivity(self.user!, post: self.post!, onSuccess: {(user) in
             NSOperationQueue.mainQueue().addOperationWithBlock {
@@ -202,10 +218,7 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
                     self.presentViewController(alert, animated: true, completion: nil)
                 }
         })
-    }
-    
-    @IBAction func editPost(sender: AnyObject) {
-        self.performSegueWithIdentifier("editPostSegue", sender: self)
+
     }
     
 }

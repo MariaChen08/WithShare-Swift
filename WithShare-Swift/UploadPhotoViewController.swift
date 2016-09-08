@@ -73,6 +73,8 @@ class UploadPhotoViewController: UIViewController, UINavigationControllerDelegat
             ApiManager.sharedInstance.editProfile(user!, profileData: photoDict, onSuccess: {(user) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
                     print("upload photo success!")
+                    
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                     self.performSegueWithIdentifier("toHomePageSegue", sender: self)
                 }
                 }, onError: {(error) in

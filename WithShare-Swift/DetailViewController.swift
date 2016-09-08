@@ -134,6 +134,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         ApiManager.sharedInstance.getProfile(user!, onSuccess: {(user) in
             print("get profile success")
             NSOperationQueue.mainQueue().addOperationWithBlock {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 print("get profile success")
                 self.receiverId = user.id
                 self.receiverUsername = user.username

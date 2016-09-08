@@ -240,6 +240,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         // Upload to server
         ApiManager.sharedInstance.editProfile(user!, profileData: profileDict, onSuccess: {(user) in
             NSOperationQueue.mainQueue().addOperationWithBlock {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 print("update profile success!")
                 let alert = UIAlertController(title: "Successfully updated profile!", message:
                     "", preferredStyle: UIAlertControllerStyle.Alert)
@@ -265,6 +266,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         ApiManager.sharedInstance.getProfile(user!, onSuccess: {(user) in
             print("get profile success")
             NSOperationQueue.mainQueue().addOperationWithBlock {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 print("get profile success")
                 
                 if (user.fullName != nil && user.fullName != Constants.blankSign) {
