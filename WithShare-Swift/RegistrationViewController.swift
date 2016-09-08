@@ -32,6 +32,9 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Disable Sign Up button
+        createAccountButton.enabled = false
+        
         //Handle the text field’s user input through delegate callbacks.
         emailTextField.delegate = self
         createPasswordTextField.delegate = self
@@ -70,13 +73,16 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
                 username = username!.stringByTrimmingCharactersInSet(
                     NSCharacterSet.whitespaceAndNewlineCharacterSet())
             }
+            self.enableSignUp()
         case 1:
             password = textField.text
+            self.enableSignUp()
         case 2:
             retypePassword = textField.text
+            self.enableSignUp()
         case 3:
             phoneNumber = textField.text
-//            print("phoneNumber: " + phoneNumber!)
+            self.enableSignUp()
         default:
             print("error registration textview")
         }
@@ -231,5 +237,15 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
 
         }
     }
+    
+    /* Tests wether the signUpButton should be enabled or not  */
+    func enableSignUp() {
+        if self.createPasswordTextField.text!.isBlank() || self.retypePasswordTextField.text!.isBlank() || self.phoneNumberTextField.text!.isBlank() {
+            createAccountButton.enabled = false
+        } else {
+            createAccountButton.enabled = true
+        }
+    }
+
     
 }

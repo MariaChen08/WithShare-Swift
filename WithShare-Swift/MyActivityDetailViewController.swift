@@ -188,7 +188,7 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 print("close activity success!")
                 print("postid: ")
-                print(self.post!.id)
+                print(self.post?.id)
                 self.closePostButton.enabled = false
                 self.closePostButton.setTitle("closed", forState: .Normal)
             }

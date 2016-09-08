@@ -206,7 +206,7 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 print("confirm new activity success!")
                 print("joinid: ")
-                print(self.join!.id)
+                print(self.join?.id)
                 self.joinButton.enabled = false
                 let alert = UIAlertController(title: "Join activity Success!", message:
                     "Thank you for joining:" + self.join!.postName!, preferredStyle: UIAlertControllerStyle.Alert)
@@ -344,10 +344,10 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
         print(self.messageToSend?.postId)
         print("senderid: ")
         print(self.messageToSend?.senderId)
-        print("sender email: " + (self.messageToSend?.senderUsername)!)
+//        print("sender email: " + (self.messageToSend?.senderUsername)!)
         print("receiverid: ")
         print(self.messageToSend?.receiverId)
-        print("receiver email: " + (self.messageToSend?.receiverUsername)!)
+//        print("receiver email: " + (self.messageToSend?.receiverUsername)!)
         
         // Upload to server
         ApiManager.sharedInstance.createMessage(user!, message: messageToSend!, onSuccess: {(user) in

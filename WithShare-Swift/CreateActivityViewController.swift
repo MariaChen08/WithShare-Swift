@@ -279,7 +279,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 print("create new activity success!")
                 print("postid: ")
-                print(self.post!.id)
+                print(self.post?.id)
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
@@ -301,7 +301,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 print("edit activity success!")
                 print("postid: ")
-                print(self.oldPost!.id)
+                print(self.oldPost?.id)
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
@@ -322,7 +322,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 print("create new usage log success!")
                 print("usageLogid: ")
-                print(self.usageLog!.id)
+                print(self.usageLog?.id)
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {

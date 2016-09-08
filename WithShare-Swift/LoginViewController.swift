@@ -24,6 +24,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //Disable Login button until input
+        signInButton.enabled = false
         
         //Disable getting back in not logged in
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
@@ -69,12 +71,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func emailEditingDidEnd(sender: AnyObject) {
         // check fields here
-        username = self.emailTextField.text
+//        username = self.emailTextField.text
+        self.enableSignIn()
     }
     
     @IBAction func passwordEditingDidEnd(sender: AnyObject) {
         // check fields here
-        password = self.passwordTextField.text
+//        password = self.passwordTextField.text
+        self.enableSignIn()
     }
     
     @IBAction func unwindToLogin(segue: UIStoryboardSegue) {
@@ -101,6 +105,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
                                 self.presentViewController(alert, animated: true, completion: nil)
 
+        }
+    }
+    
+    // Tests wether the signInButton should be enabled or not
+    func enableSignIn() {
+        if self.passwordTextField.text!.isBlank() || self.emailTextField.text!.isBlank() {
+            signInButton.enabled = false
+        } else {
+            signInButton.enabled = true
         }
     }
     

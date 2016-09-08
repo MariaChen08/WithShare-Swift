@@ -338,7 +338,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 print("create new usage log success!")
                 print("usageLogid: ")
-                print(self.usageLog!.id)
+                print(self.usageLog?.id)
             }
             }, onError: {(error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
