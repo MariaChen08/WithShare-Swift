@@ -139,6 +139,13 @@ class MyActivitiesTableViewController: UITableViewController {
         cell.ActivityTitleLabel.text = post.activityTitle!
         cell.DetailLabel.text = post.detail
         cell.MeetLocationLabel.text = "meet@: " + post.meetPlace!
+        // gray out closed activity
+        if (post.status == Constants.PostStatus.closed) {
+            cell.backgroundColor = UIColor.lightGrayColor()
+        }
+        else {
+            cell.backgroundColor = UIColor.clearColor()
+        }
         
         // Configure and format time label
         let dateFormatter = NSDateFormatter()

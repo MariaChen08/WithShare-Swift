@@ -124,11 +124,20 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         
         //Post new activity
         if postButton === sender {
-            if (activityTypeShow == nil ||  activityTypeShow == "Please choose") {
-                activityTypeShow = "Not specified"
+            guard (activityTypeShow != nil &&  activityTypeShow != "Please choose") else {
+//                activityTypeShow = "Not specified"
+                let alert = UIAlertController(title: "No activity type", message:
+                    "Please choose the activity type", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+                return
             }
-            if (meetingPlace == nil || meetingPlace == "Please add meeting place") {
-                meetingPlace = "Not specified"
+            guard (meetingPlace != nil && meetingPlace != "Please add meeting place") else {
+                let alert = UIAlertController(title: "No meeting place", message:
+                    "Please specify the meeting place", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+                return
             }
             detail = detailTextField.text
             if detail == nil {
