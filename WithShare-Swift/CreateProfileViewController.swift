@@ -62,6 +62,17 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
         return true
     }
     
+    func textFieldDidBeginEditing(textField: UITextField) {
+        switch (textField.tag) {
+        case 3:
+            animateViewMoving(true, moveValue: 50)
+        case 4:
+            animateViewMoving(true, moveValue: 180)
+        default:
+            print("did not edit saved profile")
+        }
+    }
+    
     func textFieldDidEndEditing(textField: UITextField) {
         switch (textField.tag) {
         case 0:
@@ -88,16 +99,29 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
                 department = department!.stringByTrimmingCharactersInSet(
                     NSCharacterSet.whitespaceAndNewlineCharacterSet())
             }
+            animateViewMoving(false, moveValue: 50)
         case 4:
             hobby = textField.text
             if hobby != nil {
                 hobby = hobby!.stringByTrimmingCharactersInSet(
                     NSCharacterSet.whitespaceAndNewlineCharacterSet())
             }
+            animateViewMoving(false, moveValue: 180)
         default:
             print("did not create profile")
         }
     }
+    
+    func animateViewMoving (up:Bool, moveValue :CGFloat){
+        let movementDuration:NSTimeInterval = 0.3
+        let movement:CGFloat = ( up ? -moveValue : moveValue)
+        UIView.beginAnimations( "animateView", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(movementDuration )
+        self.view.frame = CGRectOffset(self.view.frame, 0,  movement)
+        UIView.commitAnimations()
+    }
+
     
     // MARK: - Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -131,31 +155,20 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
         
         // read all text input
         firstName = firstNameTextField.text
-        if firstName != nil {
-            firstName = firstName!.stringByTrimmingCharactersInSet(
-                NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        }
+        firstName = firstName?.stringByTrimmingCharactersInSet(
+            NSCharacterSet.whitespaceAndNewlineCharacterSet())
         lastName = lastNameTextField.text
-        if lastName != nil {
-            lastName = lastName!.stringByTrimmingCharactersInSet(
-                NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        }
+        lastName = lastName?.stringByTrimmingCharactersInSet(
+            NSCharacterSet.whitespaceAndNewlineCharacterSet())
         grade = gradeTextField.text
-        if grade != nil {
-            grade = grade!.stringByTrimmingCharactersInSet(
+        grade = grade?.stringByTrimmingCharactersInSet(
                 NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        }
         department = departmentTextField.text
-        if department != nil {
-            department = department!.stringByTrimmingCharactersInSet(
-                NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        }
+        department = department!.stringByTrimmingCharactersInSet(
+            NSCharacterSet.whitespaceAndNewlineCharacterSet())
         hobby = hobbyTextField.text
-        if hobby != nil {
-            hobby = hobby!.stringByTrimmingCharactersInSet(
-                NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        }
-
+        hobby = hobby?.stringByTrimmingCharactersInSet(
+            NSCharacterSet.whitespaceAndNewlineCharacterSet())
         
         // cache string-type user profile
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -174,7 +187,7 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
         }
         
         // create user profile
-        if (fullName != nil) {
+        if (fullName != nil && fullName != "") {
             user?.fullName = fullName
             defaults.setObject(fullName, forKey: Constants.NSUserDefaultsKey.fullName)
             profileDict[Constants.ServerModelField_User.fullname] = fullName
@@ -185,7 +198,7 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
         user?.gender = gender
         defaults.setObject(gender, forKey: Constants.NSUserDefaultsKey.gender)
         profileDict[Constants.ServerModelField_User.gender] = gender
-        if (grade != nil) {
+        if (grade != nil && grade != "") {
             user?.grade = grade
             defaults.setObject(grade, forKey: Constants.NSUserDefaultsKey.grade)
             profileDict[Constants.ServerModelField_User.grade] = grade
@@ -194,7 +207,7 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
             profileDict[Constants.ServerModelField_User.grade] = Constants.blankSign
 
         }
-        if (department != nil) {
+        if (department != nil && department != "") {
             user?.department = department
             defaults.setObject(department, forKey: Constants.NSUserDefaultsKey.department)
             profileDict[Constants.ServerModelField_User.department] = department
@@ -203,7 +216,7 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
             profileDict[Constants.ServerModelField_User.department] = Constants.blankSign
         }
         
-        if (hobby != nil) {
+        if (hobby != nil && hobby != "") {
             user?.hobby = hobby
             defaults.setObject(hobby, forKey: Constants.NSUserDefaultsKey.hobby)
             profileDict[Constants.ServerModelField_User.hobby] = hobby

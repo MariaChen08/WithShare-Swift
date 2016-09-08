@@ -24,19 +24,15 @@ class MyActivitiesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         
-//        //Check if logged in
-//        let prefs = NSUserDefaults.standardUserDefaults()
-//        loggedIn = prefs.boolForKey("UserLogIn")
-//        
-//        if !loggedIn {
-//            performSegueWithIdentifier("needLogInSegue", sender: self)
-//            //            self.navigationItem.hidesBackButton = true
-//        }
-        
-        
         self.loadMyPostData()
         
         self.refreshControl?.addTarget(self, action: #selector(MyActivitiesTableViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        // if there are no disciplines something bad happened and we should try again
+        self.loadMyPostData()
     }
     
     //MARK: Navigations
@@ -139,13 +135,6 @@ class MyActivitiesTableViewController: UITableViewController {
         cell.ActivityTitleLabel.text = post.activityTitle!
         cell.DetailLabel.text = post.detail
         cell.MeetLocationLabel.text = "meet@: " + post.meetPlace!
-        // gray out closed activity
-        if (post.status == Constants.PostStatus.closed) {
-            cell.backgroundColor = UIColor.lightGrayColor()
-        }
-        else {
-            cell.backgroundColor = UIColor.clearColor()
-        }
         
         // Configure and format time label
         let dateFormatter = NSDateFormatter()
@@ -162,6 +151,21 @@ class MyActivitiesTableViewController: UITableViewController {
         }
         else {
             cell.TimeLabel.text =  dateFormatter.stringFromDate(post.createdAt) + " Yesterday"
+        }
+        
+        // gray out closed activity
+        if (post.status == Constants.PostStatus.closed) {
+            cell.ActivityTitleLabel.textColor = UIColor.grayColor()
+            cell.DetailLabel.textColor = UIColor.grayColor()
+            cell.MeetLocationLabel.textColor = UIColor.grayColor()
+            cell.TimeLabel.textColor = UIColor.grayColor()
+
+        }
+        else {
+            cell.ActivityTitleLabel.textColor = UIColor.blackColor()
+            cell.DetailLabel.textColor = UIColor.blackColor()
+            cell.MeetLocationLabel.textColor = UIColor.blackColor()
+            cell.TimeLabel.textColor = UIColor.blackColor()
         }
         
         return cell

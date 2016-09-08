@@ -134,12 +134,27 @@ class MyJoinDetailViewController: UIViewController, UITextFieldDelegate, UITable
         return true
     }
     
+    func textFieldDidBeginEditing(textField: UITextField) {
+        animateViewMoving(true, moveValue: 60)
+    }
+    
     func textFieldDidEndEditing(textField: UITextField) {
         messageContent = textField.text
         if messageContent != nil {
             messageContent = messageContent!.stringByTrimmingCharactersInSet(
                 NSCharacterSet.whitespaceAndNewlineCharacterSet())
         }
+        animateViewMoving(false, moveValue: 60)
+    }
+    
+    func animateViewMoving (up:Bool, moveValue :CGFloat){
+        let movementDuration:NSTimeInterval = 0.3
+        let movement:CGFloat = ( up ? -moveValue : moveValue)
+        UIView.beginAnimations( "animateView", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(movementDuration )
+        self.view.frame = CGRectOffset(self.view.frame, 0,  movement)
+        UIView.commitAnimations()
     }
     
     //MARK: load detail data

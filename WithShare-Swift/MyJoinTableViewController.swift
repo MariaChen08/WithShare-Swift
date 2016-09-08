@@ -48,12 +48,11 @@ class MyJoinTableViewController: UITableViewController {
         self.refreshControl?.addTarget(self, action: #selector(MyJoinTableViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
     }
     
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         // if there are no posts something bad happened and we should try again
-        if joins.count == 0 {
-            self.loadMyJoinData()
-        }
+        self.loadMyJoinData()
     }
     
     //MARK: Navigations

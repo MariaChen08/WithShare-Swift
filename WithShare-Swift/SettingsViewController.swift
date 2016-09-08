@@ -83,36 +83,49 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         return true
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(textField: UITextField) {
         switch (textField.tag) {
-        case 0:
-            fullName = textField.text
-            if fullName != nil {
-                fullName = fullName!.stringByTrimmingCharactersInSet(
-                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            }
-        case 1:
-            grade = textField.text
-            if grade != nil {
-                grade = grade!.stringByTrimmingCharactersInSet(
-                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            }
-        case 2:
-            department = textField.text
-            if department != nil {
-                department = department!.stringByTrimmingCharactersInSet(
-                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            }
         case 3:
-            hobby = textField.text
-            if hobby != nil {
-                hobby = hobby!.stringByTrimmingCharactersInSet(
-                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            }
+            animateViewMoving(true, moveValue: 120)
         default:
             print("did not edit saved profile")
         }
     }
+
+    func textFieldDidEndEditing(textField: UITextField) {
+        switch (textField.tag) {
+        case 0:
+            fullName = textField.text
+            fullName = fullName?.stringByTrimmingCharactersInSet(
+                                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        case 1:
+            grade = textField.text
+            grade = grade?.stringByTrimmingCharactersInSet(
+                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        case 2:
+            department = textField.text
+            department = department?.stringByTrimmingCharactersInSet(
+                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        case 3:
+            hobby = textField.text
+            hobby = hobby?.stringByTrimmingCharactersInSet(
+                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            animateViewMoving(false, moveValue: 120)
+        default:
+            print("did not edit saved profile")
+        }
+    }
+    
+    func animateViewMoving (up:Bool, moveValue :CGFloat){
+        let movementDuration:NSTimeInterval = 0.3
+        let movement:CGFloat = ( up ? -moveValue : moveValue)
+        UIView.beginAnimations( "animateView", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(movementDuration )
+        self.view.frame = CGRectOffset(self.view.frame, 0,  movement)
+        UIView.commitAnimations()
+    }
+    
     
     // MARK: UIImagePickerControllerDelegate
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -183,48 +196,48 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
     @IBAction func saveChanges(sender: AnyObject) {
         profileDict[Constants.ServerModelField_User.username] = user?.username
         
-        // cache string-type user profile
-//        let defaults = NSUserDefaults.standardUserDefaults()
+        // read all text input
+        fullName = fullNameTextField.text
+        fullName = fullName?.stringByTrimmingCharactersInSet(
+            NSCharacterSet.whitespaceAndNewlineCharacterSet())
         
-        if fullName != nil {
-            fullNameTextField.text = fullName
-//            defaults.setObject(fullName, forKey: Constants.NSUserDefaultsKey.fullName)
+        grade = gradeTextField.text
+        grade = grade?.stringByTrimmingCharactersInSet(
+            NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        
+        department = departmentTextField.text
+        department = department?.stringByTrimmingCharactersInSet(
+            NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        
+        hobby = hobbyTextField.text
+        hobby = hobby?.stringByTrimmingCharactersInSet(
+            NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        
+        if (fullName != nil && fullName != "") {
             profileDict[Constants.ServerModelField_User.fullname] = fullName
         }
         else {
-            fullNameTextField.text = "Edit your full name.."
             profileDict[Constants.ServerModelField_User.fullname] = Constants.blankSign
         }
-        if grade != nil {
-            gradeTextField.text = grade
-//            defaults.setObject(grade, forKey: Constants.NSUserDefaultsKey.grade)
+        if (grade != nil && grade != "") {
             profileDict[Constants.ServerModelField_User.grade] = grade
         }
         else {
-            gradeTextField.text = "e.g. freshman, senior, etc."
             profileDict[Constants.ServerModelField_User.grade] = Constants.blankSign
         }
-        if department != nil {
-            departmentTextField.text = department
-//            defaults.setObject(department, forKey: Constants.NSUserDefaultsKey.department)
+        if (department != nil && department != "") {
             profileDict[Constants.ServerModelField_User.department] = department
         }
         else {
-            departmentTextField.text = "department"
             profileDict[Constants.ServerModelField_User.department] = Constants.blankSign
         }
-        if hobby != nil {
-            hobbyTextField.text = hobby
-//            defaults.setObject(hobby, forKey: Constants.NSUserDefaultsKey.hobby)
+        if (hobby != nil && hobby != "") {
             profileDict[Constants.ServerModelField_User.hobby] = hobby
         }
         else {
-            hobbyTextField.text = "e.g. basketball, music, etc."
             profileDict[Constants.ServerModelField_User.hobby] = Constants.blankSign
         }
-//        defaults.setObject(gender, forKey: Constants.NSUserDefaultsKey.gender)
         profileDict[Constants.ServerModelField_User.gender] = gender
-//        defaults.setBool(shareProfile, forKey: Constants.NSUserDefaultsKey.shareProfile)
         profileDict[Constants.ServerModelField_User.shareProfile] = shareProfile
         
         if (profileImage.image != nil) {

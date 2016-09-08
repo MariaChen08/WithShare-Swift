@@ -222,14 +222,29 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    func textFieldDidBeginEditing(textField: UITextField) {
+        animateViewMoving(true, moveValue: 180)
+    }
+    
     func textFieldDidEndEditing(textField: UITextField) {
         messageContent = textField.text
         if messageContent != nil {
             messageContent = messageContent!.stringByTrimmingCharactersInSet(
                     NSCharacterSet.whitespaceAndNewlineCharacterSet())
         }
+        animateViewMoving(false, moveValue: 180)
     }
     
+    func animateViewMoving (up:Bool, moveValue :CGFloat){
+        let movementDuration:NSTimeInterval = 0.3
+        let movement:CGFloat = ( up ? -moveValue : moveValue)
+        UIView.beginAnimations( "animateView", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(movementDuration )
+        self.view.frame = CGRectOffset(self.view.frame, 0,  movement)
+        UIView.commitAnimations()
+    }
+
     
     //MARK: Actions
     @IBAction func sendMessage(sender: AnyObject) {
@@ -261,10 +276,10 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         print(self.message?.postId)
         print("senderid: ")
         print(self.message?.senderId)
-        print("sender email: " + (self.message?.senderUsername)!)
+//        print("sender email: " + (self.message?.senderUsername)!)
         print("receiverid: ")
         print(self.message?.receiverId)
-        print("receiver email: " + (self.message?.receiverUsername)!)
+//        print("receiver email: " + (self.message?.receiverUsername)!)
         
         join = Join()
         if (currentCoordinates != nil) {
