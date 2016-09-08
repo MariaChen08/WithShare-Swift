@@ -216,8 +216,9 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
                 }, onError: {(error) in
                     NSOperationQueue.mainQueue().addOperationWithBlock {
                         print("signup error!")
+                        print(error.userInfo)
                         let alert = UIAlertController(title: "Signup Failed", message:
-                        "Signup Failed", preferredStyle: UIAlertControllerStyle.Alert)
+                        error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
                     
                         self.presentViewController(alert, animated: true, completion: nil)

@@ -211,8 +211,13 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 print("Body null")
             }
             
+            if (response as? NSHTTPURLResponse)?.statusCode == 409 {
+                onError(error: NSError(domain: "WithShare: User with that email already exists", code: -1000, userInfo: ["User with that email already exists": NSObject()]), response: NSURLResponse())
+                return
+            }
+            
             if (response as? NSHTTPURLResponse)?.statusCode != 201 {
-                onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Server returned error": NSObject()]), response: NSURLResponse())
+                onError(error: NSError(domain: "WithShare: Please check network condition or try later", code: -1000, userInfo: ["Server returned error": NSObject()]), response: NSURLResponse())
                 return
             }
             
