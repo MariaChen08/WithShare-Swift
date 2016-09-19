@@ -108,16 +108,18 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             usageLog?.code = "indexPath: " + String(indexPostion)
             usageLog?.description = "view activity detail"
             
-            if (currentCoordinates != nil) {
-                usageLog?.currentLatitude = currentCoordinates!.latitude
-                usageLog?.currentLatitude = (usageLog?.currentLatitude)?.roundFiveDigits()
-                usageLog?.currentLongtitude = currentCoordinates!.longitude
-                usageLog?.currentLongtitude = (usageLog?.currentLongtitude)?.roundFiveDigits()
-            }
-            else {
-                usageLog?.currentLatitude = 0
-                usageLog?.currentLongtitude = 0
-            }
+//            if (currentCoordinates != nil) {
+//                usageLog?.currentLatitude = currentCoordinates!.latitude
+//                usageLog?.currentLatitude = (usageLog?.currentLatitude)?.roundFiveDigits()
+//                usageLog?.currentLongtitude = currentCoordinates!.longitude
+//                usageLog?.currentLongtitude = (usageLog?.currentLongtitude)?.roundFiveDigits()
+//            }
+//            else {
+//                usageLog?.currentLatitude = 0
+//                usageLog?.currentLongtitude = 0
+//            }
+            usageLog?.currentLatitude = 0
+            usageLog?.currentLongtitude = 0
             usageLog?.postId = post.id
             self.createUsageLog()
 
