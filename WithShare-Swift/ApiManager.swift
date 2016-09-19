@@ -541,8 +541,8 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         print(fullUrl)
         
         ApiManager.sharedInstance.GET_singleton(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
-            print("get post return data:")
-            print(data)
+//            print("get post return data:")
+//            print(data)
             let post = Post()
             
             let id = data[Constants.ServerModelField_Post.id] as? NSNumber
@@ -611,12 +611,12 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("join activity url: " + fullUrl)
-        print("user id:" + String(user.id!))
+//        print("user id:" + String(user.id!))
         
         let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
         
         let joinData: [String: AnyObject] = [Constants.ServerModelField_Join.userId: userProfile, Constants.ServerModelField_Join.postId: NSNumber(longLong: join.postId!), Constants.ServerModelField_Join.deviceType: join.deviceType!, Constants.ServerModelField_Join.currentLatitude: join.currentLatitude!,Constants.ServerModelField_Join.currentLongitude: join.currentLongtitude!, Constants.ServerModelField_Join.status: join.status!]
-        print(joinData)
+//        print(joinData)
         
         ApiManager.sharedInstance.POST(fullUrl, username: user.username!, password: user.password!, data: joinData, onSuccess: {(data, response) in
             let id = data[Constants.ServerModelField_Join.id]
@@ -636,7 +636,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("join activity url: " + fullUrl)
-        print("user id:" + String(user.id!))
+//        print("user id:" + String(user.id!))
         print(join.status)
         
         let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
@@ -805,7 +805,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("join activity url: " + fullUrl)
-        print("user id:" + String(user.id!))
+//        print("user id:" + String(user.id!))
         
         let senderProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: message.senderId!), Constants.ServerModelField_User.username: message.senderUsername!]
         
@@ -816,7 +816,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         let messageData: [String: AnyObject] = [Constants.ServerModelField_Message.sender: senderProfile, Constants.ServerModelField_Message.receiver: receiverProfile, Constants.ServerModelField_Message.postId: NSNumber(longLong: message.postId!), Constants.ServerModelField_Message.currentLatitude: message.currentLatitude!, Constants.ServerModelField_Message.currentLongitude: message.currentLongtitude!, Constants.ServerModelField_Message.content: message.content!]
         
         
-        print(messageData)
+//        print(messageData)
         
         ApiManager.sharedInstance.POST(fullUrl, username: user.username!, password: user.password!, data: messageData, onSuccess: {(data, response) in
             let id = data[Constants.ServerModelField_Message.id]
@@ -931,7 +931,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
      - Returns: the encoded string as an NSObject
      */
     func base64Encode(toEncode: String) -> String {
-        print("encoding \(toEncode)")
+//        print("encoding \(toEncode)")
         let utf8Data = toEncode.dataUsingEncoding(NSUTF8StringEncoding)
         return utf8Data!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
     }
