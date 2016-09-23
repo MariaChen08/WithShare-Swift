@@ -197,6 +197,49 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         
         //Join activity
         if joinButton === sender {
+            if messageContent != nil {
+                message = Message()
+                if (currentCoordinates != nil) {
+                    message?.currentLatitude = currentCoordinates!.latitude
+                    message?.currentLatitude = (message?.currentLatitude)?.roundFiveDigits()
+                    message?.currentLongtitude = currentCoordinates!.longitude
+                    message?.currentLongtitude = (message?.currentLongtitude)?.roundFiveDigits()
+                }
+                else {
+                    message?.currentLatitude = 0
+                    message?.currentLongtitude = 0
+                }
+                message?.senderId = currentUserId
+                message?.senderUsername = senderUsername
+                message?.receiverId = receiverId
+                message?.receiverUsername = receiverUsername
+                
+                message?.postId = post?.id
+                message?.content = messageContent
+                
+                // Upload to server
+                ApiManager.sharedInstance.createMessage(user!, message: message!, onSuccess: {(user) in
+                    NSOperationQueue.mainQueue().addOperationWithBlock {
+                        print("create new message success!")
+                        let alert = UIAlertController(title: "Unable to send!", message:
+                            "Message sent successfully.", preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                        
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                    }, onError: {(error) in
+                        NSOperationQueue.mainQueue().addOperationWithBlock {
+                            print("create new message error!")
+                            let alert = UIAlertController(title: "Unable to send!", message:
+                                "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
+                            alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+  
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
+                })
+
+            }
+
             join = Join()
             if (currentCoordinates != nil) {
                 join?.currentLatitude = currentCoordinates!.latitude

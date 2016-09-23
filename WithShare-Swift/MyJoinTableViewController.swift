@@ -121,6 +121,11 @@ class MyJoinTableViewController: UITableViewController {
         // Configure and format time label
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "h:mm a"
+        
+        let dateFormatterFull = NSDateFormatter()
+        dateFormatterFull.dateStyle = NSDateFormatterStyle.ShortStyle
+        dateFormatterFull.timeStyle = .ShortStyle
+        
         let cal = NSCalendar.currentCalendar()
         var components = cal.components([.Era, .Year, .Month, .Day], fromDate:NSDate())
         let today = cal.dateFromComponents(components)!
@@ -141,7 +146,7 @@ class MyJoinTableViewController: UITableViewController {
             cell.joinTimeLabel.text = joinQuote +  dateFormatter.stringFromDate(join.createdAt) + " Today"
         }
         else {
-            cell.joinTimeLabel.text =  joinQuote + dateFormatter.stringFromDate(join.createdAt) + " Yesterday"
+            cell.joinTimeLabel.text =  joinQuote + dateFormatterFull.stringFromDate(join.createdAt)
         }
         
         return cell

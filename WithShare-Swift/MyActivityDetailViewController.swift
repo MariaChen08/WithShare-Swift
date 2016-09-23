@@ -117,6 +117,11 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         // Configure and format time label
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "h:mm a"
+        
+        let dateFormatterFull = NSDateFormatter()
+        dateFormatterFull.dateStyle = NSDateFormatterStyle.ShortStyle
+        dateFormatterFull.timeStyle = .ShortStyle
+        
         let cal = NSCalendar.currentCalendar()
         var components = cal.components([.Era, .Year, .Month, .Day], fromDate:NSDate())
         let today = cal.dateFromComponents(components)!
@@ -125,7 +130,7 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         let otherDate = cal.dateFromComponents(components)!
         
         print(join.createdAt)
-        print("Joined at: " + dateFormatter.stringFromDate(join.createdAt) + " Yesterday")
+        print("Joined at: " + dateFormatterFull.stringFromDate(join.createdAt))
         
         cell.joinTimeLabel.text = ""
         
@@ -133,7 +138,7 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
             cell.joinTimeLabel.text =  dateFormatter.stringFromDate(join.createdAt) + " Today"
         }
         else {
-            cell.joinTimeLabel.text =  dateFormatter.stringFromDate(join.createdAt) + " Yesterday"
+            cell.joinTimeLabel.text =  dateFormatterFull.stringFromDate(join.createdAt)
         }
         
         return cell

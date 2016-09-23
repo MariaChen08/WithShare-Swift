@@ -139,6 +139,11 @@ class MyActivitiesTableViewController: UITableViewController {
         // Configure and format time label
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "h:mm a"
+        
+        let dateFormatterFull = NSDateFormatter()
+        dateFormatterFull.dateStyle = NSDateFormatterStyle.ShortStyle
+        dateFormatterFull.timeStyle = .ShortStyle
+        
         let cal = NSCalendar.currentCalendar()
         var components = cal.components([.Era, .Year, .Month, .Day], fromDate:NSDate())
         let today = cal.dateFromComponents(components)!
@@ -150,7 +155,7 @@ class MyActivitiesTableViewController: UITableViewController {
             cell.TimeLabel.text =  dateFormatter.stringFromDate(post.createdAt) + " Today"
         }
         else {
-            cell.TimeLabel.text =  dateFormatter.stringFromDate(post.createdAt) + " Yesterday"
+            cell.TimeLabel.text =  dateFormatterFull.stringFromDate(post.createdAt)
         }
         
         // gray out closed activity

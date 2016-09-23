@@ -342,7 +342,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return newImage
+        return newImage!
     }
 
 }

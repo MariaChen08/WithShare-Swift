@@ -107,6 +107,6 @@ class UploadPhotoViewController: UIViewController, UINavigationControllerDelegat
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return newImage
+        return newImage!
     }
 }

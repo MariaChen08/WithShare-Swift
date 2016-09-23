@@ -100,6 +100,7 @@
 		A451EFEA1D4EE12900093DBD /* MyActivityDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyActivityDetailViewController.swift; sourceTree = "<group>"; };
 		A451EFED1D4EEB9E00093DBD /* JoinedUserCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinedUserCustomCell.swift; sourceTree = "<group>"; };
 		A45560A01D74DB7700F7BD70 /* UsageLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsageLog.swift; sourceTree = "<group>"; };
+		A4625B1C1D957701005AB964 /* WithShare-Swift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WithShare-Swift.entitlements"; sourceTree = "<group>"; };
 		A48070A91D260F57005FB37B /* SelectActivityTypeMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectActivityTypeMenu.swift; sourceTree = "<group>"; };
 		A48070AB1D2759D9005FB37B /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		A490AA801D4165CB00305CCC /* ApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
@@ -268,6 +269,7 @@
 		A4ACFDA31D206BCA00200133 /* WithShare-Swift */ = {
 			isa = PBXGroup;
 			children = (
+				A4625B1C1D957701005AB964 /* WithShare-Swift.entitlements */,
 				A43C27A21D207E3F00BACEF1 /* Models */,
 				A43C27A01D206F1C00BACEF1 /* Utilities */,
 				A43C279F1D206F0E00BACEF1 /* View Controllers */,
@@ -353,6 +355,7 @@
 					A4ACFDA01D206BCA00200133 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = J767EA589G;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -361,6 +364,7 @@
 					};
 					A4ACFDB41D206BCA00200133 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = A4ACFDA01D206BCA00200133;
 					};
 				};
@@ -685,6 +689,7 @@
 			baseConfigurationReference = 683240BD42C667191B12ED70 /* Pods-WithShare-Swift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "WithShare-Swift/WithShare-Swift.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "WithShare-Swift/Info.plist";
@@ -693,6 +698,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.ist.psu.hci.WithShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -702,6 +708,7 @@
 			baseConfigurationReference = C604F51E07391C3C81659F1A /* Pods-WithShare-Swift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "WithShare-Swift/WithShare-Swift.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "WithShare-Swift/Info.plist";
@@ -710,6 +717,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.ist.psu.hci.WithShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -723,6 +731,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.psu.ist.WithShare-SwiftTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WithShare-Swift.app/WithShare-Swift";
 			};
 			name = Debug;
@@ -736,6 +745,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.psu.ist.WithShare-SwiftTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WithShare-Swift.app/WithShare-Swift";
 			};
 			name = Release;
