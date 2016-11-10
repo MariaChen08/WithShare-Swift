@@ -24,6 +24,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // setup Login button
+        signInButton.layer.cornerRadius = 5
+        signInButton.layer.masksToBounds = true
+        
         //Disable Login button until input
         signInButton.enabled = false
         

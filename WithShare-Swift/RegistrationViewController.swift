@@ -32,6 +32,10 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // setup Sign Up button
+        createAccountButton.layer.cornerRadius = 5
+        createAccountButton.layer.masksToBounds = true
+        
         //Disable Sign Up button
         createAccountButton.enabled = false
         

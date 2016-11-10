@@ -15,7 +15,7 @@ struct Constants {
     
     static var deviceToken = ""
     
-    static let termOfService = "WithShare” is a Penn State research project investigating supporting co-production services and experience through mobile and ubiquitous technologies. By installing and using the application, you agree to share your experiences and uses of the app. Your participation is voluntary and confidential; your data will be stored securely, and destroyed at the end of the research project. There is no compensation other than free access to the app."
+    static let termOfService = "WithShare is a Penn State research project investigating supporting co-production services and experience through mobile and ubiquitous technologies. By installing and using the application, you agree to share your experiences and uses of the app. Your participation is voluntary and confidential; your data will be stored securely, and destroyed at the end of the research project. There is no compensation other than free access to the app."
     
     struct Gender {
         static let female = "female"
