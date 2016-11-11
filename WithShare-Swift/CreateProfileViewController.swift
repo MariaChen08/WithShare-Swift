@@ -71,10 +71,6 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
         
         // set accessory views
         self.gradeTextField.inputView = self.yearInSchoolPicker
-//
-//        self.seatsAvailableTextField.inputView = self.seatsAvailablePicker
-//        self.seatsAvailableTextField.inputAccessoryView = self.cancelButton
-        
     }
     
     // MARK: UITextFieldDelegate
@@ -145,13 +141,6 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
     }
     
     // MARK: - UIPickerView delegation
-    
-    // All of these delegates for all of the different picker views for this...I don't think you can separate them out terribly easily
-    // so I just figure out which control is currently the first responder...a bit hacky
-    
-//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-//        return 1
-//    }
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         return 1

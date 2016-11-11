@@ -20,6 +20,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     var phoneNumber: String?
     
     var loggedIn:Bool = false
+    var firstLaunch:Bool = false
     var activityTypeTitle = "All Posts"
     
     let locationManager = CLLocationManager()
@@ -31,14 +32,26 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     
     override func viewDidLoad() {
         
-        //Check if logged in
+        //Check if first time lauch app
         let prefs = NSUserDefaults.standardUserDefaults()
-        loggedIn = prefs.boolForKey("UserLogIn")
+        firstLaunch = prefs.boolForKey(Constants.NSUserDefaultsKey.firstLaunch)
+        print(firstLaunch)
+
+        
+        //Check if logged in
+//        let prefs = NSUserDefaults.standardUserDefaults()
+        loggedIn = prefs.boolForKey(Constants.NSUserDefaultsKey.logInStatus)
         print(loggedIn)
         
-        // MARK: For Test
-        loggedIn = false
-        
+        if (!firstLaunch) {
+            
+             prefs.setBool(true, forKey: Constants.NSUserDefaultsKey.firstLaunch)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.performSegueWithIdentifier("firstLaunchAppSegue", sender: self)
+            })
+            
+            //            self.navigationItem.hidesBackButton = true
+        }
         
         if (!loggedIn) {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -123,14 +136,14 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     }
     
     @IBAction func createActivityUnwindToList(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.sourceViewController as? CreateActivityViewController {
+        if sender.sourceViewController is CreateActivityViewController {
             print("from new activity view")
             self.loadPostData()
         }
     }
     
     @IBAction func joinActivityUnwindToList(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.sourceViewController as? DetailViewController {
+        if sender.sourceViewController is DetailViewController {
             print("from activity detail view")
         }
 

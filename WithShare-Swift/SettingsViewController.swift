@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource{
     
     //MARK: Properties
     
@@ -44,6 +44,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
     var shareProfile = true
     
     var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.profilePhoto: "", Constants.ServerModelField_User.shareProfile: true]
+    
+    let yearInSchoolPicker: UIPickerView = UIPickerView()
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +76,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         
         //Close keyboard by clicking anywhere else
         self.hideKeyboardWhenTappedAround()
+        
+        // setup delegation of year in school uipicker stuff
+        yearInSchoolPicker.delegate = self
+        yearInSchoolPicker.dataSource = self
+        
+        // set accessory views
+        self.gradeTextField.inputView = self.yearInSchoolPicker
     }
     
     // MARK: UITextFieldDelegate
@@ -126,6 +135,24 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         UIView.commitAnimations()
     }
     
+    // MARK: - UIPickerView delegation
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return yearInSchoolEnum.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return yearInSchoolEnum.getItem(row).description
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.gradeTextField.text = yearInSchoolEnum.getItem(row).description
+        self.gradeTextField.resignFirstResponder()
+    }
     
     // MARK: UIImagePickerControllerDelegate
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {

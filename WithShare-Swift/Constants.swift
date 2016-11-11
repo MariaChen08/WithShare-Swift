@@ -44,6 +44,7 @@ struct Constants {
     }
     
     struct NSUserDefaultsKey {
+        static let firstLaunch = "FirstLaunch"
         static let logInStatus = "UserLogIn"
         static let id = "ID"
         static let username = "UserName"

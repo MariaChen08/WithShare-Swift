@@ -104,12 +104,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WithShare-Swift/NewActivitiesTableViewController.swift"
-            timestampString = "500500503.085915"
+            timestampString = "500529241.781003"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
-            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
+            landmarkName = "tableView(tableView:cellForRowAtIndexPath:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -264,11 +264,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WithShare-Swift/CreateProfileViewController.swift"
-            timestampString = "500526365.996259"
+            timestampString = "500586903.194715"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
             landmarkName = "saveProfile(_:)"
             landmarkType = "7">
          </BreakpointContent>
