@@ -36,6 +36,9 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         loggedIn = prefs.boolForKey("UserLogIn")
         print(loggedIn)
         
+        // MARK: For Test
+        loggedIn = false
+        
         
         if (!loggedIn) {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in

@@ -43,6 +43,7 @@
 		A490AA811D4165CB00305CCC /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A490AA801D4165CB00305CCC /* ApiManager.swift */; };
 		A490AA831D42F30800305CCC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44DA6F71D234B5200E479D1 /* User.swift */; };
 		A49EA7FB1D7217E9009EEB3F /* MyJoinMessageCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49EA7FA1D7217E9009EEB3F /* MyJoinMessageCustomCell.swift */; };
+		A4A1FDD01DD5649100139F70 /* yearInSchoolEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A1FDCF1DD5649100139F70 /* yearInSchoolEnum.swift */; };
 		A4ACFDAA1D206BCA00200133 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDA81D206BCA00200133 /* Main.storyboard */; };
 		A4ACFDAF1D206BCA00200133 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4ACFDAD1D206BCA00200133 /* LaunchScreen.storyboard */; };
 		A4ACFDBA1D206BCA00200133 /* WithShare_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACFDB91D206BCA00200133 /* WithShare_SwiftTests.swift */; };
@@ -105,6 +106,7 @@
 		A48070AB1D2759D9005FB37B /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		A490AA801D4165CB00305CCC /* ApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		A49EA7FA1D7217E9009EEB3F /* MyJoinMessageCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyJoinMessageCustomCell.swift; sourceTree = "<group>"; };
+		A4A1FDCF1DD5649100139F70 /* yearInSchoolEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = yearInSchoolEnum.swift; sourceTree = "<group>"; };
 		A4ACFDA11D206BCA00200133 /* WithShare-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WithShare-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4ACFDA91D206BCA00200133 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A4ACFDAE1D206BCA00200133 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */,
 				A490AA801D4165CB00305CCC /* ApiManager.swift */,
 				A4DF92891D62549600CDA2EE /* DoubleExtension.swift */,
+				A4A1FDCF1DD5649100139F70 /* yearInSchoolEnum.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -539,6 +542,7 @@
 				A4B2F6D21D66611000D44578 /* Message.swift in Sources */,
 				A44DA7031D234B5200E479D1 /* User.swift in Sources */,
 				A41054B41D6BAD8100566A5C /* PostMessageCustomCell.swift in Sources */,
+				A4A1FDD01DD5649100139F70 /* yearInSchoolEnum.swift in Sources */,
 				A4CBF12E1D34482D00027DE1 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

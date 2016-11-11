@@ -8,12 +8,13 @@
 
 import UIKit
 
-class CreateProfileViewController: UIViewController, UITextFieldDelegate{
+class CreateProfileViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource{
     //MARK: Properties
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var gradeTextField: UITextField!
     @IBOutlet weak var departmentTextField: UITextField!
+    
     @IBOutlet weak var hobbyTextField: UITextField!
     
     @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
@@ -33,8 +34,19 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
     
     var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.shareProfile: true]
     
+    let yearInSchoolPicker: UIPickerView = UIPickerView()
+//    let cancelButton = UIButton(type: UIButtonType.system)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // setup buttons
+        skipButton.layer.cornerRadius = 5
+        skipButton.layer.masksToBounds = true
+        
+        saveButton.layer.cornerRadius = 5
+        saveButton.layer.masksToBounds = true
+        
         
         //Handle the text field’s user input through delegate callbacks.
         firstNameTextField.delegate = self
@@ -53,6 +65,16 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
         self.hideKeyboardWhenTappedAround()
         print(user?.username)
         
+        // setup delegation of year in school uipicker stuff
+        yearInSchoolPicker.delegate = self
+        yearInSchoolPicker.dataSource = self
+        
+        // set accessory views
+        self.gradeTextField.inputView = self.yearInSchoolPicker
+//
+//        self.seatsAvailableTextField.inputView = self.seatsAvailablePicker
+//        self.seatsAvailableTextField.inputAccessoryView = self.cancelButton
+        
     }
     
     // MARK: UITextFieldDelegate
@@ -65,9 +87,9 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
     func textFieldDidBeginEditing(textField: UITextField) {
         switch (textField.tag) {
         case 3:
-            animateViewMoving(true, moveValue: 50)
+            animateViewMoving(true, moveValue: 200)
         case 4:
-            animateViewMoving(true, moveValue: 180)
+            animateViewMoving(true, moveValue: 200)
         default:
             print("did not edit saved profile")
         }
@@ -99,14 +121,14 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
                 department = department!.stringByTrimmingCharactersInSet(
                     NSCharacterSet.whitespaceAndNewlineCharacterSet())
             }
-            animateViewMoving(false, moveValue: 50)
+            animateViewMoving(false, moveValue: 200)
         case 4:
             hobby = textField.text
             if hobby != nil {
                 hobby = hobby!.stringByTrimmingCharactersInSet(
                     NSCharacterSet.whitespaceAndNewlineCharacterSet())
             }
-            animateViewMoving(false, moveValue: 180)
+            animateViewMoving(false, moveValue: 200)
         default:
             print("did not create profile")
         }
@@ -121,6 +143,33 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
         self.view.frame = CGRectOffset(self.view.frame, 0,  movement)
         UIView.commitAnimations()
     }
+    
+    // MARK: - UIPickerView delegation
+    
+    // All of these delegates for all of the different picker views for this...I don't think you can separate them out terribly easily
+    // so I just figure out which control is currently the first responder...a bit hacky
+    
+//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+//        return 1
+//    }
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return yearInSchoolEnum.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return yearInSchoolEnum.getItem(row).description
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.gradeTextField.text = yearInSchoolEnum.getItem(row).description
+        self.gradeTextField.resignFirstResponder()
+    }
+
 
     
     // MARK: - Navigation
@@ -247,4 +296,5 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate{
                 }
         })
     }
+    
 }
