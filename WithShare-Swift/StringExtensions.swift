@@ -12,15 +12,15 @@ extension String {
     
     // To check text field or String is blank or not
     func isBlank() -> Bool {
-        let trimmed = stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        let trimmed = trimmingCharacters(in: CharacterSet.whitespaces)
         return trimmed.isEmpty
     }
     
     // Validate Email
     func isPSUEmail() -> Bool {
         do {
-            let regex = try NSRegularExpression(pattern: "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", options: .CaseInsensitive)
-            return regex.firstMatchInString(self, options: NSMatchingOptions(rawValue: 0), range: NSMakeRange(0, self.characters.count)) != nil
+            let regex = try NSRegularExpression(pattern: "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", options: .caseInsensitive)
+            return regex.firstMatch(in: self, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, self.characters.count)) != nil
         } catch {
             return false
         }
@@ -30,15 +30,15 @@ extension String {
     func isPhoneNumber() -> Bool {
         do {
             let regex = try NSRegularExpression(pattern: "\\(\\d{3}\\)\\s\\d{3}-\\d{4}", options: [])
-            return regex.firstMatchInString(self, options: NSMatchingOptions(rawValue: 0), range: NSMakeRange(0, self.characters.count)) != nil
+            return regex.firstMatch(in: self, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, self.characters.count)) != nil
         } catch {
             return false
         }
     }
     
     // remove white spaces
-    func replace(string:String, replacement:String) -> String {
-        return self.stringByReplacingOccurrencesOfString(string, withString: replacement, options: NSStringCompareOptions.LiteralSearch, range: nil)
+    func replace(_ string:String, replacement:String) -> String {
+        return self.replacingOccurrences(of: string, with: replacement, options: NSString.CompareOptions.literal, range: nil)
     }
     
     func removeWhitespace() -> String {

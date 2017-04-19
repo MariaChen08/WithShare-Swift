@@ -30,13 +30,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         signInButton.layer.masksToBounds = true
         
         //Disable Login button until input
-        signInButton.enabled = false
+        signInButton.isEnabled = false
         
         //Disable getting back in not logged in
-        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
+        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
         //Desable tabbar in not logged in
-        self.tabBarController?.tabBar.hidden = true
+        self.tabBarController?.tabBar.isHidden = true
         
         //Close keyboard by clicking anywhere else
         self.hideKeyboardWhenTappedAround()
@@ -48,23 +48,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         emailTextField.tag = 0
         passwordTextField.tag = 1
         
-        emailTextField.keyboardType = .EmailAddress
+        emailTextField.keyboardType = .emailAddress
     }
     
     // MARK: UITextFieldDelegate
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Hide the keyboard.
         textField.resignFirstResponder()
         return true
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         switch (textField.tag) {
         case 0:
             username = textField.text
             if username != nil {
-                username = username!.stringByTrimmingCharactersInSet(
-                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                username = username!.trimmingCharacters(
+                    in: CharacterSet.whitespacesAndNewlines)
             }
         case 1:
             password = textField.text
@@ -74,41 +74,41 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     
-    @IBAction func emailEditingDidEnd(sender: AnyObject) {
+    @IBAction func emailEditingDidEnd(_ sender: AnyObject) {
         // check fields here
 //        username = self.emailTextField.text
         self.enableSignIn()
     }
     
-    @IBAction func passwordEditingDidEnd(sender: AnyObject) {
+    @IBAction func passwordEditingDidEnd(_ sender: AnyObject) {
         // check fields here
 //        password = self.passwordTextField.text
         self.enableSignIn()
     }
     
-    @IBAction func unwindToLogin(segue: UIStoryboardSegue) {
+    @IBAction func unwindToLogin(_ segue: UIStoryboardSegue) {
     }
         
     //MARK: Actions
     
-    @IBAction func signIn(sender: AnyObject) {
+    @IBAction func signIn(_ sender: AnyObject) {
         username = self.emailTextField.text!
         password = self.passwordTextField.text!
         
         // Retrieve cached user info
-        let defaults = NSUserDefaults.standardUserDefaults()
-        username_saved = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
-        password_saved = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
+        let defaults = UserDefaults.standard
+        username_saved = defaults.string(forKey: Constants.NSUserDefaultsKey.username)
+        password_saved = defaults.string(forKey: Constants.NSUserDefaultsKey.password)
         
         if (username_saved == username && password_saved == password) {
-            defaults.setBool(true, forKey: Constants.NSUserDefaultsKey.logInStatus)
-            self.performSegueWithIdentifier("logInSegue", sender: self)
+            defaults.set(true, forKey: Constants.NSUserDefaultsKey.logInStatus)
+            self.performSegue(withIdentifier: "logInSegue", sender: self)
         }
         else {
             let alert = UIAlertController(title: "Unable to sign in!", message:
-                                    "Incorrect passwork, please try again.", preferredStyle: UIAlertControllerStyle.Alert)
-                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-                                self.presentViewController(alert, animated: true, completion: nil)
+                                    "Incorrect passwork, please try again.", preferredStyle: UIAlertControllerStyle.alert)
+                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+                                self.present(alert, animated: true, completion: nil)
 
         }
     }
@@ -116,9 +116,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     // Tests wether the signInButton should be enabled or not
     func enableSignIn() {
         if self.passwordTextField.text!.isBlank() || self.emailTextField.text!.isBlank() {
-            signInButton.enabled = false
+            signInButton.isEnabled = false
         } else {
-            signInButton.enabled = true
+            signInButton.isEnabled = true
         }
     }
     

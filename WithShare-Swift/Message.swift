@@ -11,8 +11,8 @@ import Foundation
 class Message {
 
     var id: Int64?
-    var createdAt: NSDate
-    var updatedAt: NSDate?
+    var createdAt: Date
+    var updatedAt: Date?
 
     
     var senderId: Int64?
@@ -32,7 +32,7 @@ class Message {
     // MARK: Initialization
     init?() {
         //UTC time
-        self.createdAt = NSDate()
+        self.createdAt = Date()
     }
 
 }

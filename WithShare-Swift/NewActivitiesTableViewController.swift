@@ -33,51 +33,51 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     override func viewDidLoad() {
         
         //Check if first time lauch app
-        let prefs = NSUserDefaults.standardUserDefaults()
-        firstLaunch = prefs.boolForKey(Constants.NSUserDefaultsKey.firstLaunch)
+        let prefs = UserDefaults.standard
+        firstLaunch = prefs.bool(forKey: Constants.NSUserDefaultsKey.firstLaunch)
         print(firstLaunch)
 
         
         //Check if logged in
 //        let prefs = NSUserDefaults.standardUserDefaults()
-        loggedIn = prefs.boolForKey(Constants.NSUserDefaultsKey.logInStatus)
+        loggedIn = prefs.bool(forKey: Constants.NSUserDefaultsKey.logInStatus)
         print(loggedIn)
         
         if (!firstLaunch) {
             
-             prefs.setBool(true, forKey: Constants.NSUserDefaultsKey.firstLaunch)
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.performSegueWithIdentifier("firstLaunchAppSegue", sender: self)
+             prefs.set(true, forKey: Constants.NSUserDefaultsKey.firstLaunch)
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.performSegue(withIdentifier: "firstLaunchAppSegue", sender: self)
             })
             
             //            self.navigationItem.hidesBackButton = true
         }
         
         if (!loggedIn) {
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.performSegueWithIdentifier("needLogInSegue", sender: self)
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.performSegue(withIdentifier: "needLogInSegue", sender: self)
             })
             
             //            self.navigationItem.hidesBackButton = true
         }
         else {
             // Retrieve cached user info
-            let defaults = NSUserDefaults.standardUserDefaults()
-            username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
-            password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
+            let defaults = UserDefaults.standard
+            username = defaults.string(forKey: Constants.NSUserDefaultsKey.username)
+            password = defaults.string(forKey: Constants.NSUserDefaultsKey.password)
 //            username = "testyk@psu.edu"
 //            password = "a"
-            phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
+            phoneNumber = defaults.string(forKey: Constants.NSUserDefaultsKey.phoneNumber)
             
             user = User(username: username!, password: password!)
             
             self.loadPostData()
             
-            self.refreshControl?.addTarget(self, action: #selector(NewActivitiesTableViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+            self.refreshControl?.addTarget(self, action: #selector(NewActivitiesTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // if there are no posts something bad happened and we should try again
         if (loggedIn && posts.count == 0) {
@@ -87,16 +87,16 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     
     
     //MARK: Navigations
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //Popover Filter Menu
         if segue.identifier == "popoverMenuSegue" {
-            let popoverViewController = segue.destinationViewController 
-            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+            let popoverViewController = segue.destination 
+            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
             popoverViewController.popoverPresentationController!.delegate = self
         }
             //create new activity
         else if segue.identifier == "createActivitySegue" {
-            let createActivityViewController = segue.destinationViewController as! CreateActivityViewController
+            let createActivityViewController = segue.destination as! CreateActivityViewController
             if activityTypeTitle != "All Posts" {
                 createActivityViewController.activityTypeShow = activityTypeTitle
                 print("activity Type before segue: " + activityTypeTitle)
@@ -107,10 +107,10 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
             
         }
         else if segue.identifier == "showActivityDetailSegue" {
-            let activityDetailViewController = segue.destinationViewController as! DetailViewController
+            let activityDetailViewController = segue.destination as! DetailViewController
             // Get the cell that generated this segue.
             if let selectedActivityCell = sender as? PostTableViewCell {
-                let indexPath = tableView.indexPathForCell(selectedActivityCell)!
+                let indexPath = tableView.indexPath(for: selectedActivityCell)!
                 let selectedActivity = posts[indexPath.row]
                 activityDetailViewController.post = selectedActivity
                 activityDetailViewController.indexPostion = indexPath.row
@@ -119,31 +119,31 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
         }
     }
     
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.None
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
     }
     
     //MARK: unwind methods
-    @IBAction func popoverMenuUnwindToActivityList(segue:UIStoryboardSegue) {
+    @IBAction func popoverMenuUnwindToActivityList(_ segue:UIStoryboardSegue) {
         //select activity type from popover menu
-        if let sourceViewController = segue.sourceViewController as? ActivityTypePopoverMenuViewController{
+        if let sourceViewController = segue.source as? ActivityTypePopoverMenuViewController{
             activityTypeTitle = sourceViewController.activityType!
-            print(sourceViewController.activityType)
+            print(sourceViewController.activityType as Any)
             self.title = activityTypeTitle
             self.loadPostData()
         }
         
     }
     
-    @IBAction func createActivityUnwindToList(sender: UIStoryboardSegue) {
-        if sender.sourceViewController is CreateActivityViewController {
+    @IBAction func createActivityUnwindToList(_ sender: UIStoryboardSegue) {
+        if sender.source is CreateActivityViewController {
             print("from new activity view")
             self.loadPostData()
         }
     }
     
-    @IBAction func joinActivityUnwindToList(sender: UIStoryboardSegue) {
-        if sender.sourceViewController is DetailViewController {
+    @IBAction func joinActivityUnwindToList(_ sender: UIStoryboardSegue) {
+        if sender.source is DetailViewController {
             print("from activity detail view")
         }
 
@@ -151,7 +151,7 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
     
     //MARK: Manage Data Source
     func loadPostData() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getActivity(user!, onSuccess: {(posts) in
             self.posts =  posts
             // Filter posts
@@ -161,79 +161,79 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
                 if (countPosts > 0) {
                     for index in 0...countPosts-1 {
                         if (posts[index].activityTitle != self.activityTypeTitle) {
-                            self.posts.removeAtIndex(index-flag)
+                            self.posts.remove(at: index-flag)
                             flag += 1
                         }
                     }
                 }
             }
             
-            NSOperationQueue.mainQueue().addOperationWithBlock {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            OperationQueue.main.addOperation {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 self.tableView.reloadData()
             }
             }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     print("load activity error!")
                     let alert = UIAlertController(title: "Unable to load activity!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 }
         })
     }
 
-    func handleRefresh(refreshControl: UIRefreshControl) {
+    func handleRefresh(_ refreshControl: UIRefreshControl) {
         self.loadPostData()
         refreshControl.endRefreshing()
     }
     
     //MARK: present dynamic data in table view
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifier = "PostTableViewCell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! PostTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PostTableViewCell
         
         // Fetches the appropriate meal for the data source layout.
         let post = posts[indexPath.row]
         // Configure cells
-        cell.ActivityTitleLabel.font = UIFont.boldSystemFontOfSize(16.0)
+        cell.ActivityTitleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
         cell.ActivityTitleLabel.text = post.activityTitle!
         cell.DetailLabel.text = post.detail
         cell.MeetLocationLabel.text = "meet@: " + post.meetPlace!
 
         // Configure and format time label
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
-        dateFormatter.timeZone = NSTimeZone()
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
         
-        let now = NSDate()
+        let now = Date()
         print("UTC time post create:")
         print(post.createdAt)
         print("local time post create:")
-        print(dateFormatter.stringFromDate(post.createdAt))
+        print(dateFormatter.string(from: post.createdAt))
         
-        let cal = NSCalendar.currentCalendar()
-        var components = cal.components([.Era, .Year, .Month, .Day], fromDate: now)
-        let today = cal.dateFromComponents(components)!
+        let cal = Calendar.current
+        var components = (cal as NSCalendar).components([.era, .year, .month, .day], from: now)
+        let today = cal.date(from: components)!
         
-        components = cal.components([.Era, .Year, .Month, .Day], fromDate:post.createdAt)
-        let otherDate = cal.dateFromComponents(components)!
+        components = (cal as NSCalendar).components([.era, .year, .month, .day], from:post.createdAt)
+        let otherDate = cal.date(from: components)!
         
-        if (today.isEqualToDate(otherDate)) {
-            cell.TimeLabel.text =  dateFormatter.stringFromDate(post.createdAt) + " Today"
+        if (today == otherDate) {
+            cell.TimeLabel.text =  dateFormatter.string(from: post.createdAt) + " Today"
         }
         else {
-            cell.TimeLabel.text =  dateFormatter.stringFromDate(post.createdAt) + " Yesterday"
+            cell.TimeLabel.text =  dateFormatter.string(from: post.createdAt) + " Yesterday"
         }
 
         return cell
@@ -245,9 +245,9 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
 // MARK: - CLLocationManagerDelegate
 extension NewActivitiesTableViewController: CLLocationManagerDelegate {
     // called when the user grants or revokes location permissions
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         // verify the user has granted you permission while the app is in use
-        if status == .AuthorizedWhenInUse {
+        if status == .authorizedWhenInUse {
             
             locationManager.startUpdatingLocation()
             //            mapView.myLocationEnabled = true
@@ -256,7 +256,7 @@ extension NewActivitiesTableViewController: CLLocationManagerDelegate {
     }
     
     // executes when the location manager receives new location data.
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             
             //            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)

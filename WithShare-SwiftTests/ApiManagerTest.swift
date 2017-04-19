@@ -23,7 +23,7 @@ class ApiManagerTest: XCTestCase {
     }
     
     func testGet() {
-        let expectation = expectationWithDescription("Testing GET")
+        let expectation = self.expectation(withDescription: "Testing GET")
         var didFail = false
         
 //        ApiManager.sharedInstance.GET("http://localhost:8080/posts/", onSuccess: {(data, response) in
@@ -43,7 +43,7 @@ class ApiManagerTest: XCTestCase {
 //            expectation.fulfill()
 //        })
         
-        waitForExpectationsWithTimeout(NSTimeInterval.init(250), handler: nil)
+        waitForExpectations(withTimeout: TimeInterval.init(250), handler: nil)
         XCTAssertFalse(didFail)
     }
 }

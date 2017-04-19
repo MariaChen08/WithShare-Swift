@@ -18,7 +18,7 @@ class ValidateUserInput {
     init(input: String) {
         // Initialize stored properties.
         self.input = input
-        self.trimmedInput = input.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        self.trimmedInput = input.trimmingCharacters(in: CharacterSet.whitespaces)
     }
     
     // MARK: Methods
@@ -34,12 +34,12 @@ class ValidateUserInput {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailTest.evaluateWithObject(trimmedInput)
+        return emailTest.evaluate(with: trimmedInput)
     }
     
     //if psu.edu suffix
     func isEduSuffix() -> Bool {
-        let startIndex = trimmedInput.endIndex.advancedBy(-7)
+        let startIndex = trimmedInput.characters.index(trimmedInput.endIndex, offsetBy: -7)
         let endIndex = trimmedInput.endIndex
         let range = startIndex..<endIndex   // same as let range = Range(start: startIndex, end: endIndex)
         let suffix = trimmedInput[range]

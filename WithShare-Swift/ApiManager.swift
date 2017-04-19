@@ -9,13 +9,13 @@
 import Foundation
 import UIKit
 
-class ApiManager: NSObject, NSURLSessionDelegate {
+class ApiManager: NSObject, URLSessionDelegate {
     // this is the singleton that you use to access use the API
     static let sharedInstance = ApiManager()
     
     // server url
     static let serverUrl = "https://withshare.ist.psu.edu/"
-    let cache = NSCache()
+    let cache = NSCache<AnyObject, AnyObject>()
     
     // MARK: HTTP GET and POST
     /**
@@ -25,78 +25,78 @@ class ApiManager: NSObject, NSURLSessionDelegate {
      - Parameter onSuccess: What you want to call in the case it succeeds
      - Parameter onFail: Void - callback function when failed
      */
-    func GET(url: String, username: String, password: String, onSuccess: (data: NSArray, response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
-        let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-        request.HTTPMethod = "GET"
+    func GET(url: String, username: String, password: String, onSuccess: @escaping (_ data: Array<Dictionary<String, AnyObject>>, _ response: URLResponse) -> Void, onError: @escaping (_ error: NSError, _ response: URLResponse) -> Void) {
+        let request = NSMutableURLRequest(url: URL(string: url)!)
+        request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
 
         // Basic Authentication with (username + password)
         let userPasswordString = NSString(format: "%@:%@", username, password)
         print(userPasswordString)
-        let userPasswordData = userPasswordString.dataUsingEncoding(NSUTF8StringEncoding)
-        let base64EncodedCredential = userPasswordData!.base64EncodedStringWithOptions([])
+        let userPasswordData = userPasswordString.data(using: String.Encoding.utf8.rawValue)
+        let base64EncodedCredential = userPasswordData!.base64EncodedString(options: [])
         request.addValue("Basic \(base64EncodedCredential)", forHTTPHeaderField: "Authorization")
         
         // returns a singleton session based on default configuration
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) -> Void in
-            var jsonData: NSArray = []
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {(data, response, error) -> Void in
+            var jsonData: Array<Dictionary<String, AnyObject>> = [[:]]
             
             if data != nil {
-                let responseData = String(data: data!, encoding: NSUTF8StringEncoding)
+//                let responseData = String(data: data!, encoding: String.Encoding.utf8)
 //                print("Get Body:" + responseData!)
                 
                 do {
-                    jsonData = try (NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as? NSArray)!
+                    jsonData = try (JSONSerialization.jsonObject(with: data!, options:JSONSerialization.ReadingOptions.mutableContainers) as? Array<Dictionary<String, AnyObject>>)!
                 }
                 catch _ {
-                    onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), response: NSURLResponse())
+                    onError(NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), URLResponse())
                 }
                     
             } else {
-                onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["No data": NSObject()]), response: NSURLResponse())
+                onError(NSError(domain: "WithShare", code: -1000, userInfo: ["No data": NSObject()]), URLResponse())
             }
             
             if error != nil {
-                onError(error: error!, response: NSURLResponse())
+                onError(error! as NSError, URLResponse())
             } else {
-                onSuccess(data: jsonData, response: response!)
+                onSuccess(jsonData, response!)
             }
         })
         
         task.resume()
     }
     
-    func GET_singleton(url: String, username: String, password: String, onSuccess: (data: [String: AnyObject], response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
-        let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-        request.HTTPMethod = "GET"
+    func GET_singleton(_ url: String, username: String, password: String, onSuccess: @escaping (_ data: [String: AnyObject], _ response: URLResponse) -> Void, onError: @escaping (_ error: NSError, _ response: URLResponse) -> Void) {
+        let request = NSMutableURLRequest(url: URL(string: url)!)
+        request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         // Basic Authentication with (username + password)
         let userPasswordString = NSString(format: "%@:%@", username, password)
         print(userPasswordString)
-        let userPasswordData = userPasswordString.dataUsingEncoding(NSUTF8StringEncoding)
-        let base64EncodedCredential = userPasswordData!.base64EncodedStringWithOptions([])
+        let userPasswordData = userPasswordString.data(using: String.Encoding.utf8.rawValue)
+        let base64EncodedCredential = userPasswordData!.base64EncodedString(options: [])
         request.addValue("Basic \(base64EncodedCredential)", forHTTPHeaderField: "Authorization")
         
         // returns a singleton session based on default configuration
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) -> Void in
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {(data, response, error) -> Void in
             
             var dataDict: [String: AnyObject] = [:]
             
-            print((response as? NSHTTPURLResponse)?.statusCode)
+            print((response as? HTTPURLResponse)?.statusCode as Any)
             if data != nil {
-                let responseData = String(data: data!, encoding: NSUTF8StringEncoding)
+//                let responseData = String(data: data!, encoding: String.Encoding.utf8)
 //                print("Body:" + responseData!)
                 
                 do {
-                    dataDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! [String: AnyObject]
+                    dataDict = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String: AnyObject]
                 } catch _ {
                     print("Serialization error")
-                    onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), response: NSURLResponse())
+                    onError(NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), URLResponse())
                 }
                 
             }
@@ -105,9 +105,9 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             }
             
             if error != nil {
-                onError(error: error!, response: NSURLResponse())
+                onError(error! as NSError, URLResponse())
             } else {
-                onSuccess(data: dataDict, response: response!)
+                onSuccess(dataDict, response!)
             }
         })
         
@@ -116,43 +116,43 @@ class ApiManager: NSObject, NSURLSessionDelegate {
 
     
     // HTTP POST with Basic Authentication (username + password)
-    func POST(url: String, username: String, password: String, data: Dictionary<String,AnyObject>, onSuccess: (databack: [String: AnyObject], response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
+    func POST(_ url: String, username: String, password: String, data: Dictionary<String,AnyObject>, onSuccess: @escaping (_ databack: [String: AnyObject], _ response: URLResponse) -> Void, onError: @escaping (_ error: NSError, _ response: URLResponse) -> Void) {
         
-        let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-        let session = NSURLSession.sharedSession()
-        request.HTTPMethod = "POST"
+        let request = NSMutableURLRequest(url: URL(string: url)!)
+        let session = URLSession.shared
+        request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         // Basic Authentication with (username + password)
         let userPasswordString = NSString(format: "%@:%@", username, password)
         print(userPasswordString)
-        let userPasswordData = userPasswordString.dataUsingEncoding(NSUTF8StringEncoding)
-        let base64EncodedCredential = userPasswordData!.base64EncodedStringWithOptions([])
+        let userPasswordData = userPasswordString.data(using: String.Encoding.utf8.rawValue)
+        let base64EncodedCredential = userPasswordData!.base64EncodedString(options: [])
         request.addValue("Basic \(base64EncodedCredential)", forHTTPHeaderField: "Authorization")
         
         do {
-            try request.HTTPBody = NSJSONSerialization.dataWithJSONObject(data, options: NSJSONWritingOptions())
+            try request.httpBody = JSONSerialization.data(withJSONObject: data, options: JSONSerialization.WritingOptions())
         } catch _ {
-            onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON request data": NSObject()]), response: NSURLResponse())
+            onError(NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON request data": NSObject()]), URLResponse())
             return
         }
         
         
         
-        let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) -> Void in
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {(data, response, error) -> Void in
             
             var dataDict: [String: AnyObject] = [:]
             
-            print((response as? NSHTTPURLResponse)?.statusCode)
+            print((response as? HTTPURLResponse)?.statusCode as Any)
             if data != nil {
-                let responseData = String(data: data!, encoding: NSUTF8StringEncoding)
+                let responseData = String(data: data!, encoding: String.Encoding.utf8)
                 print("Body:" + responseData!)
                 
                 do {
-                    dataDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! [String: AnyObject]
+                    dataDict = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String: AnyObject]
                 } catch _ {
-                    onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), response: NSURLResponse())
+                    onError(NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), URLResponse())
                 }
 
             }
@@ -160,15 +160,15 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 print("Body null")
             }
             
-            if (response as? NSHTTPURLResponse)?.statusCode != 201 {
-                onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Server returned error": NSObject()]), response: NSURLResponse())
+            if (response as? HTTPURLResponse)?.statusCode != 201 {
+                onError(NSError(domain: "WithShare", code: -1000, userInfo: ["Server returned error": NSObject()]), URLResponse())
                 return
             }
             
             if error != nil {
-                onError(error: error!, response: NSURLResponse())
+                onError(error! as NSError, URLResponse())
             } else {
-                onSuccess(databack: dataDict, response: response!)
+                onSuccess(dataDict, response!)
             }
         })
         
@@ -176,34 +176,34 @@ class ApiManager: NSObject, NSURLSessionDelegate {
     }
     
     // HTTP POST with No Authentication
-    func POST_simple(url: String, data: Dictionary<String,AnyObject>, onSuccess: (databack: [String: AnyObject], response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
+    func POST_simple(_ url: String, data: Dictionary<String,AnyObject>, onSuccess: @escaping (_ databack: [String: AnyObject], _ response: URLResponse) -> Void, onError: @escaping (_ error: NSError, _ response: URLResponse) -> Void) {
         
-        let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-        let session = NSURLSession.sharedSession()
-        request.HTTPMethod = "POST"
+        let request = NSMutableURLRequest(url: URL(string: url)!)
+        let session = URLSession.shared
+        request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         do {
-            try request.HTTPBody = NSJSONSerialization.dataWithJSONObject(data, options: NSJSONWritingOptions())
+            try request.httpBody = JSONSerialization.data(withJSONObject: data, options: JSONSerialization.WritingOptions())
         } catch _ {
-            onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON request data": NSObject()]), response: NSURLResponse())
+            onError(NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON request data": NSObject()]), URLResponse())
             return
         }
         
-        let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) -> Void in
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {(data, response, error) -> Void in
             
             var dataDict: [String: AnyObject] = [:]
             
-            print((response as? NSHTTPURLResponse)?.statusCode)
+            print((response as? HTTPURLResponse)?.statusCode as Any)
             if data != nil {
-                let responseData = String(data: data!, encoding: NSUTF8StringEncoding)
+                let responseData = String(data: data!, encoding: String.Encoding.utf8)
                 print("Body:" + responseData!)
                 
                 do {
-                    dataDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! [String: AnyObject]
+                    dataDict = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String: AnyObject]
                 } catch _ {
-                    onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), response: NSURLResponse())
+                    onError(NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), URLResponse())
                 }
                 
             }
@@ -211,20 +211,20 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 print("Body null")
             }
             
-            if (response as? NSHTTPURLResponse)?.statusCode == 409 {
-                onError(error: NSError(domain: "WithShare: User with that email already exists", code: -1000, userInfo: ["User with that email already exists": NSObject()]), response: NSURLResponse())
+            if (response as? HTTPURLResponse)?.statusCode == 409 {
+                onError(NSError(domain: "WithShare: User with that email already exists", code: -1000, userInfo: ["User with that email already exists": NSObject()]), URLResponse())
                 return
             }
             
-            if (response as? NSHTTPURLResponse)?.statusCode != 201 {
-                onError(error: NSError(domain: "WithShare: Please check network condition or try later", code: -1000, userInfo: ["Server returned error": NSObject()]), response: NSURLResponse())
+            if (response as? HTTPURLResponse)?.statusCode != 201 {
+                onError(NSError(domain: "WithShare: Please check network condition or try later", code: -1000, userInfo: ["Server returned error": NSObject()]), URLResponse())
                 return
             }
             
             if error != nil {
-                onError(error: error!, response: NSURLResponse())
+                onError(error! as NSError, URLResponse())
             } else {
-                onSuccess(databack: dataDict, response: response!)
+                onSuccess(dataDict, response!)
             }
         })
         
@@ -232,43 +232,43 @@ class ApiManager: NSObject, NSURLSessionDelegate {
     }
     
     // HTTP PUT with Basic Authentication (username + password)
-    func PUT(url: String, username: String, password: String, data: Dictionary<String,AnyObject>, onSuccess: (databack: [String: AnyObject], response: NSURLResponse) -> Void, onError: (error: NSError, response: NSURLResponse) -> Void) {
+    func PUT(_ url: String, username: String, password: String, data: Dictionary<String,AnyObject>, onSuccess: @escaping (_ databack: [String: AnyObject], _ response: URLResponse) -> Void, onError: @escaping (_ error: NSError, _ response: URLResponse) -> Void) {
         
-        let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-        request.HTTPMethod = "PUT"
+        let request = NSMutableURLRequest(url: URL(string: url)!)
+        request.httpMethod = "PUT"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         // Basic Authentication with (username + password)
         let userPasswordString = NSString(format: "%@:%@", username, password)
         print(userPasswordString)
-        let userPasswordData = userPasswordString.dataUsingEncoding(NSUTF8StringEncoding)
-        let base64EncodedCredential = userPasswordData!.base64EncodedStringWithOptions([])
+        let userPasswordData = userPasswordString.data(using: String.Encoding.utf8.rawValue)
+        let base64EncodedCredential = userPasswordData!.base64EncodedString(options: [])
         request.addValue("Basic \(base64EncodedCredential)", forHTTPHeaderField: "Authorization")
         
         do {
-            try request.HTTPBody = NSJSONSerialization.dataWithJSONObject(data, options: NSJSONWritingOptions())
+            try request.httpBody = JSONSerialization.data(withJSONObject: data, options: JSONSerialization.WritingOptions())
         } catch _ {
-            onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON request data": NSObject()]), response: NSURLResponse())
+            onError(NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON request data": NSObject()]), URLResponse())
             return
         }
         
         // returns a singleton session based on default configuration
-        let session = NSURLSession.sharedSession()
+        let session = URLSession.shared
         
-        let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) -> Void in
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {(data, response, error) -> Void in
             
             var dataDict: [String: AnyObject] = [:]
             
-            print((response as? NSHTTPURLResponse)?.statusCode)
+            print((response as? HTTPURLResponse)?.statusCode as Any)
             if data != nil {
-                let responseData = String(data: data!, encoding: NSUTF8StringEncoding)
+                let responseData = String(data: data!, encoding: String.Encoding.utf8)
                 print("Body:" + responseData!)
                 
                 do {
-                    dataDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! [String: AnyObject]
+                    dataDict = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String: AnyObject]
                 } catch _ {
-                    onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), response: NSURLResponse())
+                    onError(NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), URLResponse())
                 }
                 
             }
@@ -276,15 +276,15 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 print("Body null")
             }
             
-            if ((response as? NSHTTPURLResponse)?.statusCode != 201 && (response as? NSHTTPURLResponse)?.statusCode != 200) {
-                onError(error: NSError(domain: "WithShare", code: -1000, userInfo: ["Server returned error": NSObject()]), response: NSURLResponse())
+            if ((response as? HTTPURLResponse)?.statusCode != 201 && (response as? HTTPURLResponse)?.statusCode != 200) {
+                onError(NSError(domain: "WithShare", code: -1000, userInfo: ["Server returned error": NSObject()]), URLResponse())
                 return
             }
             
             if error != nil {
-                onError(error: error!, response: NSURLResponse())
+                onError(error! as NSError, URLResponse())
             } else {
-                onSuccess(databack: dataDict, response: response!)
+                onSuccess(dataDict, response!)
             }
         })
         
@@ -292,15 +292,15 @@ class ApiManager: NSObject, NSURLSessionDelegate {
     }
     
     //MARK: User Profile Api
-    func signUp(user: User, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+    func signUp(_ user: User, onSuccess: @escaping (_ user: User) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         let specificUrl = "signup/"
         
         // Sign up with 1) psu email, 2) password, 3) phone number, 4) device type (iOS), 5) show profile setting and 6) number of posts (initialized as 0)
         
-        let imageData:NSData = UIImagePNGRepresentation((user.profilePhoto)!)!
-        let strBase64:String = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+        let imageData:Data = UIImagePNGRepresentation((user.profilePhoto)!)!
+        let strBase64:String = imageData.base64EncodedString(options: .lineLength64Characters)
         
-        let userPasswordDictionary: [String: AnyObject] = [Constants.ServerModelField_User.username: user.username!, Constants.ServerModelField_User.password: user.password!, Constants.ServerModelField_User.phoneNumber: user.phoneNumber!, Constants.ServerModelField_User.deviceType: user.deviceType!, Constants.ServerModelField_User.deviceToken: user.deviceToken!, Constants.ServerModelField_User.shareProfile: user.shareProfile!, Constants.ServerModelField_User.numOfPosts: user.numOfPosts!, Constants.ServerModelField_User.profilePhoto: strBase64]
+        let userPasswordDictionary: [String: AnyObject] = [Constants.ServerModelField_User.username: user.username! as AnyObject, Constants.ServerModelField_User.password: user.password! as AnyObject, Constants.ServerModelField_User.phoneNumber: user.phoneNumber! as AnyObject, Constants.ServerModelField_User.deviceType: user.deviceType! as AnyObject, Constants.ServerModelField_User.deviceToken: user.deviceToken! as AnyObject, Constants.ServerModelField_User.shareProfile: user.shareProfile! as AnyObject, Constants.ServerModelField_User.numOfPosts: user.numOfPosts! as AnyObject, Constants.ServerModelField_User.profilePhoto: strBase64 as AnyObject]
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("signup url: " + fullUrl)
@@ -310,30 +310,30 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             print("signup return data:")
             print(data)
             let id = data[Constants.ServerModelField_User.id]
-            user.id = id?.longLongValue
-                onSuccess(user: user)
+            user.id = id?.int64Value
+                onSuccess(user)
             }
             , onError: {(error, response) in
-                onError(error: error)
+                onError(error)
         })
     }
 
-    func editProfile(user: User, profileData: Dictionary<String,AnyObject>, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+    func editProfile(_ user: User, profileData: Dictionary<String,AnyObject>, onSuccess: @escaping (_ user: User) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         let specificUrl = "edit_profile/"
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("edit profile url: " + fullUrl)
         
         ApiManager.sharedInstance.PUT(fullUrl, username: user.username!, password: user.password!, data: profileData, onSuccess: {(response) in
-            onSuccess(user: user)
+            onSuccess(user)
             }
             , onError: {(error, response) in
-                onError(error: error)
+                onError(error)
         })
         
     }
     
-    func getProfile(currentUser: User, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+    func getProfile(_ currentUser: User, onSuccess: @escaping (_ user: User) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         let idField = String(currentUser.id!)
         let specificUrl = "userprofiles/" + idField + "/"
         print(specificUrl)
@@ -344,7 +344,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
 //                print(data)
                 let user = User(username: "",password: "")
                 let id = data[Constants.ServerModelField_User.id] as? NSNumber
-                user!.id = id?.longLongValue
+                user!.id = id?.int64Value
                 user!.username = data[Constants.ServerModelField_User.username] as? String
                 user!.phoneNumber = data[Constants.ServerModelField_User.phoneNumber] as? String
                 user!.fullName = data[Constants.ServerModelField_User.fullname] as? String
@@ -360,80 +360,80 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                     let base64Image = data[Constants.ServerModelField_User.profilePhoto] as? String
                     if (base64Image != nil) {
                         
-                        let decodedImage = NSData(base64EncodedString: base64Image!, options: NSDataBase64DecodingOptions(rawValue: 0) )
+                        let decodedImage = Data(base64Encoded: base64Image!, options: NSData.Base64DecodingOptions(rawValue: 0) )
                     
                         user?.profilePhoto = UIImage(data: decodedImage!)
                     }
 
                 }
-                onSuccess(user: user!)
+                onSuccess(user!)
             }
             , onError: {(error, response) in
-                onError(error: error)
+                onError(error)
         })
 
     }
     
     //MARK: Post Activities APIs
-    func createActivity(user: User, post: Post, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+    func createActivity(_ user: User, post: Post, onSuccess: @escaping (_ user: User) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         let specificUrl = "posts/"
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("create activity url: " + fullUrl)
         print("user id:" + String(user.id!))
-        let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
-        let activityData: [String: AnyObject] = [Constants.ServerModelField_Post.userId: userProfile, Constants.ServerModelField_Post.deviceType: post.deviceType!, Constants.ServerModelField_Post.deviceToken: post.deviceToken!, Constants.ServerModelField_Post.activityType: post.activityTitle!, Constants.ServerModelField_Post.meetLocation: post.meetPlace!, Constants.ServerModelField_Post.detail: post.detail!, Constants.ServerModelField_Post.currentLatitude: post.currentLatitude!,Constants.ServerModelField_Post.currentLongitude: post.currentLongtitude!, Constants.ServerModelField_Post.status: post.status!]
+        let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(value: user.id! as Int64), Constants.ServerModelField_User.username: user.username! as AnyObject]
+        let activityData: [String: AnyObject] = [Constants.ServerModelField_Post.userId: userProfile as AnyObject, Constants.ServerModelField_Post.deviceType: post.deviceType! as AnyObject, Constants.ServerModelField_Post.deviceToken: post.deviceToken! as AnyObject, Constants.ServerModelField_Post.activityType: post.activityTitle! as AnyObject, Constants.ServerModelField_Post.meetLocation: post.meetPlace! as AnyObject, Constants.ServerModelField_Post.detail: post.detail! as AnyObject, Constants.ServerModelField_Post.currentLatitude: post.currentLatitude! as AnyObject,Constants.ServerModelField_Post.currentLongitude: post.currentLongtitude! as AnyObject, Constants.ServerModelField_Post.status: post.status! as AnyObject]
         
         ApiManager.sharedInstance.POST(fullUrl, username: user.username!, password: user.password!, data: activityData, onSuccess: {(data, response) in
                 let id = data[Constants.ServerModelField_User.id] 
-                post.id = id?.longLongValue
+                post.id = id?.int64Value
 
-                onSuccess(user: user)
+                onSuccess(user)
             }
             , onError: {(error, response) in
-                onError(error: error)
+                onError(error)
         })
         
     }
     
-    func editActivity(user: User, post: Post, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+    func editActivity(_ user: User, post: Post, onSuccess: @escaping (_ user: User) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         let idField = String(post.id!)
         let specificUrl = "posts/" + idField + "/"
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("create activity url: " + fullUrl)
         print("user id:" + String(user.id!))
-        let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
-        let activityData: [String: AnyObject] = [Constants.ServerModelField_Post.userId: userProfile, Constants.ServerModelField_Post.deviceType: post.deviceType!, Constants.ServerModelField_Post.deviceToken: post.deviceToken!, Constants.ServerModelField_Post.activityType: post.activityTitle!, Constants.ServerModelField_Post.meetLocation: post.meetPlace!, Constants.ServerModelField_Post.detail: post.detail!, Constants.ServerModelField_Post.currentLatitude: post.currentLatitude!,Constants.ServerModelField_Post.currentLongitude: post.currentLongtitude!, Constants.ServerModelField_Post.status: post.status!]
+        let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(value: user.id! as Int64), Constants.ServerModelField_User.username: user.username! as AnyObject]
+        let activityData: [String: AnyObject] = [Constants.ServerModelField_Post.userId: userProfile as AnyObject, Constants.ServerModelField_Post.deviceType: post.deviceType! as AnyObject, Constants.ServerModelField_Post.deviceToken: post.deviceToken! as AnyObject, Constants.ServerModelField_Post.activityType: post.activityTitle! as AnyObject, Constants.ServerModelField_Post.meetLocation: post.meetPlace! as AnyObject, Constants.ServerModelField_Post.detail: post.detail! as AnyObject, Constants.ServerModelField_Post.currentLatitude: post.currentLatitude! as AnyObject,Constants.ServerModelField_Post.currentLongitude: post.currentLongtitude! as AnyObject, Constants.ServerModelField_Post.status: post.status! as AnyObject]
         
         ApiManager.sharedInstance.PUT(fullUrl, username: user.username!, password: user.password!, data: activityData, onSuccess: {(data, response) in
             let id = data[Constants.ServerModelField_User.id]
-            post.id = id?.longLongValue
+            post.id = id?.int64Value
             
-            onSuccess(user: user)
+            onSuccess(user)
             }
             , onError: {(error, response) in
-                onError(error: error)
+                onError(error)
         })
         
     }
 
 
-    func getActivity(user: User, onSuccess: (posts: [Post]) -> Void, onError: (error: NSError) -> Void) {
+    func getActivity(_ user: User, onSuccess: @escaping (_ posts: [Post]) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         // get yesterday
-        let yesterDayDate = NSCalendar.currentCalendar().dateByAddingUnit(.Day, value: -1, toDate: NSDate(), options: [])
+        let yesterDayDate = (Calendar.current as NSCalendar).date(byAdding: .day, value: -1, to: Date(), options: [])
         // Format time
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
-        dateFormatter.timeZone = NSTimeZone(name: "UTC")
-        let dateString = dateFormatter.stringFromDate(yesterDayDate!)
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        let dateString = dateFormatter.string(from: yesterDayDate!)
         
         // Construct API URL
         let specificUrl = "posts/?created_at_gt=" + dateString
         let fullUrl = ApiManager.serverUrl + specificUrl        
         print(fullUrl)
         
-        ApiManager.sharedInstance.GET(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
+        ApiManager.sharedInstance.GET(url: fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
                                         // put data into the post objects
                                         var posts = [Post]()
             
@@ -441,12 +441,12 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                                             let post = Post()
                                             // ids
                                             let id = datum[Constants.ServerModelField_Post.id] as? NSNumber
-                                            post?.id = id?.longLongValue
+                                            post?.id = id?.int64Value
 //                                            let userId = datum[Constants.ServerModelField_Post.userId]![Constants.ServerModelField_User.id] as? NSNumber
 //                                            post?.userId = userId?.longLongValue
                                             
                                             let userId = (datum[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.id]! as? NSNumber
-                                            post?.userId = userId?.longLongValue
+                                            post?.userId = userId?.int64Value
                                             
                                             let username = (datum[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
                                             post?.username = username
@@ -472,16 +472,16 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                                             posts.append(post!)
                                         }
                                         // sort it
-                                        posts.sortInPlace({ $0.updatedAt?.compare($1.updatedAt!) == NSComparisonResult.OrderedDescending})
-                                        onSuccess(posts: posts)
+                                        posts.sort(by: { $0.updatedAt?.compare($1.updatedAt!) == ComparisonResult.orderedDescending})
+                                        onSuccess(posts)
             }, onError: {(error, response) in
-                onError(error: error)
+                onError(error)
             }
         )
 
     }
     
-    func getMyActivity(user: User, onSuccess: (posts: [Post]) -> Void, onError: (error: NSError) -> Void) {
+    func getMyActivity(_ user: User, onSuccess: @escaping (_ posts: [Post]) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         
         let idField = String(user.id!)
         let specificUrl = "posts/?user_profile=" + idField
@@ -490,7 +490,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         
         print(fullUrl)
         
-        ApiManager.sharedInstance.GET(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
+        ApiManager.sharedInstance.GET(url: fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
             // put data into the post objects
             var posts = [Post]()
             
@@ -498,9 +498,9 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 let post = Post()
                 // ids
                 let id = datum[Constants.ServerModelField_Post.id] as? NSNumber
-                post?.id = id?.longLongValue
+                post?.id = id?.int64Value
                 let userId = datum[Constants.ServerModelField_Post.userId] as? NSNumber
-                post?.userId = userId?.longLongValue
+                post?.userId = userId?.int64Value
                 //time stamps
                 let createTimeStr = datum[Constants.ServerModelField_Post.createdAt] as! String + "UTC"
                 let createTime = self.FormatDate(createTimeStr)
@@ -523,16 +523,16 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 posts.append(post!)
             }
             // sort it
-            posts.sortInPlace({ $0.createdAt.compare($1.createdAt) == NSComparisonResult.OrderedDescending})
-            onSuccess(posts: posts)
+            posts.sort(by: { $0.createdAt.compare($1.createdAt) == ComparisonResult.orderedDescending})
+            onSuccess(posts)
             }, onError: {(error, response) in
-                onError(error: error)
+                onError(error)
             }
         )
         
     }
     
-    func getPostById(user: User, postId: Int64, onSuccess: (post: Post) -> Void, onError: (error: NSError) -> Void) {
+    func getPostById(_ user: User, postId: Int64, onSuccess: @escaping (_ post: Post) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         
         let idField = String(postId)
         let specificUrl = "posts/" + idField + "/"
@@ -546,10 +546,10 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             let post = Post()
             
             let id = data[Constants.ServerModelField_Post.id] as? NSNumber
-            post!.id = id?.longLongValue
+            post!.id = id?.int64Value
             // user profile
             let userId = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.id]! as? NSNumber
-            post?.userId = userId?.longLongValue
+            post?.userId = userId?.int64Value
             let username = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
             post?.username = username
             let fullName = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.fullname]! as? String
@@ -570,7 +570,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             // Decode profile image
             let base64Image = (data[Constants.ServerModelField_Post.userId] as! NSDictionary)[Constants.ServerModelField_User.profilePhoto]! as? String
             if (base64Image != nil) {
-                    let decodedImage = NSData(base64EncodedString: base64Image!, options: NSDataBase64DecodingOptions(rawValue: 0) )
+                    let decodedImage = Data(base64Encoded: base64Image!, options: NSData.Base64DecodingOptions(rawValue: 0) )
                 if (decodedImage != nil) {
                     post?.postPhoto = UIImage(data: decodedImage!)
                 }
@@ -596,68 +596,68 @@ class ApiManager: NSObject, NSURLSessionDelegate {
             post?.detail = data[Constants.ServerModelField_Post.detail] as? String
             post?.status = data[Constants.ServerModelField_Post.status] as? String
             
-            onSuccess(post: post!)
+            onSuccess(post!)
             }
             , onError: {(error, response) in
-                onError(error: error)
+                onError(error)
         })
         
     }
 
     
     //MARK: Join Activities APIs
-    func createJoinActivity(user: User, join: Join, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+    func createJoinActivity(_ user: User, join: Join, onSuccess: @escaping (_ user: User) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         let specificUrl = "joins/"
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("join activity url: " + fullUrl)
 //        print("user id:" + String(user.id!))
         
-        let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
+        let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(value: user.id! as Int64), Constants.ServerModelField_User.username: user.username! as AnyObject]
         
-        let joinData: [String: AnyObject] = [Constants.ServerModelField_Join.userId: userProfile, Constants.ServerModelField_Join.postId: NSNumber(longLong: join.postId!), Constants.ServerModelField_Join.deviceType: join.deviceType!, Constants.ServerModelField_Join.currentLatitude: join.currentLatitude!,Constants.ServerModelField_Join.currentLongitude: join.currentLongtitude!, Constants.ServerModelField_Join.status: join.status!]
+        let joinData: [String: AnyObject] = [Constants.ServerModelField_Join.userId: userProfile as AnyObject, Constants.ServerModelField_Join.postId: NSNumber(value: join.postId! as Int64), Constants.ServerModelField_Join.deviceType: join.deviceType! as AnyObject, Constants.ServerModelField_Join.currentLatitude: join.currentLatitude! as AnyObject,Constants.ServerModelField_Join.currentLongitude: join.currentLongtitude! as AnyObject, Constants.ServerModelField_Join.status: join.status! as AnyObject]
 //        print(joinData)
         
         ApiManager.sharedInstance.POST(fullUrl, username: user.username!, password: user.password!, data: joinData, onSuccess: {(data, response) in
             let id = data[Constants.ServerModelField_Join.id]
-            join.id = id?.longLongValue
+            join.id = id?.int64Value
             
-            onSuccess(user: user)
+            onSuccess(user)
             }
             , onError: {(error, response) in
-                onError(error: error)
+                onError(error)
         })
         
     }
     
-    func confirmJoinActivity(user: User, join: Join, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+    func confirmJoinActivity(_ user: User, join: Join, onSuccess: @escaping (_ user: User) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         let idField = String(join.id!)
         let specificUrl = "joins/" + idField + "/"
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("join activity url: " + fullUrl)
 //        print("user id:" + String(user.id!))
-        print(join.status)
+        print(join.status as Any)
         
-        let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
+        let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(value: user.id! as Int64), Constants.ServerModelField_User.username: user.username! as AnyObject]
         
-        let joinData: [String: AnyObject] = [Constants.ServerModelField_Join.userId: userProfile, Constants.ServerModelField_Join.postId: NSNumber(longLong: join.postId!), Constants.ServerModelField_Join.deviceType: join.deviceType!, Constants.ServerModelField_Join.currentLatitude: join.currentLatitude!,Constants.ServerModelField_Join.currentLongitude: join.currentLongtitude!, Constants.ServerModelField_Join.status: Constants.JoinStatus.confirm]
+        let joinData: [String: AnyObject] = [Constants.ServerModelField_Join.userId: userProfile as AnyObject, Constants.ServerModelField_Join.postId: NSNumber(value: join.postId! as Int64), Constants.ServerModelField_Join.deviceType: join.deviceType! as AnyObject, Constants.ServerModelField_Join.currentLatitude: join.currentLatitude! as AnyObject,Constants.ServerModelField_Join.currentLongitude: join.currentLongtitude! as AnyObject, Constants.ServerModelField_Join.status: Constants.JoinStatus.confirm as AnyObject]
 
         
         ApiManager.sharedInstance.PUT(fullUrl, username: user.username!, password: user.password!, data: joinData, onSuccess: {(data, response) in
             let id = data[Constants.ServerModelField_Join.id]
-            join.id = id?.longLongValue
+            join.id = id?.int64Value
             
-            onSuccess(user: user)
+            onSuccess(user)
             }
             , onError: {(error, response) in
-                onError(error: error)
+                onError(error)
         })
         
     }
 
     
-    func getJoinById(user: User, post: Post, onSuccess: (joins: [Join]) -> Void, onError: (error: NSError) -> Void) {
+    func getJoinById(_ user: User, post: Post, onSuccess: @escaping (_ joins: [Join]) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         
         let idField = String(post.id!)
         let specificUrl = "joins_by_post/" + idField + "/"
@@ -665,7 +665,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         let fullUrl = ApiManager.serverUrl + specificUrl
         print(fullUrl)
         
-        ApiManager.sharedInstance.GET(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
+        ApiManager.sharedInstance.GET(url: fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
             // put data into the post objects
             var joins = [Join]()
             
@@ -673,11 +673,11 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 let join = Join()
                 // ids
                 let id = datum[Constants.ServerModelField_Join.id] as? NSNumber
-                join?.id = id?.longLongValue
+                join?.id = id?.int64Value
                 
                 // user profile
                 let userId = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.id]! as? NSNumber
-                join?.userId = userId?.longLongValue
+                join?.userId = userId?.int64Value
                 let username = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
                 join?.username = username
                 let fullName = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.fullname]! as? String
@@ -697,7 +697,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 
                 // post info
                 let postId = datum[Constants.ServerModelField_Join.postId] as? NSNumber
-                join?.postId = postId?.longLongValue
+                join?.postId = postId?.int64Value
                 let postName = datum[Constants.ServerModelField_Join.postName] as? String
                 join?.postName = postName
                 
@@ -719,16 +719,16 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 joins.append(join!)
             }
             // sort it
-            joins.sortInPlace({ $0.updatedAt?.compare($1.updatedAt!) == NSComparisonResult.OrderedDescending})
-            onSuccess(joins: joins)
+            joins.sort(by: { $0.updatedAt?.compare($1.updatedAt!) == ComparisonResult.orderedDescending})
+            onSuccess(joins)
             }, onError: {(error, response) in
-                onError(error: error)
+                onError(error)
             }
         )
         
     }
 
-    func getJoinByUser(user: User, onSuccess: (joins: [Join]) -> Void, onError: (error: NSError) -> Void) {
+    func getJoinByUser(_ user: User, onSuccess: @escaping (_ joins: [Join]) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         
         let idField = String(user.id!)
         let specificUrl = "joins/?user_profile=" + idField
@@ -736,7 +736,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         let fullUrl = ApiManager.serverUrl + specificUrl
         print(fullUrl)
         
-        ApiManager.sharedInstance.GET(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
+        ApiManager.sharedInstance.GET(url: fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
             // put data into the post objects
             var joins = [Join]()
             
@@ -744,11 +744,11 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 let join = Join()
                 // ids
                 let id = datum[Constants.ServerModelField_Join.id] as? NSNumber
-                join?.id = id?.longLongValue
+                join?.id = id?.int64Value
                 
                 // user profile
                 let userId = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.id]! as? NSNumber
-                join?.userId = userId?.longLongValue
+                join?.userId = userId?.int64Value
                 let username = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
                 join?.username = username
                 let fullName = (datum[Constants.ServerModelField_Join.userId] as! NSDictionary)[Constants.ServerModelField_User.fullname]! as? String
@@ -768,7 +768,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 
                 // post info
                 let postId = datum[Constants.ServerModelField_Join.postId] as? NSNumber
-                join?.postId = postId?.longLongValue
+                join?.postId = postId?.int64Value
                 let postName = datum[Constants.ServerModelField_Join.postName] as? String
                 join?.postName = postName
                 
@@ -790,46 +790,46 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 joins.append(join!)
             }
             // sort it
-            joins.sortInPlace({ $0.updatedAt?.compare($1.updatedAt!) == NSComparisonResult.OrderedDescending})
-            onSuccess(joins: joins)
+            joins.sort(by: { $0.updatedAt?.compare($1.updatedAt!) == ComparisonResult.orderedDescending})
+            onSuccess(joins)
             }, onError: {(error, response) in
-                onError(error: error)
+                onError(error)
             }
         )
         
     }
 
     //MARK: Message API
-    func createMessage(user: User, message: Message, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+    func createMessage(_ user: User, message: Message, onSuccess: @escaping (_ user: User) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         let specificUrl = "create_message/"
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("join activity url: " + fullUrl)
 //        print("user id:" + String(user.id!))
         
-        let senderProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: message.senderId!), Constants.ServerModelField_User.username: message.senderUsername!]
+        let senderProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(value: message.senderId! as Int64), Constants.ServerModelField_User.username: message.senderUsername! as AnyObject]
         
-        let receiverProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: message.receiverId!), Constants.ServerModelField_User.username: message.receiverUsername!]
+        let receiverProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(value: message.receiverId! as Int64), Constants.ServerModelField_User.username: message.receiverUsername! as AnyObject]
         
 //        let messageData: [String: AnyObject] = [Constants.ServerModelField_Message.sender: senderProfile, Constants.ServerModelField_Message.receiver: receiverProfile, Constants.ServerModelField_Message.currentLatitude: message.currentLatitude!, Constants.ServerModelField_Message.currentLongitude: message.currentLongtitude!, Constants.ServerModelField_Message.content: message.content!]
         
-        let messageData: [String: AnyObject] = [Constants.ServerModelField_Message.sender: senderProfile, Constants.ServerModelField_Message.receiver: receiverProfile, Constants.ServerModelField_Message.postId: NSNumber(longLong: message.postId!), Constants.ServerModelField_Message.currentLatitude: message.currentLatitude!, Constants.ServerModelField_Message.currentLongitude: message.currentLongtitude!, Constants.ServerModelField_Message.content: message.content!]
+        let messageData: [String: AnyObject] = [Constants.ServerModelField_Message.sender: senderProfile as AnyObject, Constants.ServerModelField_Message.receiver: receiverProfile as AnyObject, Constants.ServerModelField_Message.postId: NSNumber(value: message.postId! as Int64), Constants.ServerModelField_Message.currentLatitude: message.currentLatitude! as AnyObject, Constants.ServerModelField_Message.currentLongitude: message.currentLongtitude! as AnyObject, Constants.ServerModelField_Message.content: message.content! as AnyObject]
         
         
 //        print(messageData)
         
         ApiManager.sharedInstance.POST(fullUrl, username: user.username!, password: user.password!, data: messageData, onSuccess: {(data, response) in
             let id = data[Constants.ServerModelField_Message.id]
-            message.id = id?.longLongValue
+            message.id = id?.int64Value
             
-            onSuccess(user: user)
+            onSuccess(user)
             }
             , onError: {(error, response) in
-                onError(error: error)
+                onError(error)
         })
     }
 
-    func getMessageByPost(user: User, post: Post, onSuccess: (messages: [Message]) -> Void, onError: (error: NSError) -> Void) {
+    func getMessageByPost(_ user: User, post: Post, onSuccess: @escaping (_ messages: [Message]) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         
         let idField = String(post.id!)
         let specificUrl = "message_by_post/" + idField + "/"
@@ -837,7 +837,7 @@ class ApiManager: NSObject, NSURLSessionDelegate {
         let fullUrl = ApiManager.serverUrl + specificUrl
         print(fullUrl)
         
-        ApiManager.sharedInstance.GET(fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
+        ApiManager.sharedInstance.GET(url: fullUrl, username: user.username!, password: user.password!, onSuccess: {(data, response) in
             // put data into the post objects
             var messages = [Message]()
             
@@ -845,24 +845,24 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 let message = Message()
                 // ids
                 let id = datum[Constants.ServerModelField_Message.id] as? NSNumber
-                message?.id = id?.longLongValue
+                message?.id = id?.int64Value
                 //sender profile
                 let senderId = (datum[Constants.ServerModelField_Message.sender] as! NSDictionary)[Constants.ServerModelField_User.id]! as? NSNumber
-                message?.senderId = senderId?.longLongValue
+                message?.senderId = senderId?.int64Value
                 let senderUsername = (datum[Constants.ServerModelField_Message.sender] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
                 message?.senderUsername = senderUsername
                 let senderFullname = (datum[Constants.ServerModelField_Message.sender] as! NSDictionary)[Constants.ServerModelField_User.fullname]! as? String
                 message?.senderFullname = senderFullname
                 //receiver profile
                 let receiverId = (datum[Constants.ServerModelField_Message.receiver] as! NSDictionary)[Constants.ServerModelField_User.id]! as? NSNumber
-                message?.receiverId = receiverId?.longLongValue
+                message?.receiverId = receiverId?.int64Value
                 let receiverUsername = (datum[Constants.ServerModelField_Message.receiver] as! NSDictionary)[Constants.ServerModelField_User.username]! as? String
                 message?.receiverUsername = receiverUsername
                 let receiverFullname = (datum[Constants.ServerModelField_Message.receiver] as! NSDictionary)[Constants.ServerModelField_User.fullname]! as? String
                 message?.receiverFullname = receiverFullname
                 
                 let postId = datum[Constants.ServerModelField_Message.postId] as? NSNumber
-                message?.postId = postId?.longLongValue
+                message?.postId = postId?.int64Value
                 //time stamps
                 let createTimeStr = datum[Constants.ServerModelField_Message.createdAt] as! String + "UTC"
                 let createTime = self.FormatDate(createTimeStr)
@@ -878,49 +878,49 @@ class ApiManager: NSObject, NSURLSessionDelegate {
                 messages.append(message!)
             }
             // sort it
-            messages.sortInPlace({ $0.createdAt.compare($1.createdAt) == NSComparisonResult.OrderedDescending})
-            onSuccess(messages: messages)
+            messages.sort(by: { $0.createdAt.compare($1.createdAt) == ComparisonResult.orderedDescending})
+            onSuccess(messages)
             }, onError: {(error, response) in
-                onError(error: error)
+                onError(error)
             }
         )
         
     }
     
     //MARK: Usage Log
-    func usageLog(user:User, usageLog: UsageLog, onSuccess: (user: User) -> Void, onError: (error: NSError) -> Void) {
+    func usageLog(_ user:User, usageLog: UsageLog, onSuccess: @escaping (_ user: User) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         let specificUrl = "usagelogs/"
         
         let fullUrl = ApiManager.serverUrl + specificUrl
         print("create usage log url: " + fullUrl)
-//        print("user id:" + String(user.id!))
+//        print("user id:" + String(user.id!))@escaping
 //        let userProfile: [String: AnyObject] = [Constants.ServerModelField_User.id: NSNumber(longLong: user.id!), Constants.ServerModelField_User.username: user.username!]
         
-        let usageData: [String: AnyObject] = [Constants.ServerModelField_UsageLog.userId: NSNumber(longLong: usageLog.userId!), Constants.ServerModelField_UsageLog.postId: NSNumber(longLong: usageLog.postId!), Constants.ServerModelField_UsageLog.code: usageLog.code!, Constants.ServerModelField_UsageLog.description: usageLog.description!, Constants.ServerModelField_UsageLog.currentLatitude: usageLog.currentLatitude!,Constants.ServerModelField_UsageLog.currentLongitude: usageLog.currentLongtitude!]
+        let usageData: [String: AnyObject] = [Constants.ServerModelField_UsageLog.userId: NSNumber(value: usageLog.userId! as Int64), Constants.ServerModelField_UsageLog.postId: NSNumber(value: usageLog.postId! as Int64), Constants.ServerModelField_UsageLog.code: usageLog.code! as AnyObject, Constants.ServerModelField_UsageLog.description: usageLog.description! as AnyObject, Constants.ServerModelField_UsageLog.currentLatitude: usageLog.currentLatitude! as AnyObject,Constants.ServerModelField_UsageLog.currentLongitude: usageLog.currentLongtitude! as AnyObject]
         
         ApiManager.sharedInstance.POST(fullUrl, username: user.username!, password: user.password!, data: usageData, onSuccess: {(data, response) in
             let id = data[Constants.ServerModelField_UsageLog.id]
-            usageLog.id = id?.longLongValue
+            usageLog.id = id?.int64Value
             
-            onSuccess(user: user)
+            onSuccess(user)
             }
             , onError: {(error, response) in
-                onError(error: error)
+                onError(error)
         })
         
     }
 
     
     //MARK: Miscellaneous Formatting
-    func FormatDate(dateString: String) -> NSDate {
+    func FormatDate(_ dateString: String) -> Date {
         print("server time:" + dateString)
 //        dateString = dateString + "UTC"
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'zzz"
-        dateFormatter.timeZone = NSTimeZone()
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
         print("NSDate:")
-        print(dateFormatter.dateFromString(dateString)!)
-        return dateFormatter.dateFromString(dateString)!
+        print(dateFormatter.date(from: dateString)!)
+        return dateFormatter.date(from: dateString)!
     }
     
     /**
@@ -930,10 +930,10 @@ class ApiManager: NSObject, NSURLSessionDelegate {
      
      - Returns: the encoded string as an NSObject
      */
-    func base64Encode(toEncode: String) -> String {
+    func base64Encode(_ toEncode: String) -> String {
 //        print("encoding \(toEncode)")
-        let utf8Data = toEncode.dataUsingEncoding(NSUTF8StringEncoding)
-        return utf8Data!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+        let utf8Data = toEncode.data(using: String.Encoding.utf8)
+        return utf8Data!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
     }
 
     

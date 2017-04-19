@@ -12,7 +12,7 @@ extension Double {
     
     // Round to 5 digits precision
     func roundFiveDigits() -> Double {
-        let y = Double(round(100000*self)/100000)
-        return y
+        let divisor = 100000.0
+        return (self * divisor).rounded() / divisor
     }
 }

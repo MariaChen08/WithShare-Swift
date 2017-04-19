@@ -32,7 +32,7 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
     var hobby: String?
     var gender = Constants.Gender.female
     
-    var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.shareProfile: true]
+    var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.shareProfile: true] as [String : Any]
     
     let yearInSchoolPicker: UIPickerView = UIPickerView()
 //    let cancelButton = UIButton(type: UIButtonType.system)
@@ -63,7 +63,7 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
         
         //Close keyboard by clicking anywhere else
         self.hideKeyboardWhenTappedAround()
-        print(user?.username)
+        print(user?.username as Any)
         
         // setup delegation of year in school uipicker stuff
         yearInSchoolPicker.delegate = self
@@ -74,13 +74,13 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
     }
     
     // MARK: UITextFieldDelegate
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //Hide the keyboard
         textField.resignFirstResponder()
         return true
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         switch (textField.tag) {
         case 3:
             animateViewMoving(true, moveValue: 200)
@@ -91,38 +91,38 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
         }
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         switch (textField.tag) {
         case 0:
             firstName = textField.text
             if firstName != nil {
-                firstName = firstName!.stringByTrimmingCharactersInSet(
-                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                firstName = firstName!.trimmingCharacters(
+                    in: CharacterSet.whitespacesAndNewlines)
             }
         case 1:
             lastName = textField.text
             if lastName != nil {
-                lastName = lastName!.stringByTrimmingCharactersInSet(
-                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                lastName = lastName!.trimmingCharacters(
+                    in: CharacterSet.whitespacesAndNewlines)
             }
         case 2:
             grade = textField.text
             if grade != nil {
-                grade = grade!.stringByTrimmingCharactersInSet(
-                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                grade = grade!.trimmingCharacters(
+                    in: CharacterSet.whitespacesAndNewlines)
             }
         case 3:
             department = textField.text
             if department != nil {
-                department = department!.stringByTrimmingCharactersInSet(
-                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                department = department!.trimmingCharacters(
+                    in: CharacterSet.whitespacesAndNewlines)
             }
             animateViewMoving(false, moveValue: 200)
         case 4:
             hobby = textField.text
             if hobby != nil {
-                hobby = hobby!.stringByTrimmingCharactersInSet(
-                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                hobby = hobby!.trimmingCharacters(
+                    in: CharacterSet.whitespacesAndNewlines)
             }
             animateViewMoving(false, moveValue: 200)
         default:
@@ -130,31 +130,31 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
         }
     }
     
-    func animateViewMoving (up:Bool, moveValue :CGFloat){
-        let movementDuration:NSTimeInterval = 0.3
+    func animateViewMoving (_ up:Bool, moveValue :CGFloat){
+        let movementDuration:TimeInterval = 0.3
         let movement:CGFloat = ( up ? -moveValue : moveValue)
         UIView.beginAnimations( "animateView", context: nil)
         UIView.setAnimationBeginsFromCurrentState(true)
         UIView.setAnimationDuration(movementDuration )
-        self.view.frame = CGRectOffset(self.view.frame, 0,  movement)
+        self.view.frame = self.view.frame.offsetBy(dx: 0,  dy: movement)
         UIView.commitAnimations()
     }
     
     // MARK: - UIPickerView delegation
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return yearInSchoolEnum.count
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return yearInSchoolEnum.getItem(row).description
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.gradeTextField.text = yearInSchoolEnum.getItem(row).description
         self.gradeTextField.resignFirstResponder()
     }
@@ -162,16 +162,16 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
 
     
     // MARK: - Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "createProfilePhotoSegue") {
-            if let uploadPhotoViewController = segue.destinationViewController as? UploadPhotoViewController {
+            if let uploadPhotoViewController = segue.destination as? UploadPhotoViewController {
                 uploadPhotoViewController.user = self.user!
             }
         }
     }
     
     //MARK: Actions
-    @IBAction func genderIndexChangded(sender: AnyObject) {
+    @IBAction func genderIndexChangded(_ sender: AnyObject) {
         switch genderSegmentedControl.selectedSegmentIndex
         {
             case 0:
@@ -183,39 +183,39 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
         }
     }
     
-    @IBAction func skipProfile(sender: AnyObject) {
-        self.performSegueWithIdentifier("createProfilePhotoSegue", sender: self)
+    @IBAction func skipProfile(_ sender: AnyObject) {
+        self.performSegue(withIdentifier: "createProfilePhotoSegue", sender: self)
     }
     
-    @IBAction func saveProfile(sender: AnyObject) {
+    @IBAction func saveProfile(_ sender: AnyObject) {
         
         profileDict[Constants.ServerModelField_User.username] = user?.username
         
         // read all text input
         firstName = firstNameTextField.text
-        firstName = firstName?.stringByTrimmingCharactersInSet(
-            NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        firstName = firstName?.trimmingCharacters(
+            in: CharacterSet.whitespacesAndNewlines)
         lastName = lastNameTextField.text
-        lastName = lastName?.stringByTrimmingCharactersInSet(
-            NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        lastName = lastName?.trimmingCharacters(
+            in: CharacterSet.whitespacesAndNewlines)
         grade = gradeTextField.text
-        grade = grade?.stringByTrimmingCharactersInSet(
-                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        grade = grade?.trimmingCharacters(
+                in: CharacterSet.whitespacesAndNewlines)
         department = departmentTextField.text
-        department = department!.stringByTrimmingCharactersInSet(
-            NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        department = department!.trimmingCharacters(
+            in: CharacterSet.whitespacesAndNewlines)
         hobby = hobbyTextField.text
-        hobby = hobby?.stringByTrimmingCharactersInSet(
-            NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        hobby = hobby?.trimmingCharacters(
+            in: CharacterSet.whitespacesAndNewlines)
         
         // cache string-type user profile
-        let defaults = NSUserDefaults.standardUserDefaults()
+        let defaults = UserDefaults.standard
         
         // construct fullname
         if (firstName != nil && lastName != nil) {
             fullName = firstName! + " " + lastName!
-            fullName = fullName!.stringByTrimmingCharactersInSet(
-                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            fullName = fullName!.trimmingCharacters(
+                in: CharacterSet.whitespacesAndNewlines)
         }
         else if (firstName != nil) {
             fullName = firstName!
@@ -227,18 +227,18 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
         // create user profile
         if (fullName != nil && fullName != "") {
             user?.fullName = fullName
-            defaults.setObject(fullName, forKey: Constants.NSUserDefaultsKey.fullName)
+            defaults.set(fullName, forKey: Constants.NSUserDefaultsKey.fullName)
             profileDict[Constants.ServerModelField_User.fullname] = fullName
         }
         else {
             profileDict[Constants.ServerModelField_User.fullname] = Constants.blankSign
         }
         user?.gender = gender
-        defaults.setObject(gender, forKey: Constants.NSUserDefaultsKey.gender)
+        defaults.set(gender, forKey: Constants.NSUserDefaultsKey.gender)
         profileDict[Constants.ServerModelField_User.gender] = gender
         if (grade != nil && grade != "") {
             user?.grade = grade
-            defaults.setObject(grade, forKey: Constants.NSUserDefaultsKey.grade)
+            defaults.set(grade, forKey: Constants.NSUserDefaultsKey.grade)
             profileDict[Constants.ServerModelField_User.grade] = grade
         }
         else {
@@ -247,7 +247,7 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
         }
         if (department != nil && department != "") {
             user?.department = department
-            defaults.setObject(department, forKey: Constants.NSUserDefaultsKey.department)
+            defaults.set(department, forKey: Constants.NSUserDefaultsKey.department)
             profileDict[Constants.ServerModelField_User.department] = department
         }
         else {
@@ -256,7 +256,7 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
         
         if (hobby != nil && hobby != "") {
             user?.hobby = hobby
-            defaults.setObject(hobby, forKey: Constants.NSUserDefaultsKey.hobby)
+            defaults.set(hobby, forKey: Constants.NSUserDefaultsKey.hobby)
             profileDict[Constants.ServerModelField_User.hobby] = hobby
         }
         else {
@@ -267,21 +267,21 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
         print(profileDict)
         
         // Upload to server
-        ApiManager.sharedInstance.editProfile(user!, profileData: profileDict, onSuccess: {(user) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+        ApiManager.sharedInstance.editProfile(user!, profileData: profileDict as Dictionary<String, AnyObject>, onSuccess: {(user) in
+                OperationQueue.main.addOperation {
                     print("create profile success!")
                     
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                    self.performSegueWithIdentifier("createProfilePhotoSegue", sender: self)
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    self.performSegue(withIdentifier: "createProfilePhotoSegue", sender: self)
                 }
             }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     print("create profile error!")
                     let alert = UIAlertController(title: "Unable to create profile!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                     
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
                 }
         })
     }

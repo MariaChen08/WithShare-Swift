@@ -64,7 +64,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         meetPlaceLabel.text = ""
         detailLabel.text = ""
         
-        activityTitleLabel.font = UIFont.boldSystemFontOfSize(18.0)
+        activityTitleLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
         
         //Handle the text field’s user input through delegate callbacks.
         messageTextField.delegate = self
@@ -77,7 +77,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         locationManager.requestWhenInUseAuthorization()
         
         //Google Place APIs
-        placesClient = GMSPlacesClient.sharedClient()
+        placesClient = GMSPlacesClient.shared()
         
         if let post = post {
             activityTitleLabel.text = post.activityTitle!
@@ -90,12 +90,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             }
             
             // Retrieve cached user info
-            let defaults = NSUserDefaults.standardUserDefaults()
-            username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
+            let defaults = UserDefaults.standard
+            username = defaults.string(forKey: Constants.NSUserDefaultsKey.username)
             senderUsername = username
-            password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
-            phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
-            currentUserId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
+            password = defaults.string(forKey: Constants.NSUserDefaultsKey.password)
+            phoneNumber = defaults.string(forKey: Constants.NSUserDefaultsKey.phoneNumber)
+            currentUserId = (defaults.object(forKey: Constants.NSUserDefaultsKey.id) as AnyObject).int64Value
             user = User(username: username!, password: password!)
             user?.phoneNumber = phoneNumber
             
@@ -105,7 +105,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             usageLog = UsageLog()
             usageLog?.userId = currentUserId
             usageLog?.postId = post.id
-            usageLog?.code = "indexPath: " + String(indexPostion)
+            usageLog?.code = "indexPath: " + String(describing: indexPostion)
             usageLog?.description = "view activity detail"
             
 //            if (currentCoordinates != nil) {
@@ -132,11 +132,11 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
 
     //MARK: load detail data
     func loadPostData() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getProfile(user!, onSuccess: {(user) in
             print("get profile success")
-            NSOperationQueue.mainQueue().addOperationWithBlock {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            OperationQueue.main.addOperation {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 print("get profile success")
                 self.receiverId = user.id
                 self.receiverUsername = user.username
@@ -182,21 +182,21 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
                 }
             }
             }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     print("load profile error!")
                     let alert = UIAlertController(title: "Unable to load profile!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
         })
     }
     
     //MARK: Navigations
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         //Join activity
-        if joinButton === sender {
+        if joinButton === sender as? AnyObject{
             if messageContent != nil {
                 message = Message()
                 if (currentCoordinates != nil) {
@@ -219,22 +219,22 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
                 
                 // Upload to server
                 ApiManager.sharedInstance.createMessage(user!, message: message!, onSuccess: {(user) in
-                    NSOperationQueue.mainQueue().addOperationWithBlock {
+                    OperationQueue.main.addOperation {
                         print("create new message success!")
                         let alert = UIAlertController(title: "Unable to send!", message:
-                            "Message sent successfully.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                            "Message sent successfully.", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
                         
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                     }
                     }, onError: {(error) in
-                        NSOperationQueue.mainQueue().addOperationWithBlock {
+                        OperationQueue.main.addOperation {
                             print("create new message error!")
                             let alert = UIAlertController(title: "Unable to send!", message:
-                                "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                            alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                                "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                            alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
   
-                            self.presentViewController(alert, animated: true, completion: nil)
+                            self.present(alert, animated: true, completion: nil)
                         }
                 })
 
@@ -261,38 +261,38 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     }
     
     // MARK: UITextFieldDelegate
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //Hide the keyboard
         textField.resignFirstResponder()
         return true
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         animateViewMoving(true, moveValue: 180)
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         messageContent = textField.text
         if messageContent != nil {
-            messageContent = messageContent!.stringByTrimmingCharactersInSet(
-                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            messageContent = messageContent!.trimmingCharacters(
+                    in: CharacterSet.whitespacesAndNewlines)
         }
         animateViewMoving(false, moveValue: 180)
     }
     
-    func animateViewMoving (up:Bool, moveValue :CGFloat){
-        let movementDuration:NSTimeInterval = 0.3
+    func animateViewMoving (_ up:Bool, moveValue :CGFloat){
+        let movementDuration:TimeInterval = 0.3
         let movement:CGFloat = ( up ? -moveValue : moveValue)
         UIView.beginAnimations( "animateView", context: nil)
         UIView.setAnimationBeginsFromCurrentState(true)
         UIView.setAnimationDuration(movementDuration )
-        self.view.frame = CGRectOffset(self.view.frame, 0,  movement)
+        self.view.frame = self.view.frame.offsetBy(dx: 0,  dy: movement)
         UIView.commitAnimations()
     }
 
     
     //MARK: Actions
-    @IBAction func sendMessage(sender: AnyObject) {
+    @IBAction func sendMessage(_ sender: AnyObject) {
         message = Message()
         if (currentCoordinates != nil) {
             message?.currentLatitude = currentCoordinates!.latitude
@@ -318,12 +318,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         message?.content = messageContent
         
         print("postid: ")
-        print(self.message?.postId)
+        print(self.message?.postId as Any)
         print("senderid: ")
-        print(self.message?.senderId)
+        print(self.message?.senderId as Any)
 //        print("sender email: " + (self.message?.senderUsername)!)
         print("receiverid: ")
-        print(self.message?.receiverId)
+        print(self.message?.receiverId as Any)
 //        print("receiver email: " + (self.message?.receiverUsername)!)
         
         join = Join()
@@ -343,30 +343,30 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         
         // Upload to server
         ApiManager.sharedInstance.createMessage(user!, message: message!, onSuccess: {(user) in
-            NSOperationQueue.mainQueue().addOperationWithBlock {
+            OperationQueue.main.addOperation {
                 print("create new message success!")
                 
                 let alert = UIAlertController(title: "Message sent!", message:
-                    "Do you confirm to join the activity? Or just interested at the moment?", preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "Yes, join", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+                    "Do you confirm to join the activity? Or just interested at the moment?", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Yes, join", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
                     self.join?.status = Constants.JoinStatus.confirm
                     self.createJoin()
                     }))
-                alert.addAction(UIAlertAction(title: "No, just interested", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+                alert.addAction(UIAlertAction(title: "No, just interested", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
                     self.join?.status = Constants.JoinStatus.interested
                     self.createJoin()
                 }))
                 
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
             }
             }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     print("create new message error!")
                     let alert = UIAlertController(title: "Unable to send!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                     
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
                 }
         })
     }
@@ -375,20 +375,20 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     func createJoin() {
         // Upload to server
         ApiManager.sharedInstance.createJoinActivity(self.user!, join: self.join!, onSuccess: {(user) in
-            NSOperationQueue.mainQueue().addOperationWithBlock {
+            OperationQueue.main.addOperation {
                 print("create new activity success!")
                 print("joinid: ")
-                print(self.join!.id)
-                self.performSegueWithIdentifier("joinActivityExit", sender: self)
+                print(self.join!.id as Any)
+                self.performSegue(withIdentifier: "joinActivityExit", sender: self)
             }
             }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     print("join activity error!")
                     let alert = UIAlertController(title: "Unable to join activity!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                     
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
                 }
         })
     }
@@ -396,13 +396,13 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     func createUsageLog() {
         // Upload to server
         ApiManager.sharedInstance.usageLog(self.user!, usageLog: self.usageLog!, onSuccess: {(user) in
-            NSOperationQueue.mainQueue().addOperationWithBlock {
+            OperationQueue.main.addOperation {
                 print("create new usage log success!")
                 print("usageLogid: ")
-                print(self.usageLog?.id)
+                print(self.usageLog?.id as Any)
             }
             }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     print("cannot create usage log error!")
                 }
         })
@@ -414,9 +414,9 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
 // MARK: - CLLocationManagerDelegate
 extension DetailViewController: CLLocationManagerDelegate {
     // called when the user grants or revokes location permissions
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         // verify the user has granted you permission while the app is in use
-        if status == .AuthorizedWhenInUse {
+        if status == .authorizedWhenInUse {
             
             locationManager.startUpdatingLocation()
 //            mapView.myLocationEnabled = true
@@ -425,7 +425,7 @@ extension DetailViewController: CLLocationManagerDelegate {
     }
     
     // executes when the location manager receives new location data.
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             
 //            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)

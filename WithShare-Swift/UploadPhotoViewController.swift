@@ -24,86 +24,86 @@ class UploadPhotoViewController: UIViewController, UINavigationControllerDelegat
     
     //MARK: Pick Image
     
-    @IBAction func choosePhoto(sender: UIButton) {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+    @IBAction func choosePhoto(_ sender: UIButton) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
             let imagePicker =  UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.allowsEditing = false
-            imagePicker.sourceType = .PhotoLibrary
+            imagePicker.sourceType = .photoLibrary
         
-            self.presentViewController(imagePicker, animated: true, completion: nil)
+            self.present(imagePicker, animated: true, completion: nil)
         }
     }
 
-    @IBAction func takePhoto(sender: UIButton) {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+    @IBAction func takePhoto(_ sender: UIButton) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
             let imagePicker =  UIImagePickerController()
             imagePicker.delegate = self
-            imagePicker.sourceType = .Camera
+            imagePicker.sourceType = .camera
         
-            self.presentViewController(imagePicker, animated: true, completion: nil)
+            self.present(imagePicker, animated: true, completion: nil)
         }
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         profileImage.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         user?.profilePhoto = profileImage.image
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // Dismiss the picker if the user canceled.
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     // Actions
-    @IBAction func uploadPhoto(sender: AnyObject) {
+    @IBAction func uploadPhoto(_ sender: AnyObject) {
         if (user?.profilePhoto != nil) {
             // down scale photo
             user?.profilePhoto = resizeImage((user?.profilePhoto!)!, newWidth: 200)
             // Base64 encode photo
-            let imageData:NSData = UIImagePNGRepresentation((user?.profilePhoto)!)!
-            let strBase64:String = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+            let imageData:Data = UIImagePNGRepresentation((user?.profilePhoto)!)!
+            let strBase64:String = imageData.base64EncodedString(options: .lineLength64Characters)
 
             photoDict[Constants.ServerModelField_User.username] = user?.username
             photoDict[Constants.ServerModelField_User.profilePhoto] = strBase64
             
-            ApiManager.sharedInstance.editProfile(user!, profileData: photoDict, onSuccess: {(user) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+            ApiManager.sharedInstance.editProfile(user!, profileData: photoDict as Dictionary<String, AnyObject>, onSuccess: {(user) in
+                OperationQueue.main.addOperation {
                     print("upload photo success!")
                     
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                    self.performSegueWithIdentifier("toHomePageSegue", sender: self)
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    self.performSegue(withIdentifier: "toHomePageSegue", sender: self)
                 }
                 }, onError: {(error) in
-                    NSOperationQueue.mainQueue().addOperationWithBlock {
+                    OperationQueue.main.addOperation {
                         print("create profile error!")
                         let alert = UIAlertController(title: "Unable to create profile!", message:
-                            "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                            "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                         
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                     }
             })
         }
         else {
-            self.performSegueWithIdentifier("toHomePageSegue", sender: self)
+            self.performSegue(withIdentifier: "toHomePageSegue", sender: self)
         }
     }
     
-    @IBAction func skipPhoto(sender: AnyObject) {
-        self.performSegueWithIdentifier("toHomePageSegue", sender: self)
+    @IBAction func skipPhoto(_ sender: AnyObject) {
+        self.performSegue(withIdentifier: "toHomePageSegue", sender: self)
     }
     
     // MARK: resize image
-    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
+    func resizeImage(_ image: UIImage, newWidth: CGFloat) -> UIImage {
         
         let scale = newWidth / image.size.width
         let newHeight = image.size.height * scale
-        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight))
-        image.drawInRect(CGRectMake(0, 0, newWidth, newHeight))
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         

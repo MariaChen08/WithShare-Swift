@@ -12,8 +12,8 @@ import UIKit
 class Post {
     var id: Int64?
     var userId: Int64?
-    var createdAt: NSDate
-    var updatedAt: NSDate?
+    var createdAt: Date
+    var updatedAt: Date?
     
     var deviceToken: String?
     var deviceType: String?
@@ -40,7 +40,7 @@ class Post {
     // MARK: Initialization
     init?() {
         //UTC time
-        self.createdAt = NSDate()
+        self.createdAt = Date()
 //        print(self.createdAt)
     }
     

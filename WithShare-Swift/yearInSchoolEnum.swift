@@ -21,7 +21,7 @@ enum yearInSchoolEnum: String {
     
     static var count: Int { return yearInSchoolEnum.FT.hashValue + 1 }
     
-    static func getItem(n: Int) -> yearInSchoolEnum {
+    static func getItem(_ n: Int) -> yearInSchoolEnum {
         switch n {
         case 0:
             return yearInSchoolEnum.Blank

@@ -10,7 +10,7 @@ import Foundation
 
 class UsageLog {
     var id: Int64?
-    var createdAt: NSDate
+    var createdAt: Date
     
     var userId: Int64?
     var username: String?
@@ -26,7 +26,7 @@ class UsageLog {
     // MARK: Initialization
     init?() {
         //UTC time
-        self.createdAt = NSDate()
+        self.createdAt = Date()
     }
     
 }

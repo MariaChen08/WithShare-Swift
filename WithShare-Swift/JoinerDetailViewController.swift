@@ -74,13 +74,13 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
         
         if let join = join {
             // Retrieve cached user info
-            let defaults = NSUserDefaults.standardUserDefaults()
-            username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
-            password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
-            phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
+            let defaults = UserDefaults.standard
+            username = defaults.string(forKey: Constants.NSUserDefaultsKey.username)
+            password = defaults.string(forKey: Constants.NSUserDefaultsKey.password)
+            phoneNumber = defaults.string(forKey: Constants.NSUserDefaultsKey.phoneNumber)
             
             senderUsername = username
-            senderId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
+            senderId = (defaults.object(forKey: Constants.NSUserDefaultsKey.id) as AnyObject).int64Value
             
             joiner = User(username: username!, password: password!)
             joiner?.phoneNumber = phoneNumber
@@ -94,7 +94,7 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
             self.loadJoinerProfile()
             self.loadMessages()
 
-            refreshControl.addTarget(self, action: #selector(JoinerDetailViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+            refreshControl.addTarget(self, action: #selector(JoinerDetailViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
             tableView.addSubview(refreshControl) // not required when using UITableViewController
         }
         
@@ -105,27 +105,27 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
     }
     
     // MARK: UITextFieldDelegate
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //Hide the keyboard
         textField.resignFirstResponder()
         return true
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         messageContent = textField.text
         if messageContent != nil {
-            messageContent = messageContent!.stringByTrimmingCharactersInSet(
-                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            messageContent = messageContent!.trimmingCharacters(
+                in: CharacterSet.whitespacesAndNewlines)
         }
     }
 
     
     //MARK: load joiner profile
     func loadJoinerProfile() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getProfile(joiner!, onSuccess: {(joiner) in
-            NSOperationQueue.mainQueue().addOperationWithBlock {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            OperationQueue.main.addOperation {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 print("get joiner profile success")
                 if (joiner.fullName != nil && joiner.fullName != Constants.blankSign) {
                     self.fullNameLabel.text = joiner.fullName
@@ -161,32 +161,32 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
                 self.receiverUsername = joiner.username
             }
             }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     print("load profile error!")
                     let alert = UIAlertController(title: "Unable to load profile!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
         })
     }
     
     //MARK: load messages
     func loadMessages() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getMessageByPost(user!, post: post!, onSuccess: {(messages) in
-            NSOperationQueue.mainQueue().addOperationWithBlock {
+            OperationQueue.main.addOperation {
                 print("get messages success")
                 self.messages = messages
-                NSOperationQueue.mainQueue().addOperationWithBlock {
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                OperationQueue.main.addOperation {
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     // Filter messages
                     let countMessages = messages.count
                     var flag = 0
                     if (countMessages > 0) {
                         for index in 0...countMessages-1 {
                             guard ( (messages[index].senderId == self.senderId && messages[index].receiverId == self.joiner!.id) || (messages[index].senderId == self.joiner!.id && messages[index].receiverId == self.senderId) ) else {
-                                self.messages.removeAtIndex(index-flag)
+                                self.messages.remove(at: index-flag)
                                 flag += 1
                                 continue
                             }
@@ -198,27 +198,27 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
 
             }
             }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     print("load profile error!")
                     let alert = UIAlertController(title: "Unable to load profile!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
         })
     }
 
     // MARK: Message Table View
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("number of joins:")
         print(messages.count)
         return messages.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifier = "PostMessageCustomCell"
-        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! PostMessageCustomCell
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PostMessageCustomCell
         
         // Fetches the appropriate join for the data source layout.
         let message = messages[indexPath.row]
@@ -233,11 +233,11 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
         }
         
         // Configure and format time label
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        dateFormatter.timeStyle = .ShortStyle
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.short
+        dateFormatter.timeStyle = .short
         
-        let dateString = dateFormatter.stringFromDate(message.createdAt)
+        let dateString = dateFormatter.string(from: message.createdAt)
         
         print("tableview:")
         print(dateString)
@@ -246,13 +246,13 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
     
     //Pull to refresh
     
-    func handleRefresh(refreshControl: UIRefreshControl) {
+    func handleRefresh(_ refreshControl: UIRefreshControl) {
         // Do some reloading of data and update the table view's data source
         // Fetch more objects from a web service, for example...
         
@@ -262,7 +262,7 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
     }
     
     // MARK: Actions
-    @IBAction func sendMessage(sender: AnyObject) {
+    @IBAction func sendMessage(_ sender: AnyObject) {
         messageToSend = Message()
         if (currentCoordinates != nil) {
             messageToSend?.currentLatitude = currentCoordinates!.latitude
@@ -288,21 +288,21 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
         messageToSend?.content = messageContent
         
         print("postid: ")
-        print(self.messageToSend?.postId)
+        print(self.messageToSend?.postId as Any)
         print("senderid: ")
-        print(self.messageToSend?.senderId)
+        print(self.messageToSend?.senderId as Any)
         print("sender email: " + (self.messageToSend?.senderUsername)!)
         print("receiverid: ")
-        print(self.messageToSend?.receiverId)
+        print(self.messageToSend?.receiverId as Any)
         print("receiver email: " + (self.messageToSend?.receiverUsername)!)
         
         // Upload to server
         ApiManager.sharedInstance.createMessage(user!, message: messageToSend!, onSuccess: {(user) in
-            NSOperationQueue.mainQueue().addOperationWithBlock {
+            OperationQueue.main.addOperation {
                 print("create new message success!")
                 self.messageTextField.text = ""
                 // dismiss view controller
-                self.navigationController?.popViewControllerAnimated(true);
+                self.navigationController?.popViewController(animated: true);
                 
 //                let alert = UIAlertController(title: "Message sent!", message:
 //                    "Your message has been sent to " + (self.messageToSend?.receiverUsername)!, preferredStyle: UIAlertControllerStyle.Alert)
@@ -311,13 +311,13 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
 //                self.presentViewController(alert, animated: true, completion: nil)
             }
             }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     print("create new message error!")
                     let alert = UIAlertController(title: "Unable to send!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                     
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
                 }
         })
     }
@@ -328,9 +328,9 @@ class JoinerDetailViewController: UIViewController, UITextFieldDelegate, UITable
 // MARK: - CLLocationManagerDelegate
 extension JoinerDetailViewController: CLLocationManagerDelegate {
     // called when the user grants or revokes location permissions
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         // verify the user has granted you permission while the app is in use
-        if status == .AuthorizedWhenInUse {
+        if status == .authorizedWhenInUse {
             
             locationManager.startUpdatingLocation()
             //            mapView.myLocationEnabled = true
@@ -339,7 +339,7 @@ extension JoinerDetailViewController: CLLocationManagerDelegate {
     }
     
     // executes when the location manager receives new location data.
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             
             //            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)

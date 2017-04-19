@@ -43,7 +43,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
     var hobby: String?
     var shareProfile = true
     
-    var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.profilePhoto: "", Constants.ServerModelField_User.shareProfile: true]
+    var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.profilePhoto: "", Constants.ServerModelField_User.shareProfile: true] as [String : Any]
     
     let yearInSchoolPicker: UIPickerView = UIPickerView()
         
@@ -51,11 +51,11 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         super.viewDidLoad()
         
         // Retrieve cached user info
-        let defaults = NSUserDefaults.standardUserDefaults()
-        username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
-        password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
-        phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
-        currentUserId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
+        let defaults = UserDefaults.standard
+        username = defaults.string(forKey: Constants.NSUserDefaultsKey.username)
+        password = defaults.string(forKey: Constants.NSUserDefaultsKey.password)
+        phoneNumber = defaults.string(forKey: Constants.NSUserDefaultsKey.phoneNumber)
+        currentUserId = ((defaults.object(forKey: Constants.NSUserDefaultsKey.id)) as AnyObject).int64Value
         user = User(username: username!, password: password!)
         user!.id = currentUserId
         user?.phoneNumber = phoneNumber
@@ -86,13 +86,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
     }
     
     // MARK: UITextFieldDelegate
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //Hide the keyboard
         textField.resignFirstResponder()
         return true
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         switch (textField.tag) {
         case 3:
             animateViewMoving(true, moveValue: 120)
@@ -101,66 +101,66 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         }
     }
 
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         switch (textField.tag) {
         case 0:
             fullName = textField.text
-            fullName = fullName?.stringByTrimmingCharactersInSet(
-                                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            fullName = fullName?.trimmingCharacters(
+                                in: CharacterSet.whitespacesAndNewlines)
         case 1:
             grade = textField.text
-            grade = grade?.stringByTrimmingCharactersInSet(
-                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            grade = grade?.trimmingCharacters(
+                in: CharacterSet.whitespacesAndNewlines)
         case 2:
             department = textField.text
-            department = department?.stringByTrimmingCharactersInSet(
-                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            department = department?.trimmingCharacters(
+                in: CharacterSet.whitespacesAndNewlines)
         case 3:
             hobby = textField.text
-            hobby = hobby?.stringByTrimmingCharactersInSet(
-                NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            hobby = hobby?.trimmingCharacters(
+                in: CharacterSet.whitespacesAndNewlines)
             animateViewMoving(false, moveValue: 120)
         default:
             print("did not edit saved profile")
         }
     }
     
-    func animateViewMoving (up:Bool, moveValue :CGFloat){
-        let movementDuration:NSTimeInterval = 0.3
+    func animateViewMoving (_ up:Bool, moveValue :CGFloat){
+        let movementDuration:TimeInterval = 0.3
         let movement:CGFloat = ( up ? -moveValue : moveValue)
         UIView.beginAnimations( "animateView", context: nil)
         UIView.setAnimationBeginsFromCurrentState(true)
         UIView.setAnimationDuration(movementDuration )
-        self.view.frame = CGRectOffset(self.view.frame, 0,  movement)
+        self.view.frame = self.view.frame.offsetBy(dx: 0,  dy: movement)
         UIView.commitAnimations()
     }
     
     // MARK: - UIPickerView delegation
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return yearInSchoolEnum.count
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return yearInSchoolEnum.getItem(row).description
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.gradeTextField.text = yearInSchoolEnum.getItem(row).description
         self.gradeTextField.resignFirstResponder()
     }
     
     // MARK: UIImagePickerControllerDelegate
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // Dismiss the picker if the user canceled.
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // The info dictionary contains multiple representations of the image, and this uses the original.
         let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         
@@ -168,11 +168,11 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         profileImage.image = selectedImage
         
         // Dismiss the picker.
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK: Actions
-    @IBAction func selectImageFromPhotoLibrary(sender: UITapGestureRecognizer) {
+    @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
         // Hide the keyboard.
         
         fullNameTextField.resignFirstResponder()
@@ -182,14 +182,14 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         // UIImagePickerController is a view controller that lets a user pick media from their photo library.
         let imagePickerController = UIImagePickerController()
         // Only allow photos to be picked, not taken.
-        imagePickerController.sourceType = .PhotoLibrary
+        imagePickerController.sourceType = .photoLibrary
         // Make sure ViewController is notified when the user picks an image.
         imagePickerController.delegate = self
         
-        presentViewController(imagePickerController, animated: true, completion: nil)
+        present(imagePickerController, animated: true, completion: nil)
     }
     
-    @IBAction func genderIndexChanged(sender: AnyObject) {
+    @IBAction func genderIndexChanged(_ sender: AnyObject) {
         switch genderSegmentedControl.selectedSegmentIndex
         {
         case 0:
@@ -201,7 +201,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         }
     }
     
-    @IBAction func shareProfileIndexChanged(sender: AnyObject) {
+    @IBAction func shareProfileIndexChanged(_ sender: AnyObject) {
         switch shareProfileSegmentedControl.selectedSegmentIndex
         {
         case 0:
@@ -214,31 +214,31 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
 
     }
     
-    @IBAction func logOut(sender: AnyObject) {
+    @IBAction func logOut(_ sender: AnyObject) {
         //cache current user status: Logged Out
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setBool(false, forKey: Constants.NSUserDefaultsKey.logInStatus)
+        let defaults = UserDefaults.standard
+        defaults.set(false, forKey: Constants.NSUserDefaultsKey.logInStatus)
     }
     
-    @IBAction func saveChanges(sender: AnyObject) {
+    @IBAction func saveChanges(_ sender: AnyObject) {
         profileDict[Constants.ServerModelField_User.username] = user?.username
         
         // read all text input
         fullName = fullNameTextField.text
-        fullName = fullName?.stringByTrimmingCharactersInSet(
-            NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        fullName = fullName?.trimmingCharacters(
+            in: CharacterSet.whitespacesAndNewlines)
         
         grade = gradeTextField.text
-        grade = grade?.stringByTrimmingCharactersInSet(
-            NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        grade = grade?.trimmingCharacters(
+            in: CharacterSet.whitespacesAndNewlines)
         
         department = departmentTextField.text
-        department = department?.stringByTrimmingCharactersInSet(
-            NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        department = department?.trimmingCharacters(
+            in: CharacterSet.whitespacesAndNewlines)
         
         hobby = hobbyTextField.text
-        hobby = hobby?.stringByTrimmingCharactersInSet(
-            NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        hobby = hobby?.trimmingCharacters(
+            in: CharacterSet.whitespacesAndNewlines)
         
         if (fullName != nil && fullName != "") {
             profileDict[Constants.ServerModelField_User.fullname] = fullName
@@ -272,41 +272,41 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
             // down scale photo
             user?.profilePhoto = resizeImage((user?.profilePhoto!)!, newWidth: 200)
             // Base64 encode photo
-            let imageData:NSData = UIImagePNGRepresentation((user?.profilePhoto)!)!
-            let strBase64 = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+            let imageData:Data = UIImagePNGRepresentation((user?.profilePhoto)!)!
+            let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
             profileDict[Constants.ServerModelField_User.profilePhoto] = strBase64
         }
         
         // Upload to server
-        ApiManager.sharedInstance.editProfile(user!, profileData: profileDict, onSuccess: {(user) in
-            NSOperationQueue.mainQueue().addOperationWithBlock {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        ApiManager.sharedInstance.editProfile(user!, profileData: profileDict as Dictionary<String, AnyObject>, onSuccess: {(user) in
+            OperationQueue.main.addOperation {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 print("update profile success!")
                 let alert = UIAlertController(title: "Successfully updated profile!", message:
-                    "", preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                    "", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
                 
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
             }
             }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     print("create profile error!")
                     let alert = UIAlertController(title: "Unable to update profile!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                     
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
                 }
         })
     }
     
     //MARK: load detail data
     func loadProfileData() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getProfile(user!, onSuccess: {(user) in
             print("get profile success")
-            NSOperationQueue.mainQueue().addOperationWithBlock {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            OperationQueue.main.addOperation {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 print("get profile success")
                 
                 if (user.fullName != nil && user.fullName != Constants.blankSign) {
@@ -349,23 +349,23 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
 
             }
             }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     print("load profile error!")
                     let alert = UIAlertController(title: "Unable to load profile!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
         })
     }
 
     // MARK: resize image
-    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
+    func resizeImage(_ image: UIImage, newWidth: CGFloat) -> UIImage {
         
         let scale = newWidth / image.size.width
         let newHeight = image.size.height * scale
-        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight))
-        image.drawInRect(CGRectMake(0, 0, newWidth, newHeight))
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         

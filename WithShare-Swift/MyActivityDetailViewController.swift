@@ -32,7 +32,7 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
     //table pull to refresh
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(MyActivityDetailViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(MyActivityDetailViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
         
         return refreshControl
     }()
@@ -40,7 +40,7 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityTitleLabel.font = UIFont.boldSystemFontOfSize(17.0)
+        activityTitleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
         
         if let post = post {
             activityTitleLabel.text = post.activityTitle!
@@ -53,8 +53,8 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
             }
 
             if (post.status == Constants.PostStatus.closed) {
-                closePostButton.enabled = false
-                closePostButton.setTitle("closed", forState: .Normal)
+                closePostButton.isEnabled = false
+                closePostButton.setTitle("closed", for: UIControlState())
             }
         }
         
@@ -62,11 +62,11 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         tableView.dataSource = self
         
         // Retrieve cached user info
-        let defaults = NSUserDefaults.standardUserDefaults()
-        username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
-        password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
-        phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
-        currentUserId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
+        let defaults = UserDefaults.standard
+        username = defaults.string(forKey: Constants.NSUserDefaultsKey.username)
+        password = defaults.string(forKey: Constants.NSUserDefaultsKey.password)
+        phoneNumber = defaults.string(forKey: Constants.NSUserDefaultsKey.phoneNumber)
+        currentUserId = (defaults.object(forKey: Constants.NSUserDefaultsKey.id) as AnyObject?)?.int64Value
         user = User(username: username!, password: password!)
         user?.phoneNumber = phoneNumber
         
@@ -78,7 +78,7 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     //Pull to refresh
-    func handleRefresh(refreshControl: UIRefreshControl) {
+    func handleRefresh(_ refreshControl: UIRefreshControl) {
         // Do some reloading of data and update the table view's data source
         // Fetch more objects from a web service, for example...
         
@@ -89,16 +89,16 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
 
     
     // MARK: Joiner Table View
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("number of joins:")
         print(joins.count)
         return joins.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifier = "JoinedUserCustomCell"
-        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! JoinedUserCustomCell
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! JoinedUserCustomCell
         
         // Fetches the appropriate join for the data source layout.
         let join = joins[indexPath.row]
@@ -115,90 +115,90 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         }
         
         // Configure and format time label
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         
-        let dateFormatterFull = NSDateFormatter()
-        dateFormatterFull.dateStyle = NSDateFormatterStyle.ShortStyle
-        dateFormatterFull.timeStyle = .ShortStyle
+        let dateFormatterFull = DateFormatter()
+        dateFormatterFull.dateStyle = DateFormatter.Style.short
+        dateFormatterFull.timeStyle = .short
         
-        let cal = NSCalendar.currentCalendar()
-        var components = cal.components([.Era, .Year, .Month, .Day], fromDate:NSDate())
-        let today = cal.dateFromComponents(components)!
+        let cal = Calendar.current
+        var components = (cal as NSCalendar).components([.era, .year, .month, .day], from:Date())
+        let today = cal.date(from: components)!
         
-        components = cal.components([.Era, .Year, .Month, .Day], fromDate:join.createdAt)
-        let otherDate = cal.dateFromComponents(components)!
+        components = (cal as NSCalendar).components([.era, .year, .month, .day], from:join.createdAt)
+        let otherDate = cal.date(from: components)!
         
         print(join.createdAt)
-        print("Joined at: " + dateFormatterFull.stringFromDate(join.createdAt))
+        print("Joined at: " + dateFormatterFull.string(from: join.createdAt))
         
         cell.joinTimeLabel.text = ""
         
-        if (today.isEqualToDate(otherDate)) {
-            cell.joinTimeLabel.text =  dateFormatter.stringFromDate(join.createdAt) + " Today"
+        if (today == otherDate) {
+            cell.joinTimeLabel.text =  dateFormatter.string(from: join.createdAt) + " Today"
         }
         else {
-            cell.joinTimeLabel.text =  dateFormatterFull.stringFromDate(join.createdAt)
+            cell.joinTimeLabel.text =  dateFormatterFull.string(from: join.createdAt)
         }
         
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
     
     //MARK: load joiners
     func loadMyJoinData() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getJoinById(user!, post: post!, onSuccess: {(joins) in
             self.joins = joins
-            NSOperationQueue.mainQueue().addOperationWithBlock {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            OperationQueue.main.addOperation {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 self.tableView.reloadData()
             }
             }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     print("load joiners error!")
                     let alert = UIAlertController(title: "Unable to load joiners!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
         })
     }
     
     //MARK: Navigations
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showJoinerDetailSegue" {
-            let joinerDetailViewController = segue.destinationViewController as! JoinerDetailViewController
+            let joinerDetailViewController = segue.destination as! JoinerDetailViewController
             // Get the cell that generated this segue.
             if let selectedActivityCell = sender as? JoinedUserCustomCell {
-                let indexPath = tableView.indexPathForCell(selectedActivityCell)!
+                let indexPath = tableView.indexPath(for: selectedActivityCell)!
                 let selectedActivity = joins[indexPath.row]
                 joinerDetailViewController.join = selectedActivity
             }
         }
         else if segue.identifier == "editPostSegue" {
-            let postViewController = segue.destinationViewController as! CreateActivityViewController
+            let postViewController = segue.destination as! CreateActivityViewController
             postViewController.post = self.post
         }
     }
     
     //MARK: Actions
-    @IBAction func closeActivity(sender: AnyObject) {
+    @IBAction func closeActivity(_ sender: AnyObject) {
         let alert = UIAlertController(title: "Close activity?", message:
-            "Do you confirm to close the activity?", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+            "Do you confirm to close the activity?", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
             self.confirmCloseActivity()
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func editPost(sender: AnyObject) {
-        self.performSegueWithIdentifier("editPostSegue", sender: self)
+    @IBAction func editPost(_ sender: AnyObject) {
+        self.performSegue(withIdentifier: "editPostSegue", sender: self)
     }
     
     func confirmCloseActivity() {
@@ -206,21 +206,21 @@ class MyActivityDetailViewController: UIViewController, UITableViewDelegate, UIT
         //        print(self.post?.status)
         // Upload to server
         ApiManager.sharedInstance.editActivity(self.user!, post: self.post!, onSuccess: {(user) in
-            NSOperationQueue.mainQueue().addOperationWithBlock {
+            OperationQueue.main.addOperation {
                 print("close activity success!")
                 print("postid: ")
-                print(self.post?.id)
-                self.closePostButton.enabled = false
-                self.closePostButton.setTitle("closed", forState: .Normal)
+                print(self.post?.id as Any)
+                self.closePostButton.isEnabled = false
+                self.closePostButton.setTitle("closed", for: UIControlState())
             }
             }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     print("close activity error!")
                     let alert = UIAlertController(title: "Unable to close activity!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                     
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
                 }
         })
 

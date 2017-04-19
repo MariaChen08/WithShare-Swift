@@ -33,11 +33,11 @@ class MyJoinTableViewController: UITableViewController {
         //        }
         
         // Retrieve cached user info
-        let defaults = NSUserDefaults.standardUserDefaults()
-        username = defaults.stringForKey(Constants.NSUserDefaultsKey.username)
-        password = defaults.stringForKey(Constants.NSUserDefaultsKey.password)
-        phoneNumber = defaults.stringForKey(Constants.NSUserDefaultsKey.phoneNumber)
-        currentUserId = (defaults.objectForKey(Constants.NSUserDefaultsKey.id))?.longLongValue
+        let defaults = UserDefaults.standard
+        username = defaults.string(forKey: Constants.NSUserDefaultsKey.username)
+        password = defaults.string(forKey: Constants.NSUserDefaultsKey.password)
+        phoneNumber = defaults.string(forKey: Constants.NSUserDefaultsKey.phoneNumber)
+        currentUserId = (defaults.object(forKey: Constants.NSUserDefaultsKey.id) as AnyObject?)?.int64Value
         
         user = User(username: username!, password: password!)
         user?.phoneNumber = phoneNumber
@@ -45,23 +45,23 @@ class MyJoinTableViewController: UITableViewController {
         
         self.loadMyJoinData()
         
-        self.refreshControl?.addTarget(self, action: #selector(MyJoinTableViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl?.addTarget(self, action: #selector(MyJoinTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
     }
     
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // if there are no posts something bad happened and we should try again
         self.loadMyJoinData()
     }
     
     //MARK: Navigations
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showMyJoinDetailSegue" {
-            let joinDetailViewController = segue.destinationViewController as! MyJoinDetailViewController
+            let joinDetailViewController = segue.destination as! MyJoinDetailViewController
             // Get the cell that generated this segue.
             if let selectedJoinCell = sender as? MyJoinTableViewCell {
-                let indexPath = tableView.indexPathForCell(selectedJoinCell)!
+                let indexPath = tableView.indexPath(for: selectedJoinCell)!
                 let selectedJoin = joins[indexPath.row]
                 joinDetailViewController.join = selectedJoin
             }
@@ -69,49 +69,49 @@ class MyJoinTableViewController: UITableViewController {
     }
     
     
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.None
+    func adaptivePresentationStyleForPresentationController(_ controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
     }
     
     //MARK: Manage Data Source
     func loadMyJoinData() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         ApiManager.sharedInstance.getJoinByUser(user!, onSuccess: {(joins) in
             self.joins = joins
-            NSOperationQueue.mainQueue().addOperationWithBlock {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            OperationQueue.main.addOperation {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 self.tableView.reloadData()
             }
             }, onError: {(error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     print("load joiners error!")
                     let alert = UIAlertController(title: "Unable to load joiners!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
         })
     }
     
-    func handleRefresh(refreshControl: UIRefreshControl) {
+    func handleRefresh(_ refreshControl: UIRefreshControl) {
         self.loadMyJoinData()
         refreshControl.endRefreshing()
     }
     
     
     //MARK: present dynamic data in table view
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return joins.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifier = "MyJoinTableViewCell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! MyJoinTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! MyJoinTableViewCell
         
         // Fetches the appropriate meal for the data source layout.
         let join = joins[indexPath.row]
@@ -119,19 +119,19 @@ class MyJoinTableViewController: UITableViewController {
         cell.activityTitleLabel.text = join.postName
 
         // Configure and format time label
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         
-        let dateFormatterFull = NSDateFormatter()
-        dateFormatterFull.dateStyle = NSDateFormatterStyle.ShortStyle
-        dateFormatterFull.timeStyle = .ShortStyle
+        let dateFormatterFull = DateFormatter()
+        dateFormatterFull.dateStyle = DateFormatter.Style.short
+        dateFormatterFull.timeStyle = .short
         
-        let cal = NSCalendar.currentCalendar()
-        var components = cal.components([.Era, .Year, .Month, .Day], fromDate:NSDate())
-        let today = cal.dateFromComponents(components)!
+        let cal = Calendar.current
+        var components = (cal as NSCalendar).components([.era, .year, .month, .day], from:Date())
+        let today = cal.date(from: components)!
         
-        components = cal.components([.Era, .Year, .Month, .Day], fromDate:join.createdAt)
-        let otherDate = cal.dateFromComponents(components)!
+        components = (cal as NSCalendar).components([.era, .year, .month, .day], from:join.createdAt)
+        let otherDate = cal.date(from: components)!
         
         var joinQuote: String
         if (join.status == Constants.JoinStatus.interested) {
@@ -142,11 +142,11 @@ class MyJoinTableViewController: UITableViewController {
             joinQuote = "Joined at:"
         }
         
-        if (today.isEqualToDate(otherDate)) {
-            cell.joinTimeLabel.text = joinQuote +  dateFormatter.stringFromDate(join.createdAt) + " Today"
+        if (today == otherDate) {
+            cell.joinTimeLabel.text = joinQuote +  dateFormatter.string(from: join.createdAt) + " Today"
         }
         else {
-            cell.joinTimeLabel.text =  joinQuote + dateFormatterFull.stringFromDate(join.createdAt)
+            cell.joinTimeLabel.text =  joinQuote + dateFormatterFull.string(from: join.createdAt)
         }
         
         return cell

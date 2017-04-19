@@ -25,20 +25,20 @@ class SelectActivityTypeMenu: UITableViewController {
     
     // MARK: Present UITableViewDataSource
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //        print(activityTypes.count)
         return activityTypes.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(activityTypeCellIdentifier, forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: activityTypeCellIdentifier, for: indexPath)
         cell.textLabel?.text = activityTypes[indexPath.row]
         return cell
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let selectedCell = sender as? UITableViewCell {
-            let indexPath = tableView.indexPathForCell(selectedCell)!
+            let indexPath = tableView.indexPath(for: selectedCell)!
             activityType = activityTypes[indexPath.row]
             print("selected activity type to create:" + activityType!)
         }

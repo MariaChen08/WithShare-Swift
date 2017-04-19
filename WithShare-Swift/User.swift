@@ -13,8 +13,8 @@ class User {
     //MARK: Properties
     
     var id: Int64?
-    var createdAt: NSDate
-    var updatedAt: NSDate?
+    var createdAt: Date
+    var updatedAt: Date?
     
     var username: String?
     var password: String?
@@ -37,7 +37,7 @@ class User {
     // MARK: Initialization
     init?(username: String, password: String) {
         //UTC time
-        self.createdAt = NSDate()
+        self.createdAt = Date()
         self.username = username
         self.password = password
 //        self.phoneNumber = phoneNumber

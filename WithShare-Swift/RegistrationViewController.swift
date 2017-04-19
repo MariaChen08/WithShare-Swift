@@ -37,7 +37,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
         createAccountButton.layer.masksToBounds = true
         
         //Disable Sign Up button
-        createAccountButton.enabled = false
+        createAccountButton.isEnabled = false
         
         //Handle the text field’s user input through delegate callbacks.
         emailTextField.delegate = self
@@ -45,8 +45,8 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
         retypePasswordTextField.delegate = self
         phoneNumberTextField.delegate = self
         
-        emailTextField.keyboardType = .EmailAddress
-        phoneNumberTextField.keyboardType = .PhonePad
+        emailTextField.keyboardType = .emailAddress
+        phoneNumberTextField.keyboardType = .phonePad
         
         emailTextField.tag = 0
         createPasswordTextField.tag = 1
@@ -63,19 +63,19 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     }
     
     // MARK: UITextFieldDelegate
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //Hide the keyboard
         textField.resignFirstResponder()
         return true
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         switch (textField.tag) {
         case 0:
             username = textField.text
             if username != nil {
-                username = username!.stringByTrimmingCharactersInSet(
-                    NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                username = username!.trimmingCharacters(
+                    in: CharacterSet.whitespacesAndNewlines)
             }
             self.enableSignUp()
         case 1:
@@ -95,14 +95,14 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     // format phone number input: (xxx) xxx-xxxx
     // http://stackoverflow.com/questions/1246439/uitextfield-for-phone-number
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField.tag == 3 {
-            let newString = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string)
-            let components = newString.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)
+            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            let components = newString.components(separatedBy: CharacterSet.decimalDigits.inverted)
             
-            let decimalString = components.joinWithSeparator("") as NSString
+            let decimalString = components.joined(separator: "") as NSString
             let length = decimalString.length
-            let hasLeadingOne = length > 0 && decimalString.characterAtIndex(0) == (1 as unichar)
+            let hasLeadingOne = length > 0 && decimalString.character(at: 0) == (1 as unichar)
             
             if length == 0 || (length > 10 && !hasLeadingOne) || length > 11
             {
@@ -115,24 +115,24 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
             
             if hasLeadingOne
             {
-                formattedString.appendString("1 ")
+                formattedString.append("1 ")
                 index += 1
             }
             if (length - index) > 3
             {
-                let areaCode = decimalString.substringWithRange(NSMakeRange(index, 3))
+                let areaCode = decimalString.substring(with: NSMakeRange(index, 3))
                 formattedString.appendFormat("(%@)", areaCode)
                 index += 3
             }
             if length - index > 3
             {
-                let prefix = decimalString.substringWithRange(NSMakeRange(index, 3))
+                let prefix = decimalString.substring(with: NSMakeRange(index, 3))
                 formattedString.appendFormat("%@-", prefix)
                 index += 3
             }
             
-            let remainder = decimalString.substringFromIndex(index)
-            formattedString.appendString(remainder)
+            let remainder = decimalString.substring(from: index)
+            formattedString.append(remainder)
             textField.text = formattedString as String
             phoneNumber = textField.text
             return false
@@ -144,32 +144,32 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     }
     
     // MARK: - Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "createAccountSegue") {
-            if let createProfileViewController = segue.destinationViewController as? CreateProfileViewController {
+            if let createProfileViewController = segue.destination as? CreateProfileViewController {
                 createProfileViewController.user = self.user!
             }
         }
     }
     
     // MARK: Actions
-    @IBAction func createAccount(sender: AnyObject) {
+    @IBAction func createAccount(_ sender: AnyObject) {
 //        print("phoneNumber: " + phoneNumber!)
         if (username == nil || !ValidateUserInput(input: username!).isValidEmail() || !ValidateUserInput(input: username!).isEduSuffix()) {
             alertMessage = "Please enter your PSU email."
-            print(alertMessage)
+            print(alertMessage as Any)
         }
         else if (password == nil || (password!.isBlank() == true)) {
             alertMessage = "Please create WithShare password."
-            print(alertMessage)
+            print(alertMessage as Any)
         }
         else if (retypePassword == nil || !(retypePassword == password)) {
             alertMessage = "Retype password does not match."
-            print(alertMessage)
+            print(alertMessage as Any)
         }
         else if (phoneNumber == nil) {
             alertMessage = "Please enter your phone number. It will help people to contact you when they want to join your activity. We won't disclose your phone number in any occasion."
-            print(alertMessage)
+            print(alertMessage as Any)
         }
         else {
             validRegisterInfo = true
@@ -180,7 +180,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
             user = User(username: username!, password: password!)
             user?.phoneNumber = phoneNumber
 //            user?.deviceToken = Constants.deviceToken
-            user?.deviceToken = UIDevice.currentDevice().identifierForVendor!.UUIDString
+            user?.deviceToken = UIDevice.current.identifierForVendor!.uuidString
             user?.deviceType = Constants.deviceType
             user?.shareProfile = true
             user?.numOfPosts = 0
@@ -190,57 +190,57 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
             ApiManager.sharedInstance.signUp(user!,
                                              onSuccess: {(user) in
                                                 
-                                                NSOperationQueue.mainQueue().addOperationWithBlock {
-                                                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                                                OperationQueue.main.addOperation {
+                                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                                                     print("signup success!")
                                                     print("userid: ")
-                                                    print(user.id)
+                                                    print(user.id as Any)
                                                     
                                                     //cache current user status: Logged In
-                                                    let defaults = NSUserDefaults.standardUserDefaults()
-                                                    defaults.setBool(true, forKey: Constants.NSUserDefaultsKey.logInStatus)
-                                                    defaults.setObject(NSNumber(longLong: user.id!), forKey: Constants.NSUserDefaultsKey.id)
-                                                    defaults.setObject(user.username, forKey: Constants.NSUserDefaultsKey.username)
-                                                    defaults.setObject(user.password, forKey: Constants.NSUserDefaultsKey.password)
-                                                    defaults.setObject(user.phoneNumber, forKey: Constants.NSUserDefaultsKey.phoneNumber)
-                                                    defaults.setBool(true, forKey: Constants.NSUserDefaultsKey.shareProfile)
+                                                    let defaults = UserDefaults.standard
+                                                    defaults.set(true, forKey: Constants.NSUserDefaultsKey.logInStatus)
+                                                    defaults.set(NSNumber(value: user.id! as Int64), forKey: Constants.NSUserDefaultsKey.id)
+                                                    defaults.set(user.username, forKey: Constants.NSUserDefaultsKey.username)
+                                                    defaults.set(user.password, forKey: Constants.NSUserDefaultsKey.password)
+                                                    defaults.set(user.phoneNumber, forKey: Constants.NSUserDefaultsKey.phoneNumber)
+                                                    defaults.set(true, forKey: Constants.NSUserDefaultsKey.shareProfile)
                                                     
                                                     let alert = UIAlertController(title: "Signup Success!", message:
-                                                        Constants.termOfService, preferredStyle: UIAlertControllerStyle.Alert)
-                                                    alert.addAction(UIAlertAction(title: "Agree to terms.", style: UIAlertActionStyle.Default,handler: { (action: UIAlertAction!) in
-                                                        self.performSegueWithIdentifier("createAccountSegue", sender: self)
+                                                        Constants.termOfService, preferredStyle: UIAlertControllerStyle.alert)
+                                                    alert.addAction(UIAlertAction(title: "Agree to terms.", style: UIAlertActionStyle.default,handler: { (action: UIAlertAction!) in
+                                                        self.performSegue(withIdentifier: "createAccountSegue", sender: self)
                                                     }))
 
                                                     
-                                                    self.presentViewController(alert, animated: true, completion: nil)
+                                                    self.present(alert, animated: true, completion: nil)
                                                     
-                                                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                                                     
                                                 }
 
                                                 
                 }, onError: {(error) in
-                    NSOperationQueue.mainQueue().addOperationWithBlock {
+                    OperationQueue.main.addOperation {
                         print("signup error!")
                         print(error.userInfo)
                         let alert = UIAlertController(title: "Signup Failed", message:
-                        error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                        error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                     
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                     }
             })
 
         }
         else {
             // create the alert
-            let alert = UIAlertController(title: "Signup Error", message: alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "Signup Error", message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
             
             // add an action (button)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
             
             // show the alert
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
 
         }
     }
@@ -248,9 +248,9 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     /* Tests wether the signUpButton should be enabled or not  */
     func enableSignUp() {
         if self.createPasswordTextField.text!.isBlank() || self.retypePasswordTextField.text!.isBlank() || self.phoneNumberTextField.text!.isBlank() {
-            createAccountButton.enabled = false
+            createAccountButton.isEnabled = false
         } else {
-            createAccountButton.enabled = true
+            createAccountButton.isEnabled = true
         }
     }
 
