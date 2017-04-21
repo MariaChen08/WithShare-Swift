@@ -17,6 +17,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
     
+    var user: User?
     var username: String?
     var username_saved: String?
     var password: String?
@@ -94,24 +95,44 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func signIn(_ sender: AnyObject) {
         username = self.emailTextField.text!
         password = self.passwordTextField.text!
+        user = User(username: username!, password: password!)
         
-        // Retrieve cached user info
-        let defaults = UserDefaults.standard
-        username_saved = defaults.string(forKey: Constants.NSUserDefaultsKey.username)
-        password_saved = defaults.string(forKey: Constants.NSUserDefaultsKey.password)
-        
-        if (username_saved == username && password_saved == password) {
-            defaults.set(true, forKey: Constants.NSUserDefaultsKey.logInStatus)
-            self.performSegue(withIdentifier: "logInSegue", sender: self)
-        }
-        else {
-            let alert = UIAlertController(title: "Unable to sign in!", message:
-                                    "Incorrect passwork, please try again.", preferredStyle: UIAlertControllerStyle.alert)
-                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
-                                self.present(alert, animated: true, completion: nil)
-
-        }
-    }
+        ApiManager.sharedInstance.signIn(user!,
+                                         onSuccess: {(user) in
+                                            
+                                            OperationQueue.main.addOperation {
+                                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                                print("signin success!")
+                                                print("userid: ")
+                                                print(user.id as Any)
+                                                
+                                                //cache current user status: Logged In
+                                                let defaults = UserDefaults.standard
+                                                defaults.set(true, forKey: Constants.NSUserDefaultsKey.logInStatus)
+                                                defaults.set(NSNumber(value: user.id!), forKey: Constants.NSUserDefaultsKey.id)
+                                                defaults.set(user.username, forKey: Constants.NSUserDefaultsKey.username)
+                                                defaults.set(user.password, forKey: Constants.NSUserDefaultsKey.password)
+                                                defaults.set(true, forKey: Constants.NSUserDefaultsKey.shareProfile)
+                                                self.performSegue(withIdentifier: "logInSegue", sender: self)
+                                                
+                                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                                
+                                            }
+                                            
+                                            
+        }, onError: {(error) in
+            OperationQueue.main.addOperation {
+                print("signin error!")
+                print(error.userInfo)
+                //                    let alert = UIAlertController(title: "Signin Failed", message:
+                //                        error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
+                let alert = UIAlertController(title: "Signin Failed", message:
+                    "Incorrect username or password. If you have problem signing in, please contact jzc245@ist.psu.edu", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                
+                self.present(alert, animated: true, completion: nil)
+            }
+        })    }
     
     // Tests wether the signInButton should be enabled or not
     func enableSignIn() {

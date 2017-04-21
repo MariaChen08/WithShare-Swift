@@ -17,15 +17,15 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     
     @IBOutlet weak var retypePasswordTextField: UITextField!
     
-    @IBOutlet weak var phoneNumberTextField: UITextField!
-    
     @IBOutlet weak var createAccountButton: UIButton!
+    
+    @IBOutlet weak var logInButton: UIButton!
+    
     
     var user: User?
     var username: String?
     var password: String?
     var retypePassword: String?
-    var phoneNumber: String?
     var alertMessage: String?
     var validRegisterInfo: Bool = false
     
@@ -43,15 +43,13 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
         emailTextField.delegate = self
         createPasswordTextField.delegate = self
         retypePasswordTextField.delegate = self
-        phoneNumberTextField.delegate = self
         
         emailTextField.keyboardType = .emailAddress
-        phoneNumberTextField.keyboardType = .phonePad
         
         emailTextField.tag = 0
         createPasswordTextField.tag = 1
         retypePasswordTextField.tag = 2
-        phoneNumberTextField.tag = 3
+        
         //Close keyboard by clicking anywhere else
         self.hideKeyboardWhenTappedAround()
     }
@@ -84,9 +82,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
         case 2:
             retypePassword = textField.text
             self.enableSignUp()
-        case 3:
-            phoneNumber = textField.text
-            self.enableSignUp()
+
         default:
             print("error registration textview")
         }
@@ -134,7 +130,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
             let remainder = decimalString.substring(from: index)
             formattedString.append(remainder)
             textField.text = formattedString as String
-            phoneNumber = textField.text
+            
             return false
         }
         else
@@ -154,7 +150,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     
     // MARK: Actions
     @IBAction func createAccount(_ sender: AnyObject) {
-//        print("phoneNumber: " + phoneNumber!)
+        
         if (username == nil || !ValidateUserInput(input: username!).isValidEmail() || !ValidateUserInput(input: username!).isEduSuffix()) {
             alertMessage = "Please enter your PSU email."
             print(alertMessage as Any)
@@ -167,10 +163,6 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
             alertMessage = "Retype password does not match."
             print(alertMessage as Any)
         }
-        else if (phoneNumber == nil) {
-            alertMessage = "Please enter your phone number. It will help people to contact you when they want to join your activity. We won't disclose your phone number in any occasion."
-            print(alertMessage as Any)
-        }
         else {
             validRegisterInfo = true
         }
@@ -178,7 +170,8 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
         if validRegisterInfo {
             //create user account
             user = User(username: username!, password: password!)
-            user?.phoneNumber = phoneNumber
+
+            // MARK: TO DO device Token issue
 //            user?.deviceToken = Constants.deviceToken
             user?.deviceToken = UIDevice.current.identifierForVendor!.uuidString
             user?.deviceType = Constants.deviceType
@@ -247,7 +240,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     
     /* Tests wether the signUpButton should be enabled or not  */
     func enableSignUp() {
-        if self.createPasswordTextField.text!.isBlank() || self.retypePasswordTextField.text!.isBlank() || self.phoneNumberTextField.text!.isBlank() {
+        if self.createPasswordTextField.text!.isBlank() || self.retypePasswordTextField.text!.isBlank(){
             createAccountButton.isEnabled = false
         } else {
             createAccountButton.isEnabled = true

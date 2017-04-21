@@ -291,6 +291,66 @@ class ApiManager: NSObject, URLSessionDelegate {
         task.resume()
     }
     
+    // HTTP POST with No Authentication
+    
+
+    
+    func PUT_simple(_ url: String, data: Dictionary<String,AnyObject>, onSuccess: @escaping (_ databack: [String: AnyObject], _ response: URLResponse) -> Void, onError: @escaping (_ error: NSError, _ response: URLResponse) -> Void) {
+        
+        let request = NSMutableURLRequest(url: NSURL(string: url)! as URL)
+        let session = URLSession.shared
+        request.httpMethod = "PUT"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        do {
+            try request.httpBody = JSONSerialization.data(withJSONObject: data, options: JSONSerialization.WritingOptions())
+        } catch _ {
+            onError(NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON request data": NSObject()]), URLResponse())
+            return
+        }
+        
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {(data, response, error) -> Void in
+            
+            var dataDict: [String: AnyObject] = [:]
+            
+            print((response as? HTTPURLResponse)?.statusCode as Any)
+            if data != nil {
+                let responseData = String(data: data!, encoding: String.Encoding.utf8)
+                print("Body:" + responseData!)
+                
+                do {
+                    dataDict = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String: AnyObject]
+                } catch _ {
+                    onError(NSError(domain: "WithShare", code: -1000, userInfo: ["Unable to parse JSON return data": NSObject()]), URLResponse())
+                }
+                
+            }
+            else {
+                print("Body null")
+            }
+            
+            if (response as? HTTPURLResponse)?.statusCode == 401 {
+                onError(NSError(domain: "WithShare: Incorrect username or password", code: -1000, userInfo: ["Incorrect username or password": NSObject()]), URLResponse())
+                return
+            }
+            
+            if (response as? HTTPURLResponse)?.statusCode != 202 {
+                onError(NSError(domain: "WithShare: Please check network condition or try later", code: -1000, userInfo: ["Server returned error": NSObject()]), URLResponse())
+                return
+            }
+            
+            if error != nil {
+                onError(error! as NSError, URLResponse())
+            } else {
+                onSuccess(dataDict, response!)
+            }
+        })
+        
+        task.resume()
+    }
+
+    
     //MARK: User Profile Api
     func signUp(_ user: User, onSuccess: @escaping (_ user: User) -> Void, onError: @escaping (_ error: NSError) -> Void) {
         let specificUrl = "signup/"
@@ -313,6 +373,29 @@ class ApiManager: NSObject, URLSessionDelegate {
             user.id = id?.int64Value
                 onSuccess(user)
             }
+            , onError: {(error, response) in
+                onError(error)
+        })
+    }
+    
+    func signIn(_ user: User, onSuccess: @escaping (_ user: User) -> Void, onError: @escaping (_ error: NSError) -> Void) {
+        let specificUrl = "signin/"
+        
+        // Sign in with 1) psu email, 2) password
+        
+        let userPasswordDictionary: [String: AnyObject] = [Constants.ServerModelField_User.username: user.username! as AnyObject, Constants.ServerModelField_User.password: user.password! as AnyObject]
+        
+        let fullUrl = ApiManager.serverUrl + specificUrl
+        print("signin url: " + fullUrl)
+        
+        // make the call
+        ApiManager.sharedInstance.PUT_simple(fullUrl, data: userPasswordDictionary, onSuccess: {(data, response) in
+            print("signin return data:")
+            print(data)
+            let id = data[Constants.ServerModelField_User.id]
+            user.id = id?.longLongValue
+            onSuccess(user)
+        }
             , onError: {(error, response) in
                 onError(error)
         })

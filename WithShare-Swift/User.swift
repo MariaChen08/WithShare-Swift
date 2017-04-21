@@ -40,7 +40,7 @@ class User {
         self.createdAt = Date()
         self.username = username
         self.password = password
-//        self.phoneNumber = phoneNumber
+        self.phoneNumber = "0000000000"
     }
     
 }
