@@ -15,7 +15,7 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
     @IBOutlet weak var gradeTextField: UITextField!
     @IBOutlet weak var departmentTextField: UITextField!
     
-    @IBOutlet weak var hobbyTextField: UITextField!
+    @IBOutlet weak var descriptionTextView: UITextView!
     
     @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
     
@@ -35,7 +35,6 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
     var profileDict = [Constants.ServerModelField_User.username: "", Constants.ServerModelField_User.fullname: "", Constants.ServerModelField_User.grade: "", Constants.ServerModelField_User.department: "", Constants.ServerModelField_User.hobby : "", Constants.ServerModelField_User.gender: "", Constants.ServerModelField_User.shareProfile: true] as [String : Any]
     
     let yearInSchoolPicker: UIPickerView = UIPickerView()
-//    let cancelButton = UIButton(type: UIButtonType.system)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,19 +46,24 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
         saveButton.layer.cornerRadius = 5
         saveButton.layer.masksToBounds = true
         
+        // set up multipline input
+        descriptionTextView.text = Constants.shortDescriptionPlaceholder
+        descriptionTextView.textColor = UIColor.lightGray
+        descriptionTextView.layer.borderColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0).cgColor
+        descriptionTextView.layer.borderWidth = 1.0
+        descriptionTextView.layer.cornerRadius = 5
         
         //Handle the text field’s user input through delegate callbacks.
         firstNameTextField.delegate = self
         lastNameTextField.delegate = self
         gradeTextField.delegate = self
         departmentTextField.delegate = self
-        hobbyTextField.delegate = self
+        descriptionTextView.delegate = self
         
         firstNameTextField.tag = 0
         lastNameTextField.tag = 1
         gradeTextField.tag = 2
         departmentTextField.tag = 3
-        hobbyTextField.tag = 4
         
         //Close keyboard by clicking anywhere else
         self.hideKeyboardWhenTappedAround()
@@ -83,8 +87,6 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch (textField.tag) {
         case 3:
-            animateViewMoving(true, moveValue: 200)
-        case 4:
             animateViewMoving(true, moveValue: 200)
         default:
             print("did not edit saved profile")
@@ -118,17 +120,36 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
                     in: CharacterSet.whitespacesAndNewlines)
             }
             animateViewMoving(false, moveValue: 200)
-        case 4:
-            hobby = textField.text
-            if hobby != nil {
-                hobby = hobby!.trimmingCharacters(
-                    in: CharacterSet.whitespacesAndNewlines)
-            }
-            animateViewMoving(false, moveValue: 200)
         default:
             print("did not create profile")
         }
     }
+    
+    // MARK: UITextViewDelegate
+    func textViewShouldReturn(_ textView: UITextView) -> Bool {
+        //Hide the keyboard
+        textView.resignFirstResponder()
+        return true
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+       
+        textView.text = ""
+        animateViewMoving(true, moveValue: 200)
+        
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = Constants.shortDescriptionPlaceholder
+            textView.textColor = UIColor.lightGray
+        }
+        else {
+            hobby = textView.text
+        }
+        animateViewMoving(false, moveValue: 200)
+    }
+
     
     func animateViewMoving (_ up:Bool, moveValue :CGFloat){
         let movementDuration:TimeInterval = 0.3
@@ -158,8 +179,6 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
         self.gradeTextField.text = yearInSchoolEnum.getItem(row).description
         self.gradeTextField.resignFirstResponder()
     }
-
-
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -204,7 +223,7 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
         department = departmentTextField.text
         department = department!.trimmingCharacters(
             in: CharacterSet.whitespacesAndNewlines)
-        hobby = hobbyTextField.text
+        hobby = descriptionTextView.text
         hobby = hobby?.trimmingCharacters(
             in: CharacterSet.whitespacesAndNewlines)
         
@@ -254,7 +273,7 @@ class CreateProfileViewController: UIViewController, UITextFieldDelegate, UIText
             profileDict[Constants.ServerModelField_User.department] = Constants.blankSign
         }
         
-        if (hobby != nil && hobby != "") {
+        if (hobby != nil && hobby != "" && hobby != Constants.shortDescriptionPlaceholder) {
             user?.hobby = hobby
             defaults.set(hobby, forKey: Constants.NSUserDefaultsKey.hobby)
             profileDict[Constants.ServerModelField_User.hobby] = hobby
