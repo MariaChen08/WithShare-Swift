@@ -11,22 +11,29 @@ import GoogleMaps
 
 class DetailViewController: UIViewController, UITextFieldDelegate {
     //MARK: Properties
+//    @IBOutlet weak var activityTitleLabel: UILabel!
     @IBOutlet weak var activityTitleLabel: UILabel!
-    @IBOutlet weak var meetPlaceLabel: UILabel!
-    @IBOutlet weak var detailLabel: UILabel!
+//    @IBOutlet weak var meetPlaceLabel: UILabel!
+    @IBOutlet weak var meetPlaceLabel: UITextView!
+    
+//    @IBOutlet weak var detailLabel: UILabel!
+//    @IBOutlet weak var detailLabel: UILabel!
+    @IBOutlet weak var detailLabel: UITextView!
+    
     
     
     @IBOutlet weak var fullNameLabel: UILabel!
-    @IBOutlet weak var gradeLabel: UILabel!
-    @IBOutlet weak var departmentLabel: UILabel!
-    @IBOutlet weak var hobbyLabel: UILabel!
-    @IBOutlet weak var numOfPostLabel: UILabel!
+//    @IBOutlet weak var gradeLabel: UILabel!
+//    @IBOutlet weak var departmentLabel: UILabel!
+//    @IBOutlet weak var hobbyLabel: UILabel!
+//    @IBOutlet weak var numOfPostLabel: UILabel!
     @IBOutlet weak var profileImage: UIImageView!
     
+    @IBOutlet weak var joinButton: UIButton!
     
-    @IBOutlet weak var sendMessageLabel: UILabel!
-    @IBOutlet weak var joinButton: UIBarButtonItem!
-    @IBOutlet weak var messageTextField: UITextField!
+//    @IBOutlet weak var sendMessageLabel: UILabel!
+//    @IBOutlet weak var joinButton: UIBarButtonItem!
+//    @IBOutlet weak var messageTextField: UITextField!
     
     var post: Post?
     var user: User?
@@ -57,19 +64,19 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         // Initial blank page
         fullNameLabel.text = ""
-        gradeLabel.text = ""
-        departmentLabel.text = ""
-        numOfPostLabel.text = ""
+//        gradeLabel.text = ""
+//        departmentLabel.text = ""
+//        numOfPostLabel.text = ""
         activityTitleLabel.text = ""
         meetPlaceLabel.text = ""
         detailLabel.text = ""
         
         activityTitleLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
         
-        //Handle the text field’s user input through delegate callbacks.
-        messageTextField.delegate = self
-        //Close keyboard by clicking anywhere else
-        self.hideKeyboardWhenTappedAround()
+//        //Handle the text field’s user input through delegate callbacks.
+//        messageTextField.delegate = self
+//        //Close keyboard by clicking anywhere else
+//        self.hideKeyboardWhenTappedAround()
         
         
         //Google Map
@@ -141,15 +148,15 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
                 self.receiverId = user.id
                 self.receiverUsername = user.username
                 
-                if (user.gender == Constants.Gender.female) {
-                    self.sendMessageLabel.text = "Send her a message:"
-                }
-                else if (user.gender == Constants.Gender.male) {
-                    self.sendMessageLabel.text = "Send him a message:"
-                }
-                else {
-                    self.sendMessageLabel.text = "Send a message:"
-                }
+//                if (user.gender == Constants.Gender.female) {
+//                    self.sendMessageLabel.text = "Send her a message:"
+//                }
+//                else if (user.gender == Constants.Gender.male) {
+//                    self.sendMessageLabel.text = "Send him a message:"
+//                }
+//                else {
+//                    self.sendMessageLabel.text = "Send a message:"
+//                }
                 
                 if (user.fullName != nil && user.fullName != Constants.blankSign) {
                     self.fullNameLabel.text = user.fullName
@@ -157,25 +164,25 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
                 else {
                     self.fullNameLabel.text = ""
                 }
-                if (user.grade != nil && user.grade != Constants.blankSign) {
-                    self.gradeLabel.text = user.grade
-                }
-                else {
-                    self.gradeLabel.text = ""
-                }
-                if (user.department != nil && user.department != Constants.blankSign) {
-                    self.departmentLabel.text = user.department
-                }
-                else {
-                    self.departmentLabel.text = ""
-                }
-                if (user.hobby != nil && user.hobby != Constants.blankSign) {
-                    self.hobbyLabel.text = user.hobby
-                }
-                else {
-                    self.hobbyLabel.text = ""
-                }
-                self.numOfPostLabel.text = String(user.numOfPosts!) + " posts"
+//                if (user.grade != nil && user.grade != Constants.blankSign) {
+//                    self.gradeLabel.text = user.grade
+//                }
+//                else {
+//                    self.gradeLabel.text = ""
+//                }
+//                if (user.department != nil && user.department != Constants.blankSign) {
+//                    self.departmentLabel.text = user.department
+//                }
+//                else {
+//                    self.departmentLabel.text = ""
+//                }
+//                if (user.hobby != nil && user.hobby != Constants.blankSign) {
+//                    self.hobbyLabel.text = user.hobby
+//                }
+//                else {
+//                    self.hobbyLabel.text = ""
+//                }
+//                self.numOfPostLabel.text = String(user.numOfPosts!) + " posts"
                 
                 if (user.profilePhoto != nil) {
                     self.profileImage.image = user.profilePhoto

@@ -65,6 +65,8 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
             let defaults = UserDefaults.standard
             username = defaults.string(forKey: Constants.NSUserDefaultsKey.username)
             password = defaults.string(forKey: Constants.NSUserDefaultsKey.password)
+            print(username as Any)
+            print(password as Any)
 //            username = "testyk@psu.edu"
 //            password = "a"
             phoneNumber = defaults.string(forKey: Constants.NSUserDefaultsKey.phoneNumber)
