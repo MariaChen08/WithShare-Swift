@@ -9,26 +9,29 @@
 import UIKit
 import GoogleMaps
 
-class CreateActivityViewController: UIViewController, UIPopoverPresentationControllerDelegate, UITextFieldDelegate{
+class CreateActivityViewController: UIViewController, UIPopoverPresentationControllerDelegate, UITextFieldDelegate, UITextViewDelegate{
     //MARK: Properties
-    @IBOutlet weak var activityTypeButton: UIButton!
-    @IBOutlet weak var mapView: GMSMapView!
-    @IBOutlet weak var addressLabel: UILabel!
-    @IBOutlet weak var editAddressTextField: UITextField!
-    @IBOutlet weak var pickPlaceButton: UIButton!
-    @IBOutlet weak var detailTextField: UITextField!
     
-    @IBOutlet weak var postButton: UIBarButtonItem!
+    @IBOutlet weak var welcomeLabel: UILabel!
+    @IBOutlet weak var activityTitleTextField: UITextField!
+    @IBOutlet weak var activityTypeButton: UIButton!
+    @IBOutlet weak var timePicker: UIDatePicker!
+    @IBOutlet weak var editAddressTextField: UITextField!
+
+    @IBOutlet weak var detailTextView: UITextView!
     
     @IBOutlet weak var cancelButton: UIBarButtonItem!
+    
+    @IBOutlet weak var postButton: UIButton!
+    
     
     var user: User?
     var username: String?
     var password: String?
     var phoneNumber: String?
     var userId: Int64?
-    
-    var activityTypeShow: String? = "More"
+   
+    var activityTitle: String?
     var meetingPlace: String? = "Please add meeting place"
     var detail: String?
     
@@ -46,59 +49,29 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         
     override func viewDidLoad() {
         if let post = post {
-            activityTypeShow = post.activityTitle!
-            detailTextField.text = post.detail!
+            activityTitle = post.activityTitle!
+            activityTitleTextField.text = activityTitle
+            detailTextView.text = post.detail!
             oldPost = post
         }
+        
+        // set up textview
+        welcomeLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
+        
+        let color = UIColor(red: 186/255, green: 186/255, blue: 186/255, alpha: 1.0).cgColor
+        detailTextView.layer.borderColor = color
+        detailTextView.layer.borderWidth = 0.5
+        detailTextView.layer.cornerRadius = 5
+        
 
-        activityTypeButton.setTitle(activityTypeShow, for: UIControlState())
-        addressLabel.numberOfLines = 0
+        detailTextView.delegate = self
         
-        //Hide edit address text field and show when address label tapped
+        //Set up text field
         editAddressTextField.delegate = self
-        editAddressTextField.tag = 0
-        editAddressTextField.isHidden = true
-        addressLabel.isUserInteractionEnabled = true
-        let aSelector : Selector = #selector(CreateActivityViewController.labelTapped)
-        let tapGesture = UITapGestureRecognizer(target: self, action: aSelector)
-        tapGesture.numberOfTapsRequired = 1
-        addressLabel.addGestureRecognizer(tapGesture)
-        
-        //Detail text field
-        detailTextField.delegate = self
-        detailTextField.tag = 1
+        editAddressTextField.tag = 1
         
         // Close keyboard by clicking anywhere else
         self.hideKeyboardWhenTappedAround()
-        
-        //Google Map
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        
-        //Google Place APIs
-        placesClient = GMSPlacesClient.shared()
-        
-        //Show current place
-        placesClient?.currentPlace(callback: { (placeLikelihoodList, error) -> Void in
-            if let error = error {
-                print("Pick Place error: \(error.localizedDescription)")
-                return
-            }
-            self.addressLabel.text = self.meetingPlace
-            
-            if let placeLikelihoodList = placeLikelihoodList {
-                let place = placeLikelihoodList.likelihoods.first?.place
-                if let place = place {
-//                    print("place name: " + place.name)
-                    self.meetingPlace = place.formattedAddress!.components(separatedBy: ", ")
-                        .joined(separator: ", ")
-                    self.addressLabel.text = self.meetingPlace
-                    UIView.animate(withDuration: 0.25, animations: {
-                        self.view.layoutIfNeeded()
-                    }) 
-                }
-            }
-        })
         
         // Retrieve cached user info
         let defaults = UserDefaults.standard
@@ -112,6 +85,34 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         user?.id = userId
     }
     
+    // MARK: UITextFieldDelegate
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        //Hide the keyboard
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        switch (textField.tag) {
+        case 0:
+            meetingPlace = textField.text
+            if meetingPlace != nil {
+                meetingPlace = meetingPlace!.trimmingCharacters(
+                    in: CharacterSet.whitespacesAndNewlines)
+            }
+        case 1:
+            detail = textField.text
+            if detail != nil {
+                detail = detail!.trimmingCharacters(
+                    in: CharacterSet.whitespacesAndNewlines)
+            }
+            
+        default:
+            print("error registration textview")
+        }
+    }
+
+    
     //MARK: Navigations
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //Popover Select Activity Type Menu
@@ -123,22 +124,21 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         
         //Post new activity
         if postButton === sender as? AnyObject{
-            guard (activityTypeShow != nil &&  activityTypeShow != "Please choose") else {
-//                activityTypeShow = "Not specified"
-                let alert = UIAlertController(title: "No activity type", message:
-                    "Please choose the activity type", preferredStyle: UIAlertControllerStyle.alert)
+            guard (activityTitle != nil) else {
+                let alert = UIAlertController(title: "No activity title", message:
+                    "Please add a title to your activity", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
                 return
             }
-            guard (meetingPlace != nil && meetingPlace != "Please add meeting place") else {
+            guard (meetingPlace != nil) else {
                 let alert = UIAlertController(title: "No meeting place", message:
                     "Please specify the meeting place", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
                 return
             }
-            detail = detailTextField.text
+            detail = detailTextView.text
             if detail == nil {
                 detail = ""
             }
@@ -156,16 +156,16 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             }
             post?.deviceType = Constants.deviceType
             post?.deviceToken = Constants.deviceToken
-            post?.activityTitle = activityTypeShow
+            post?.activityTitle = activityTitle
             post?.meetPlace = meetingPlace
             post?.detail = detail
             post?.status = Constants.PostStatus.active
             post?.username = user?.username
             
             if oldPost != nil {
-                self.editActivity()
+//                self.editActivity()
             }
-            self.createActivity()
+//            self.createActivity()
             
             // dismiss view controller
             self.navigationController?.popViewController(animated: true);
@@ -196,7 +196,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
                 usageLog?.postId = 5
             }
             
-            self.createUsageLog()
+//            self.createUsageLog()
             
             self.navigationController?.popViewController(animated: true);
         }
@@ -209,76 +209,11 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     //MARK: unwind methods
     @IBAction func selectActivityType(_ segue:UIStoryboardSegue) {
         if let sourceViewController = segue.source as? SelectActivityTypeMenu{
-            activityTypeShow = sourceViewController.activityType
+            activityTitle = sourceViewController.activityType
             print(sourceViewController.activityType as Any)
-            activityTypeButton.setTitle(activityTypeShow, for: UIControlState())        }
+            activityTitleTextField.text = activityTitle
     }
     
-    //MARK: label and textfields
-    func labelTapped(){
-        addressLabel.isHidden = true
-        editAddressTextField.isHidden = false
-        editAddressTextField.text = addressLabel.text
-    }
-    
-    func textFieldShouldReturn(_ userText: UITextField) -> Bool {
-        userText.resignFirstResponder()
-        editAddressTextField.isHidden = true
-        addressLabel.isHidden = false
-        addressLabel.text = editAddressTextField.text
-        return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        switch (textField.tag) {
-        case 0:
-            meetingPlace = textField.text
-            if meetingPlace != nil {
-                meetingPlace = meetingPlace!.trimmingCharacters(
-                    in: CharacterSet.whitespacesAndNewlines)
-            }
-        case 1:
-            detail = textField.text
-            if detail != nil {
-                detail = detail!.trimmingCharacters(
-                    in: CharacterSet.whitespacesAndNewlines)
-            }
-
-        default:
-            print("error registration textview")
-        }
-    }
-
-    
-    //MARK: Pick nearby places
-    @IBAction func pickPlace(_ sender: AnyObject) {
-        if currentCoordinates != nil {
-            print("current coordinates detected")
-            center = CLLocationCoordinate2DMake(currentCoordinates!.latitude, currentCoordinates!.longitude)
-        }
-        let northEast = CLLocationCoordinate2DMake(center.latitude + 0.001, center.longitude + 0.001)
-        let southWest = CLLocationCoordinate2DMake(center.latitude - 0.001, center.longitude - 0.001)
-        let viewport = GMSCoordinateBounds(coordinate: northEast, coordinate: southWest)
-        let config = GMSPlacePickerConfig(viewport: viewport)
-        placePicker = GMSPlacePicker(config: config)
-        
-        placePicker?.pickPlace(callback: { (place: GMSPlace?, error: NSError?) -> Void in
-            if let error = error {
-                print("Pick Place error: \(error.localizedDescription)")
-                return
-            }
-            
-            if let place = place {
-                print("Place name \(place.name)")
-                print("Place address \(String(describing: place.formattedAddress))")
-                print("Place attributions \(String(describing: place.attributions))")
-                self.meetingPlace = place.name
-                self.addressLabel.text = place.name
-            } else {
-                print("No place selected")
-            }
-        } as! GMSPlaceResultCallback)
-    }
     
     //MARK: upload to server
     func createActivity() {
@@ -339,32 +274,5 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         })
         
     }
-
 }
-
-// MARK: - CLLocationManagerDelegate
-extension CreateActivityViewController: CLLocationManagerDelegate {
-    // called when the user grants or revokes location permissions
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        // verify the user has granted you permission while the app is in use
-        if status == .authorizedWhenInUse {
-            
-            locationManager.startUpdatingLocation()
-            
-            mapView.isMyLocationEnabled = true
-            mapView.settings.myLocationButton = true
-        }
-    }
-    
-    // executes when the location manager receives new location data.
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            
-            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
-            print("coordinate: \(location.coordinate)")
-            currentCoordinates = location.coordinate
-            locationManager.stopUpdatingLocation()
-        }
-        
-    }
 }
