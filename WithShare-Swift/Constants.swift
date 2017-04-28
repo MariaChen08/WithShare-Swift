@@ -15,6 +15,8 @@ struct Constants {
     
     static let shortDescriptionPlaceholder = "One sentence to describe yourself!"
     
+    static let activityDetailPlaceholder = "Add more details to your activity: e.g. what courses you want to study, if you are flexible with the time, etc."
+    
     static var deviceToken = ""
     
     static let termOfService = "WithShare is a Penn State research project investigating supporting co-production services and experience through mobile and ubiquitous technologies. By installing and using the application, you agree to share your experiences and uses of the app. Your participation is voluntary and confidential; your data will be stored securely, and destroyed at the end of the research project. There is no compensation other than free access to the app."

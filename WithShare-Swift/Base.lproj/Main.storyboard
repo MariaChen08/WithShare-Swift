@@ -1635,7 +1635,7 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Add more details about the activity: what course to study, what sports to play, etc." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oHn-Kx-eOQ" userLabel="Detail Text View">
                                 <rect key="frame" x="10" y="336" width="355" height="217"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -1699,7 +1699,7 @@
                         <outlet property="activityTitleTextField" destination="Rsq-os-1m8" id="5ov-l7-vr0"/>
                         <outlet property="activityTypeButton" destination="7qW-ES-h1R" id="6fO-QO-ndW"/>
                         <outlet property="cancelButton" destination="qvT-XW-oCc" id="YA2-oN-QLp"/>
-                        <outlet property="datePicker" destination="Xe4-5A-jws" id="00t-Pi-Al8"/>
+                        <outlet property="datePicker" destination="Xe4-5A-jws" id="vbR-0F-8dz"/>
                         <outlet property="detailTextView" destination="oHn-Kx-eOQ" id="Bxc-fc-uwh"/>
                         <outlet property="editAddressTextField" destination="tLz-5j-3fn" id="YEe-Nv-JVU"/>
                         <outlet property="postButton" destination="lbf-kJ-NOz" id="7LP-Bu-AE1"/>

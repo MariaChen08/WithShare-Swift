@@ -62,7 +62,6 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         self.datePicker.dataSource = self
         self.datePicker.delegate = self
         
-        
         // set up textview
         welcomeLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
         
@@ -70,7 +69,10 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         detailTextView.layer.borderColor = color
         detailTextView.layer.borderWidth = 0.5
         detailTextView.layer.cornerRadius = 5
+        detailTextView.text = Constants.activityDetailPlaceholder
+        detailTextView.textColor = UIColor.lightGray
         detailTextView.delegate = self
+        
         //Set up text field
         editAddressTextField.delegate = self
         editAddressTextField.tag = 1
@@ -97,24 +99,55 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         return true
     }
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        animateViewMoving(true, moveValue: 100)
+    }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-        switch (textField.tag) {
-        case 0:
-            meetingPlace = textField.text
+        meetingPlace = textField.text
             if meetingPlace != nil {
                 meetingPlace = meetingPlace!.trimmingCharacters(
                     in: CharacterSet.whitespacesAndNewlines)
             }
-        case 1:
-            detail = textField.text
-            if detail != nil {
-                detail = detail!.trimmingCharacters(
-                    in: CharacterSet.whitespacesAndNewlines)
-            }
-            
-        default:
-            print("error registration textview")
+        animateViewMoving(false, moveValue: 100)
+    }
+    
+    func animateViewMoving (_ up:Bool, moveValue :CGFloat){
+        let movementDuration:TimeInterval = 0.3
+        let movement:CGFloat = ( up ? -moveValue : moveValue)
+        UIView.beginAnimations( "animateView", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(movementDuration )
+        self.view.frame = self.view.frame.offsetBy(dx: 0,  dy: movement)
+        UIView.commitAnimations()
+    }
+    
+    // MARK: UITextViewDelegate
+    func textViewShouldReturn(_ textView: UITextView) -> Bool {
+        //Hide the keyboard
+        textView.resignFirstResponder()
+        return true
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.textColor = UIColor.black
+        if (textView.text == Constants.activityDetailPlaceholder) {
+            textView.text = ""
         }
+        
+        animateViewMoving(true, moveValue: 200)
+        
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = Constants.activityDetailPlaceholder
+            textView.textColor = UIColor.lightGray
+        }
+        else {
+            detail = textView.text
+        }
+        animateViewMoving(false, moveValue: 200)
     }
     
     // MARK: UIPickerview delegate
