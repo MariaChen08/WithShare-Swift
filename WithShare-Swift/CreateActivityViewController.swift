@@ -9,13 +9,14 @@
 import UIKit
 import GoogleMaps
 
-class CreateActivityViewController: UIViewController, UIPopoverPresentationControllerDelegate, UITextFieldDelegate, UITextViewDelegate{
+class CreateActivityViewController: UIViewController, UIPopoverPresentationControllerDelegate, UITextFieldDelegate, UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource{
     //MARK: Properties
     
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var activityTitleTextField: UITextField!
     @IBOutlet weak var activityTypeButton: UIButton!
     @IBOutlet weak var timePicker: UIDatePicker!
+    @IBOutlet weak var datePicker: UIPickerView!
     @IBOutlet weak var editAddressTextField: UITextField!
 
     @IBOutlet weak var detailTextView: UITextView!
@@ -34,6 +35,8 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     var activityTitle: String?
     var meetingPlace: String? = "Please add meeting place"
     var detail: String?
+    
+    var pickerDataSource = ["Today", "Tomorrow"];
     
     let locationManager = CLLocationManager()
     var placesClient: GMSPlacesClient?
@@ -55,6 +58,11 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             oldPost = post
         }
         
+        // set up date-time picker
+        self.datePicker.dataSource = self
+        self.datePicker.delegate = self
+        
+        
         // set up textview
         welcomeLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
         
@@ -62,10 +70,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         detailTextView.layer.borderColor = color
         detailTextView.layer.borderWidth = 0.5
         detailTextView.layer.cornerRadius = 5
-        
-
         detailTextView.delegate = self
-        
         //Set up text field
         editAddressTextField.delegate = self
         editAddressTextField.tag = 1
@@ -111,6 +116,21 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             print("error registration textview")
         }
     }
+    
+    // MARK: UIPickerview delegate
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerDataSource.count;
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerDataSource[row]
+    }
+
 
     
     //MARK: Navigations

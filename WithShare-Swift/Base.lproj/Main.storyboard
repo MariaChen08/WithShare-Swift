@@ -1288,7 +1288,7 @@
             <objects>
                 <navigationController storyboardIdentifier="OnboardingNavigation" automaticallyAdjustsScrollViewInsets="NO" id="48Z-gv-Xur" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="b5F-7f-sgD">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="b5F-7f-sgD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1610,6 +1610,22 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="AZS-yX-bp8">
+                                <rect key="frame" x="180" y="186" width="195" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="UXQ-M2-rzx"/>
+                                </constraints>
+                                <date key="date" timeIntervalSinceReferenceDate="515037938.08373803">
+                                    <!--2017-04-28 02:05:38 +0000-->
+                                </date>
+                            </datePicker>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xe4-5A-jws" userLabel="Date Picker View">
+                                <rect key="frame" x="0.0" y="186" width="180" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="180" id="Z4c-Ae-ucv"/>
+                                    <constraint firstAttribute="height" constant="100" id="rFM-eN-U98"/>
+                                </constraints>
+                            </pickerView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Propose a meeting place " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tLz-5j-3fn">
                                 <rect key="frame" x="10" y="296" width="355" height="30"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1630,15 +1646,6 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="AZS-yX-bp8">
-                                <rect key="frame" x="0.0" y="186" width="375" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="UXQ-M2-rzx"/>
-                                </constraints>
-                                <date key="date" timeIntervalSinceReferenceDate="515037938.08373803">
-                                    <!--2017-04-28 02:05:38 +0000-->
-                                </date>
-                            </datePicker>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -1654,20 +1661,23 @@
                             <constraint firstAttribute="trailing" secondItem="Rsq-os-1m8" secondAttribute="trailing" constant="10" id="LCB-t9-zfg"/>
                             <constraint firstItem="YiP-HQ-itl" firstAttribute="top" secondItem="lbf-kJ-NOz" secondAttribute="bottom" constant="20" id="Ld8-xU-phe"/>
                             <constraint firstItem="g3L-ww-71b" firstAttribute="top" secondItem="dpE-Ha-f2f" secondAttribute="bottom" constant="25" id="Ozx-Vq-tui"/>
+                            <constraint firstItem="Xe4-5A-jws" firstAttribute="top" secondItem="WHI-2r-dog" secondAttribute="bottom" id="QT3-Kc-cnG"/>
                             <constraint firstAttribute="trailing" secondItem="lbf-kJ-NOz" secondAttribute="trailing" constant="10" id="Ruz-ME-fS2"/>
                             <constraint firstItem="g3L-ww-71b" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leading" constant="10" id="SZE-F9-2oi"/>
                             <constraint firstItem="lbf-kJ-NOz" firstAttribute="top" secondItem="oHn-Kx-eOQ" secondAttribute="bottom" constant="15" id="VCo-PA-e09"/>
                             <constraint firstItem="Rsq-os-1m8" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leading" constant="10" id="YQI-5h-qxV"/>
                             <constraint firstItem="WHI-2r-dog" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leading" constant="10" id="aAq-zE-kGx"/>
                             <constraint firstItem="WHI-2r-dog" firstAttribute="top" secondItem="7qW-ES-h1R" secondAttribute="bottom" constant="10" id="bcb-hM-dqd"/>
+                            <constraint firstItem="AZS-yX-bp8" firstAttribute="leading" secondItem="Xe4-5A-jws" secondAttribute="trailing" id="f3P-ln-QmY"/>
                             <constraint firstItem="tLz-5j-3fn" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leading" constant="10" id="ime-Cg-kRd"/>
                             <constraint firstItem="WHI-2r-dog" firstAttribute="top" secondItem="Rsq-os-1m8" secondAttribute="bottom" constant="10" id="jEW-rH-ypL"/>
                             <constraint firstItem="oHn-Kx-eOQ" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leading" constant="10" id="lPl-eG-qjE"/>
+                            <constraint firstItem="tLz-5j-3fn" firstAttribute="top" secondItem="Xe4-5A-jws" secondAttribute="bottom" constant="10" id="lvX-Ok-0of"/>
+                            <constraint firstItem="Xe4-5A-jws" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leading" id="mtu-It-3ZL"/>
                             <constraint firstItem="oHn-Kx-eOQ" firstAttribute="top" secondItem="tLz-5j-3fn" secondAttribute="bottom" constant="10" id="nAH-bD-oQE"/>
                             <constraint firstAttribute="trailing" secondItem="oHn-Kx-eOQ" secondAttribute="trailing" constant="10" id="nrK-bJ-jtW"/>
                             <constraint firstItem="lbf-kJ-NOz" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leading" constant="10" id="oEv-Fa-yUa"/>
                             <constraint firstItem="Rsq-os-1m8" firstAttribute="top" secondItem="g3L-ww-71b" secondAttribute="bottom" constant="15" id="oMc-Qa-0NS"/>
-                            <constraint firstItem="AZS-yX-bp8" firstAttribute="leading" secondItem="vv0-xh-aa6" secondAttribute="leading" id="qXy-Gj-Z05"/>
                             <constraint firstAttribute="trailing" secondItem="oHn-Kx-eOQ" secondAttribute="trailing" constant="10" id="r2G-bG-BPQ"/>
                             <constraint firstItem="lbf-kJ-NOz" firstAttribute="top" secondItem="oHn-Kx-eOQ" secondAttribute="bottom" constant="15" id="srQ-ha-Cuc"/>
                             <constraint firstItem="YiP-HQ-itl" firstAttribute="top" secondItem="lbf-kJ-NOz" secondAttribute="bottom" constant="20" id="vh5-ep-Ofq"/>
@@ -1689,6 +1699,7 @@
                         <outlet property="activityTitleTextField" destination="Rsq-os-1m8" id="5ov-l7-vr0"/>
                         <outlet property="activityTypeButton" destination="7qW-ES-h1R" id="6fO-QO-ndW"/>
                         <outlet property="cancelButton" destination="qvT-XW-oCc" id="YA2-oN-QLp"/>
+                        <outlet property="datePicker" destination="Xe4-5A-jws" id="00t-Pi-Al8"/>
                         <outlet property="detailTextView" destination="oHn-Kx-eOQ" id="Bxc-fc-uwh"/>
                         <outlet property="editAddressTextField" destination="tLz-5j-3fn" id="YEe-Nv-JVU"/>
                         <outlet property="postButton" destination="lbf-kJ-NOz" id="7LP-Bu-AE1"/>
@@ -1742,7 +1753,7 @@
                 <navigationController storyboardIdentifier="AllActivitiesNavigation" automaticallyAdjustsScrollViewInsets="NO" id="PcG-Tj-5pV" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="New Posts" image="TabBarAllPosts" id="pk8-Yd-5Z0"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="EzN-ih-DhK">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="EzN-ih-DhK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2012,7 +2023,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UKZ-60-Erh" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="My Posts" image="TabBarMyPosts" id="qAi-OY-jgo"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0Bi-Nr-BuW">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="0Bi-Nr-BuW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2031,7 +2042,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="biK-Qh-JTg" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="My Joins" image="TabBarMyJoins" id="Zaa-Q6-zn1"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HFH-5C-typ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="HFH-5C-typ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
