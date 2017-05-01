@@ -11,29 +11,13 @@ import GoogleMaps
 
 class DetailViewController: UIViewController, UITextFieldDelegate {
     //MARK: Properties
-//    @IBOutlet weak var activityTitleLabel: UILabel!
     @IBOutlet weak var activityTitleLabel: UILabel!
-//    @IBOutlet weak var meetPlaceLabel: UILabel!
     @IBOutlet weak var meetPlaceLabel: UITextView!
-    
-//    @IBOutlet weak var detailLabel: UILabel!
-//    @IBOutlet weak var detailLabel: UILabel!
     @IBOutlet weak var detailLabel: UITextView!
     
-    
-    
-    @IBOutlet weak var fullNameLabel: UILabel!
-//    @IBOutlet weak var gradeLabel: UILabel!
-//    @IBOutlet weak var departmentLabel: UILabel!
-//    @IBOutlet weak var hobbyLabel: UILabel!
-//    @IBOutlet weak var numOfPostLabel: UILabel!
+    @IBOutlet weak var fullNameButton: UIButton!
     @IBOutlet weak var profileImage: UIImageView!
-    
     @IBOutlet weak var joinButton: UIButton!
-    
-//    @IBOutlet weak var sendMessageLabel: UILabel!
-//    @IBOutlet weak var joinButton: UIBarButtonItem!
-//    @IBOutlet weak var messageTextField: UITextField!
     
     var post: Post?
     var user: User?
@@ -63,21 +47,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         // Initial blank page
-        fullNameLabel.text = ""
-//        gradeLabel.text = ""
-//        departmentLabel.text = ""
-//        numOfPostLabel.text = ""
+        fullNameButton.setTitle(">", for: UIControlState.normal)
         activityTitleLabel.text = ""
         meetPlaceLabel.text = ""
         detailLabel.text = ""
         
-        activityTitleLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
-        
-//        //Handle the text field’s user input through delegate callbacks.
-//        messageTextField.delegate = self
-//        //Close keyboard by clicking anywhere else
-//        self.hideKeyboardWhenTappedAround()
-        
+        activityTitleLabel.font = UIFont.boldSystemFont(ofSize: 20.0)
         
         //Google Map
         locationManager.delegate = self
@@ -88,12 +63,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         
         if let post = post {
             activityTitleLabel.text = post.activityTitle!
-            meetPlaceLabel.text = "meet@ " + post.meetPlace!
+            meetPlaceLabel.text = post.meetPlace!
             if (post.detail?.isEmpty == false) {
                 detailLabel.text = "detail: " + post.detail!
             }
             else {
-                detailLabel.text = post.detail!
+                detailLabel.text = "No other info specified about the activity. Join and chat with the initiator about more details."
             }
             
             // Retrieve cached user info
@@ -114,27 +89,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             usageLog?.postId = post.id
             usageLog?.code = "indexPath: " + String(describing: indexPostion)
             usageLog?.description = "view activity detail"
-            
-//            if (currentCoordinates != nil) {
-//                usageLog?.currentLatitude = currentCoordinates!.latitude
-//                usageLog?.currentLatitude = (usageLog?.currentLatitude)?.roundFiveDigits()
-//                usageLog?.currentLongtitude = currentCoordinates!.longitude
-//                usageLog?.currentLongtitude = (usageLog?.currentLongtitude)?.roundFiveDigits()
-//            }
-//            else {
-//                usageLog?.currentLatitude = 0
-//                usageLog?.currentLongtitude = 0
-//            }
             usageLog?.currentLatitude = 0
             usageLog?.currentLongtitude = 0
             usageLog?.postId = post.id
             self.createUsageLog()
 
         }
-        
-       
-        
-        
     }
 
     //MARK: load detail data
@@ -148,41 +108,9 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
                 self.receiverId = user.id
                 self.receiverUsername = user.username
                 
-//                if (user.gender == Constants.Gender.female) {
-//                    self.sendMessageLabel.text = "Send her a message:"
-//                }
-//                else if (user.gender == Constants.Gender.male) {
-//                    self.sendMessageLabel.text = "Send him a message:"
-//                }
-//                else {
-//                    self.sendMessageLabel.text = "Send a message:"
-//                }
-                
                 if (user.fullName != nil && user.fullName != Constants.blankSign) {
-                    self.fullNameLabel.text = user.fullName
+                    self.fullNameButton.setTitle(user.fullName! + " >", for: UIControlState.normal)
                 }
-                else {
-                    self.fullNameLabel.text = ""
-                }
-//                if (user.grade != nil && user.grade != Constants.blankSign) {
-//                    self.gradeLabel.text = user.grade
-//                }
-//                else {
-//                    self.gradeLabel.text = ""
-//                }
-//                if (user.department != nil && user.department != Constants.blankSign) {
-//                    self.departmentLabel.text = user.department
-//                }
-//                else {
-//                    self.departmentLabel.text = ""
-//                }
-//                if (user.hobby != nil && user.hobby != Constants.blankSign) {
-//                    self.hobbyLabel.text = user.hobby
-//                }
-//                else {
-//                    self.hobbyLabel.text = ""
-//                }
-//                self.numOfPostLabel.text = String(user.numOfPosts!) + " posts"
                 
                 if (user.profilePhoto != nil) {
                     self.profileImage.image = user.profilePhoto

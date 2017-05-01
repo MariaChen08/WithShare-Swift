@@ -35,8 +35,12 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     var activityTitle: String?
     var meetingPlace: String?
     var detail: String?
+    var meetingDay: String?
     
-    var pickerDataSource = ["Today", "Tomorrow"];
+    var pickerDataSource = ["Today", "Tomorrow"]
+    var pickerTime: String?
+    
+    var meetingAttribute: String?
     
     let locationManager = CLLocationManager()
     var placesClient: GMSPlacesClient?
@@ -177,6 +181,10 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         return pickerDataSource[row]
     }
     
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        meetingDay = pickerDataSource[row]
+    }
+    
     //MARK: upload to server
     func createActivity() {
         // Upload to server
@@ -263,7 +271,12 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
                 self.present(alert, animated: true, completion: nil)
                 return
             }
-//            detail = detailTextView.text
+            let timeFormatter = DateFormatter()
+            timeFormatter.dateFormat = "HH:mm"
+            pickerTime = timeFormatter.string(from: timePicker.date)
+//            print("pickerTime:")
+//            print(pickerTime)
+            meetingAttribute = meetingDay! + ": " + pickerTime! + ", " + meetingPlace!
             if detail == nil {
                 detail = ""
             }
@@ -282,7 +295,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             post?.deviceType = Constants.deviceType
             post?.deviceToken = Constants.deviceToken
             post?.activityTitle = activityTitle
-            post?.meetPlace = meetingPlace
+            post?.meetPlace = meetingAttribute
             post?.detail = detail
             post?.status = Constants.PostStatus.active
             post?.username = user?.username
