@@ -33,7 +33,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     var userId: Int64?
    
     var activityTitle: String?
-    var meetingPlace: String? = "Please add meeting place"
+    var meetingPlace: String?
     var detail: String?
     
     var pickerDataSource = ["Today", "Tomorrow"];
@@ -74,6 +74,8 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         detailTextView.delegate = self
         
         //Set up text field
+        activityTitleTextField.delegate = self
+        activityTitleTextField.tag = 0
         editAddressTextField.delegate = self
         editAddressTextField.tag = 1
         
@@ -104,11 +106,22 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        meetingPlace = textField.text
+        switch (textField.tag) {
+        case 0:
+            activityTitle = textField.text
+            if activityTitle != nil {
+                activityTitle = activityTitle!.trimmingCharacters(
+                    in: CharacterSet.whitespacesAndNewlines)
+            }
+        case 1:
+            meetingPlace = textField.text
             if meetingPlace != nil {
                 meetingPlace = meetingPlace!.trimmingCharacters(
                     in: CharacterSet.whitespacesAndNewlines)
             }
+        default:
+            print("error create activity text field")
+        }
         animateViewMoving(false, moveValue: 100)
     }
     
@@ -163,7 +176,66 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerDataSource[row]
     }
-
+    
+    //MARK: upload to server
+    func createActivity() {
+        // Upload to server
+        ApiManager.sharedInstance.createActivity(self.user!, post: self.post!, onSuccess: {(user) in
+            OperationQueue.main.addOperation {
+                print("create new activity success!")
+                print("postid: ")
+                print(self.post?.id as Any)
+            }
+        }, onError: {(error) in
+            OperationQueue.main.addOperation {
+                print("create new activity error!")
+                let alert = UIAlertController(title: "Unable to create new activity!", message:
+                    "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                
+                self.present(alert, animated: true, completion: nil)
+            }
+        })
+        
+    }
+    
+    func editActivity() {
+        self.oldPost?.status = Constants.PostStatus.modified
+        // Upload to server
+        ApiManager.sharedInstance.editActivity(self.user!, post: self.oldPost!, onSuccess: {(user) in
+            OperationQueue.main.addOperation {
+                print("edit activity success!")
+                print("postid: ")
+                print(self.oldPost?.id as Any)
+            }
+        }, onError: {(error) in
+            OperationQueue.main.addOperation {
+                print("create new activity error!")
+                let alert = UIAlertController(title: "Unable to edit activity!", message:
+                    "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                
+                self.present(alert, animated: true, completion: nil)
+            }
+        })
+        
+    }
+    
+    func createUsageLog() {
+        // Upload to server
+        ApiManager.sharedInstance.usageLog(self.user!, usageLog: self.usageLog!, onSuccess: {(user) in
+            OperationQueue.main.addOperation {
+                print("create new usage log success!")
+                print("usageLogid: ")
+                print(self.usageLog?.id as Any)
+            }
+        }, onError: {(error) in
+            OperationQueue.main.addOperation {
+                print("cannot create usage log error!")
+            }
+        })
+        
+    }
 
     
     //MARK: Navigations
@@ -176,22 +248,22 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
         }
         
         //Post new activity
-        if postButton === sender as? AnyObject{
-            guard (activityTitle != nil) else {
+        if postButton == (sender as? UIButton) {
+            guard (activityTitle != nil && !(activityTitle?.isEmpty)!) else {
                 let alert = UIAlertController(title: "No activity title", message:
                     "Please add a title to your activity", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
                 return
             }
-            guard (meetingPlace != nil) else {
+            guard (meetingPlace != nil && !(meetingPlace?.isEmpty)!) else {
                 let alert = UIAlertController(title: "No meeting place", message:
-                    "Please specify the meeting place", preferredStyle: UIAlertControllerStyle.alert)
+                    "Please a place to meet for your activity", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
                 return
             }
-            detail = detailTextView.text
+//            detail = detailTextView.text
             if detail == nil {
                 detail = ""
             }
@@ -216,16 +288,16 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             post?.username = user?.username
             
             if oldPost != nil {
-//                self.editActivity()
+                self.editActivity()
             }
-//            self.createActivity()
+            self.createActivity()
             
             // dismiss view controller
             self.navigationController?.popViewController(animated: true);
         }
         
         //Cancel post new activity
-        if cancelButton === sender as? AnyObject{
+        if cancelButton == (sender as? UIBarButtonItem){
             // dismiss view controllers
             usageLog = UsageLog()
             usageLog?.userId = self.user?.id
@@ -248,9 +320,7 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             else {
                 usageLog?.postId = 5
             }
-            
-//            self.createUsageLog()
-            
+            self.createUsageLog()
             self.navigationController?.popViewController(animated: true);
         }
     }
@@ -265,67 +335,6 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             activityTitle = sourceViewController.activityType
             print(sourceViewController.activityType as Any)
             activityTitleTextField.text = activityTitle
+        }
     }
-    
-    
-    //MARK: upload to server
-    func createActivity() {
-        // Upload to server
-        ApiManager.sharedInstance.createActivity(self.user!, post: self.post!, onSuccess: {(user) in
-            OperationQueue.main.addOperation {
-                print("create new activity success!")
-                print("postid: ")
-                print(self.post?.id as Any)
-            }
-            }, onError: {(error) in
-                OperationQueue.main.addOperation {
-                    print("create new activity error!")
-                    let alert = UIAlertController(title: "Unable to create new activity!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-                    
-                    self.present(alert, animated: true, completion: nil)
-                }
-        })
-      
-    }
-    
-    func editActivity() {
-        self.oldPost?.status = Constants.PostStatus.modified
-        // Upload to server
-        ApiManager.sharedInstance.editActivity(self.user!, post: self.oldPost!, onSuccess: {(user) in
-            OperationQueue.main.addOperation {
-                print("edit activity success!")
-                print("postid: ")
-                print(self.oldPost?.id as Any)
-            }
-            }, onError: {(error) in
-                OperationQueue.main.addOperation {
-                    print("create new activity error!")
-                    let alert = UIAlertController(title: "Unable to edit activity!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-                    
-                    self.present(alert, animated: true, completion: nil)
-                }
-        })
-        
-    }
-    
-    func createUsageLog() {
-        // Upload to server
-        ApiManager.sharedInstance.usageLog(self.user!, usageLog: self.usageLog!, onSuccess: {(user) in
-            OperationQueue.main.addOperation {
-                print("create new usage log success!")
-                print("usageLogid: ")
-                print(self.usageLog?.id as Any)
-            }
-            }, onError: {(error) in
-                OperationQueue.main.addOperation {
-                    print("cannot create usage log error!")
-                }
-        })
-        
-    }
-}
 }

@@ -103,9 +103,9 @@ class NewActivitiesTableViewController: UITableViewController, UIPopoverPresenta
                 createActivityViewController.activityTitle = activityTypeTitle
                 print("activity Type before segue: " + activityTypeTitle)
             }
-            else {
-                createActivityViewController.activityTitle = "Please choose"
-            }
+//            else {
+//                createActivityViewController.activityTitle = "Please choose"
+//            }
             
         }
         else if segue.identifier == "showActivityDetailSegue" {
