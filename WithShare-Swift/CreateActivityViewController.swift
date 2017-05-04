@@ -35,9 +35,9 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
     var activityTitle: String?
     var meetingPlace: String?
     var detail: String?
-    var meetingDay: String?
     
     var pickerDataSource = ["Today", "Tomorrow"]
+    var meetingDay: String = "Today"
     var pickerTime: String?
     
     var meetingAttribute: String?
@@ -276,7 +276,9 @@ class CreateActivityViewController: UIViewController, UIPopoverPresentationContr
             pickerTime = timeFormatter.string(from: timePicker.date)
 //            print("pickerTime:")
 //            print(pickerTime)
-            meetingAttribute = meetingDay! + ": " + pickerTime! + ", " + meetingPlace!
+//            print("pickerDay:")
+//            print(meetingDay)
+            meetingAttribute = meetingDay + ": " + pickerTime! + ", " + meetingPlace!
             if detail == nil {
                 detail = ""
             }

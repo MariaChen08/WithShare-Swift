@@ -1452,6 +1452,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <segue destination="Ia2-Iw-bhv" kind="unwind" unwindAction="joinActivityUnwindToList:" id="HD2-Op-cbd"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1500,7 +1503,7 @@
                     <navigationItem key="navigationItem" title="Activity Detail" id="9zN-GT-zxz">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="s2v-Gs-q3x">
                             <connections>
-                                <segue destination="Ia2-Iw-bhv" kind="unwind" unwindAction="joinActivityUnwindToList:" id="9mO-gk-hM8"/>
+                                <segue destination="Ia2-Iw-bhv" kind="unwind" unwindAction="joinActivityUnwindToList:" id="k0g-5o-Rbl"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

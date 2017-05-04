@@ -150,8 +150,11 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
     
     // MARK: Actions
     @IBAction func createAccount(_ sender: AnyObject) {
-        
-        if (username == nil || !ValidateUserInput(input: username!).isValidEmail() || !ValidateUserInput(input: username!).isEduSuffix()) {
+        if (Constants.deviceToken.isEmpty) {
+            alertMessage = "Fail to acquire device token. Please reinstall app and allow to accept notifications."
+            print(alertMessage as Any)
+        }
+        else if (username == nil || !ValidateUserInput(input: username!).isValidEmail() || !ValidateUserInput(input: username!).isEduSuffix()) {
             alertMessage = "Please enter your PSU email."
             print(alertMessage as Any)
         }
@@ -172,8 +175,8 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate{
             user = User(username: username!, password: password!)
 
             // MARK: TO DO device Token issue
-//            user?.deviceToken = Constants.deviceToken
-            user?.deviceToken = UIDevice.current.identifierForVendor!.uuidString
+            user?.deviceToken = Constants.deviceToken
+//            user?.deviceToken = UIDevice.current.identifierForVendor!.uuidString
             user?.deviceType = Constants.deviceType
             user?.shareProfile = true
             user?.numOfPosts = 0
