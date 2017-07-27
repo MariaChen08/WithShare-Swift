@@ -46,6 +46,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     var usageLog: UsageLog?
     
     override func viewDidLoad() {
+        
         // Initial blank page
         fullNameButton.setTitle(">", for: UIControlState.normal)
         activityTitleLabel.text = ""
@@ -131,50 +132,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         //Join activity
-        if joinButton === sender as? AnyObject{
-            if messageContent != nil {
-                message = Message()
-                if (currentCoordinates != nil) {
-                    message?.currentLatitude = currentCoordinates!.latitude
-                    message?.currentLatitude = (message?.currentLatitude)?.roundFiveDigits()
-                    message?.currentLongtitude = currentCoordinates!.longitude
-                    message?.currentLongtitude = (message?.currentLongtitude)?.roundFiveDigits()
-                }
-                else {
-                    message?.currentLatitude = 0
-                    message?.currentLongtitude = 0
-                }
-                message?.senderId = currentUserId
-                message?.senderUsername = senderUsername
-                message?.receiverId = receiverId
-                message?.receiverUsername = receiverUsername
-                
-                message?.postId = post?.id
-                message?.content = messageContent
-                
-                // Upload to server
-                ApiManager.sharedInstance.createMessage(user!, message: message!, onSuccess: {(user) in
-                    OperationQueue.main.addOperation {
-                        print("create new message success!")
-                        let alert = UIAlertController(title: "Unable to send!", message:
-                            "Message sent successfully.", preferredStyle: UIAlertControllerStyle.alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
-                        
-                        self.present(alert, animated: true, completion: nil)
-                    }
-                    }, onError: {(error) in
-                        OperationQueue.main.addOperation {
-                            print("create new message error!")
-                            let alert = UIAlertController(title: "Unable to send!", message:
-                                "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
-                            alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-  
-                            self.present(alert, animated: true, completion: nil)
-                        }
-                })
-
-            }
-
+        if segue.identifier == "JoinMessage" {
+//        if joinButton === sender as? AnyObject{
             join = Join()
             if (currentCoordinates != nil) {
                 join?.currentLatitude = currentCoordinates!.latitude
@@ -190,6 +149,11 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             join?.postId = post?.id
             join?.status = Constants.JoinStatus.confirm
             
+            let messageViewController = segue.destination as! MessageViewController
+            messageViewController.firstJoin = true
+            messageViewController.currentUserId = currentUserId
+            messageViewController.postId = post?.id
+            messageViewController.username = username
             // Upload to server
             self.createJoin()
         }
@@ -224,89 +188,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         self.view.frame = self.view.frame.offsetBy(dx: 0,  dy: movement)
         UIView.commitAnimations()
     }
-
     
-    //MARK: Actions
-    @IBAction func sendMessage(_ sender: AnyObject) {
-        message = Message()
-        if (currentCoordinates != nil) {
-            message?.currentLatitude = currentCoordinates!.latitude
-            message?.currentLatitude = (message?.currentLatitude)?.roundFiveDigits()
-            message?.currentLongtitude = currentCoordinates!.longitude
-            message?.currentLongtitude = (message?.currentLongtitude)?.roundFiveDigits()
-        }
-        else {
-            message?.currentLatitude = 0
-            message?.currentLongtitude = 0
-        }
-        message?.senderId = currentUserId
-        message?.senderUsername = senderUsername
-        message?.receiverId = receiverId
-        message?.receiverUsername = receiverUsername
-        
-        message?.postId = post?.id
-        
-        if (messageContent == nil)
-        {
-            messageContent = ""
-        }
-        message?.content = messageContent
-        
-        print("postid: ")
-        print(self.message?.postId as Any)
-        print("senderid: ")
-        print(self.message?.senderId as Any)
-//        print("sender email: " + (self.message?.senderUsername)!)
-        print("receiverid: ")
-        print(self.message?.receiverId as Any)
-//        print("receiver email: " + (self.message?.receiverUsername)!)
-        
-        join = Join()
-        if (currentCoordinates != nil) {
-            join?.currentLatitude = currentCoordinates!.latitude
-            join?.currentLatitude = (join?.currentLatitude)?.roundFiveDigits()
-            join?.currentLongtitude = currentCoordinates!.longitude
-            join?.currentLongtitude = (join?.currentLongtitude)?.roundFiveDigits()
-        }
-        else {
-            join?.currentLatitude = 0
-            join?.currentLongtitude = 0
-        }
-        join?.userId = currentUserId
-        join?.postId = post?.id
-
-        
-        // Upload to server
-        ApiManager.sharedInstance.createMessage(user!, message: message!, onSuccess: {(user) in
-            OperationQueue.main.addOperation {
-                print("create new message success!")
-                
-                let alert = UIAlertController(title: "Message sent!", message:
-                    "Do you confirm to join the activity? Or just interested at the moment?", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Yes, join", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
-                    self.join?.status = Constants.JoinStatus.confirm
-                    self.createJoin()
-                    }))
-                alert.addAction(UIAlertAction(title: "No, just interested", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
-                    self.join?.status = Constants.JoinStatus.interested
-                    self.createJoin()
-                }))
-                
-                self.present(alert, animated: true, completion: nil)
-            }
-            }, onError: {(error) in
-                OperationQueue.main.addOperation {
-                    print("create new message error!")
-                    let alert = UIAlertController(title: "Unable to send!", message:
-                        "Please check network condition or try later.", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-                    
-                    self.present(alert, animated: true, completion: nil)
-                }
-        })
-    }
-    
-    // MARK: confirm join or just interested
+    // MARK: join activity
     func createJoin() {
         // Upload to server
         ApiManager.sharedInstance.createJoinActivity(self.user!, join: self.join!, onSuccess: {(user) in
@@ -314,7 +197,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
                 print("create new activity success!")
                 print("joinid: ")
                 print(self.join!.id as Any)
-                self.performSegue(withIdentifier: "joinActivityExit", sender: self)
+//                self.performSegue(withIdentifier: "JoinMessage", sender: self)
             }
             }, onError: {(error) in
                 OperationQueue.main.addOperation {

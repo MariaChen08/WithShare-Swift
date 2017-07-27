@@ -1,12 +1,18 @@
 PODS:
   - GoogleMaps (1.13.2)
+  - JSQMessagesViewController (7.3.3):
+    - JSQSystemSoundPlayer (~> 2.0.1)
+  - JSQSystemSoundPlayer (2.0.1)
 
 DEPENDENCIES:
   - GoogleMaps
+  - JSQMessagesViewController
 
 SPEC CHECKSUMS:
   GoogleMaps: b20a103ff307f58392e603cf142e59d7e30374c1
+  JSQMessagesViewController: 0ee3f80237268192a3e8337fd0d787f1a1bf5a7a
+  JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
 
-PODFILE CHECKSUM: 9039c091171fcf4f8b84b4b02dd1422e6036c7a4
+PODFILE CHECKSUM: 7004e5cd42587fcd4232661a1141dfb02f8a8544
 
 COCOAPODS: 1.0.1

@@ -7,6 +7,7 @@ target 'WithShare-Swift' do
 
   # Pods for WithShare-Swift
   pod 'GoogleMaps'
+  pod 'JSQMessagesViewController'
 
   target 'WithShare-SwiftTests' do
     inherit! :search_paths

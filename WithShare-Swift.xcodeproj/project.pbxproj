@@ -62,6 +62,7 @@
 		A4DF92971D62F2AF00CDA2EE /* MyJoinDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF92961D62F2AF00CDA2EE /* MyJoinDetailViewController.swift */; };
 		A4E970001D28A506000E4CDD /* ValidateUserInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */; };
 		A4F083541D24CAE400CB78B8 /* CreateActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */; };
+		A4F8CB151EBBB32A00F95EBD /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F8CB141EBBB32A00F95EBD /* MessageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +125,7 @@
 		A4DF92961D62F2AF00CDA2EE /* MyJoinDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyJoinDetailViewController.swift; sourceTree = "<group>"; };
 		A4E96FFF1D28A506000E4CDD /* ValidateUserInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUserInput.swift; sourceTree = "<group>"; };
 		A4F083531D24CAE400CB78B8 /* CreateActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateActivityViewController.swift; sourceTree = "<group>"; };
+		A4F8CB141EBBB32A00F95EBD /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		B9D5CE9F061DEF21578A18B8 /* Pods_WithShare_SwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WithShare_SwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C604F51E07391C3C81659F1A /* Pods-WithShare-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WithShare-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-WithShare-Swift/Pods-WithShare-Swift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -208,6 +210,7 @@
 		A43C27A31D207E5300BACEF1 /* Activites */ = {
 			isa = PBXGroup;
 			children = (
+				A4F8CB141EBBB32A00F95EBD /* MessageViewController.swift */,
 				A451EFE71D4EDBC000093DBD /* MyActivitiesTableViewController.swift */,
 				A451EFEA1D4EE12900093DBD /* MyActivityDetailViewController.swift */,
 				A48070A91D260F57005FB37B /* SelectActivityTypeMenu.swift */,
@@ -544,6 +547,7 @@
 				A41054B41D6BAD8100566A5C /* PostMessageCustomCell.swift in Sources */,
 				A4A1FDD01DD5649100139F70 /* yearInSchoolEnum.swift in Sources */,
 				A4CBF12E1D34482D00027DE1 /* SettingsViewController.swift in Sources */,
+				A4F8CB151EBBB32A00F95EBD /* MessageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
